@@ -1,0 +1,122 @@
+div.messages div#message.answers {
+
+  & div.answers-msg {
+    z-index: 10;
+    display: grid;
+    width: 70%;
+    height: 100%;
+    justify-items: center;
+    padding: 1rem;
+
+    & p.note-played {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      animation-name: notesAppear;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in-out;
+    }   
+
+    & div.table-wrapper {
+      min-height: 2rem;
+      table.last-answers {
+        font: inherit;
+        font-size: 1rem;
+        margin: 1rem 0 0 0;
+        border-collapse: collapse;
+        & tr.notes {
+          & td {
+            padding: 0 0.4rem;
+            color: rgba(255, 255, 255, 0.562);
+            border-right: 1px solid hsla(0, 0%, 96%, 0.294);
+          }
+        }
+      }
+    }
+
+    @media screen and (max-height: 420px) and (orientation: landscape) {
+      margin: 0;
+      padding: 0.5rem 0 1rem;
+      & p.note-played {
+        font-size: 2.5rem;
+        margin: 0;
+        padding: 0;
+      }   
+      & div.table-wrapper {
+        min-height: 1rem;
+        margin: 0;
+        padding: 0;
+        table.last-answers {
+          margin: 0;
+        }
+      }
+    }
+    @media screen and (max-width: 850px) and (orientation: portrait) {
+      width: 90%;
+      & p.note-played {
+        margin: 0;
+        padding: 0;
+      }
+      & div.table-wrapper {
+        min-height: 1rem;
+        margin: 12vh 0 0 -1rem;
+        padding: 0;
+        table.last-answers {
+          margin: 0;
+        }
+      }
+      // & div.table-wrapper {
+
+      //   animation: answerTranslateY 0.3s ease-in-out infinite;
+      //   table.last-answers {
+      //     margin: 0;
+      //     display: grid;
+      //     grid-template-columns: min-content min-content;
+      //     grid-template-rows: auto auto;
+      //     grid-template-areas:
+      //     "head body";
+      //     width: 100%;
+      //     font-size: 0.9rem;
+      //     & tbody {
+      //       grid-area: body;
+      //     } 
+      //     /* Flex - Cross Browser CSS */
+      //     & tbody {
+      //       display: flex;
+      //     }
+      //     & tr {
+      //       display: flex;
+      //       flex-direction: column;
+      //       min-width: min-content;
+      //       flex-shrink: 0;
+      //     }
+      //     & td, & th {
+      //       display: block;
+      //     }
+      //     & tr.notes td {
+      //       text-align: end;
+      //       border-right: none;
+      //       &:not(:last-child){
+      //         border-bottom: 1px solid rgba(255, 255, 255, 0.562);
+      //     } 
+      //     }
+      //   }
+      // }
+      @media screen and (max-height: 670px) and (orientation: portrait) {
+        width: 100%;
+        font-size: 0.9rem;
+        & div.table-wrapper {
+          margin: 0 0 0 -1rem;
+        }
+      }
+    }
+  }
+}
+
+@keyframes notesAppear {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

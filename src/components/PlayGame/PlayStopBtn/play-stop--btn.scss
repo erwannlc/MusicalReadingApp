@@ -1,0 +1,146 @@
+$borderColor: #262c24;
+$borderColor: hsl(105, 10%, 10%);
+$borderRadius: 8px;
+$buttonOffset: 10px;
+$borderWidth: 1px;
+$width: 2.7rem;
+// $color1: hsl(105, 10%, 26%);
+$color1: hsl(105, 30%, 40%);
+$color1-active: hsl(105, 50%, 80%);
+// $color2: hsla(37, 100%, 61%, 0.36);
+$color2: hsla(0, 3%, 41%, 0.894);
+$color2-active: hsl(37, 100%, 61%);
+$gold: hsl(37, 100%, 61%);
+
+
+.btn-group {
+  display: inline-flex;
+  position: relative;
+  box-shadow:  5px 5px 20px #020302,
+               -5px -5px 20px #3c443c;     
+  background-color: hsla(105, 10%, 15%, 0.169);
+  border-radius: 20px;      
+  
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: $buttonOffset;
+    right: 0;
+    bottom: -$buttonOffset;
+    left: 0;
+    border-radius: $borderRadius;
+    background: hsla(96, 10%, 10%, 0.925);
+  }
+  
+  button {
+    min-width: $width;
+    background-image: radial-gradient(ellipse 100% 70%, #666 6%, #333 90%);
+    background-image: radial-gradient(ellipse 100% 70%, hsl(0, 0%, 40%) 6%, hsl(0, 0%, 20%) 90%);
+    cursor: pointer;
+
+    &.play {
+      &.tuto {
+        box-shadow: 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
+      }
+      &.disable {
+        pointer-events: none;
+      }      
+      & svg path {
+        fill: $color1;
+      }   
+    }
+    &.stop {
+      &.tuto {
+        box-shadow: 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
+      }
+      &.tuto-play {
+        opacity: 0.4;
+      }
+      &.disable {
+        pointer-events: none;
+      }     
+      & svg path {
+        fill: $color2;
+      }   
+    }
+    &.is-play {
+      top: $buttonOffset;
+      pointer-events: none;
+      &:before {
+          bottom: -($buttonOffset - $buttonOffset);
+      }
+      & svg path {
+        fill: $color1-active;
+      }      
+    }
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.7rem;
+    border: 0;
+    border-bottom: $borderWidth solid $borderColor;
+    outline: none;
+    position: relative;
+    top: 0;
+    padding: 12px 16px;
+    padding: 0.3rem 0.8rem;
+    margin: 0 -1px 0 -1px;   
+    z-index: 10;    
+    transition: top 140ms linear;
+    
+    &:first-child {
+      border-radius: $borderRadius 0 0 $borderRadius;
+      margin: 0;
+    }    
+    &:last-child {
+      border-radius: 0 $borderRadius $borderRadius 0;
+      margin: 0;
+    }    
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 1px;
+      right: 1px;
+      bottom: -$buttonOffset;
+      z-index: 5;
+      pointer-events: none;
+      cursor: pointer;      
+      box-shadow: 0 0 0 $borderWidth $borderColor;      
+      transition: bottom 140ms linear;
+    }    
+    &:first-child:before {
+      border-radius: $borderRadius 0 0 $borderRadius;
+    }    
+    &:last-child:before {
+      border-radius: 0 $borderRadius $borderRadius 0;
+    }    
+    &.stop:hover {
+      top: 4px;
+      @media screen and (max-width: 850px) {
+        top: 0px;
+        }        
+      &:before {
+        bottom: -($buttonOffset - 4px);
+      }
+    }
+    &.play:hover:not(.is-play) {
+      top: 4px;
+      @media screen and (max-width: 850px) {
+      top: 0px;
+      }      
+      &:before {
+        bottom: -($buttonOffset - 4px);
+      }
+    }    
+    &:active, &:hover:active {
+      top: $buttonOffset;
+      &.stop svg path {
+        fill: $color2-active;
+      }       
+      &:before {
+        bottom: -($buttonOffset - $buttonOffset);
+      }
+    }
+  }
+}

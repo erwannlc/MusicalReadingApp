@@ -1,0 +1,89 @@
+$borderColor: #000;
+$borderRadius: 8px;
+$buttonOffset: 12px;
+$borderWidth: 1px;
+
+
+.btn-group {
+  display: inline-flex;
+  position: relative;
+  
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: $buttonOffset;
+    right: 0;
+    bottom: -$buttonOffset;
+    left: 0;
+    border-radius: $borderRadius;
+    background: rgba(255, 255, 255, 0.5);
+  }
+  
+  button {
+    color: #000;
+    font-weight: bold;
+    border: 0;
+    border-bottom: $borderWidth solid $borderColor;
+    outline: none;
+    position: relative;
+    top: 0;
+    padding: 12px 16px;
+    margin: 0 -1px 0 -1px;
+   
+    z-index: 10;
+    
+    transition: top 140ms linear;
+    
+    &:first-child {
+      border-radius: $borderRadius 0 0 $borderRadius;
+      margin: 0;
+    }
+    
+    &:last-child {
+      border-radius: 0 $borderRadius $borderRadius 0;
+      margin: 0;
+    }
+    
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 1px;
+      right: 1px;
+      bottom: -$buttonOffset;
+      z-index: 5;
+      pointer-events: none;
+      cursor: pointer;
+      
+      box-shadow: 0 0 0 $borderWidth $borderColor;
+      
+      transition: bottom 140ms linear;
+    }
+    
+    &:first-child:before {
+      border-radius: $borderRadius 0 0 $borderRadius;
+    }
+    
+    &:last-child:before {
+      border-radius: 0 $borderRadius $borderRadius 0;
+    }
+    
+    &:hover {
+      top: 4px;
+      
+      &:before {
+        bottom: -($buttonOffset - 4px);
+      }
+    }
+    
+    &:active {
+      top: 12px;
+      
+      &:before {
+        bottom: -($buttonOffset - 12px);
+      }
+    }
+  }
+}

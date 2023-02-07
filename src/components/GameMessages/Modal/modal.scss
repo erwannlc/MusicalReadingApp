@@ -1,0 +1,85 @@
+dialog#message--dialog[open] { // only if isMobile
+  grid-row: 1 / 2;
+  grid-column: 3 / 6;
+  height: 50vh;
+  width: 100%;
+  margin-top: 0;
+  display: flex;
+  background-color: rgb(29, 29, 29);
+  border: 1px solid gold;
+  border-radius: 5px;
+  color: white;
+  overflow: hidden;
+  &::backdrop {
+    backdrop-filter: blur(0px) brightness(0.9);
+    -webkit-backdrop-filter: blur(0px) brightness(0.9);
+  }    
+  & #message {
+    height: 100%;
+    padding: 0;
+    margin: 8vh 0 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+      & table.correction,
+      table.answersMsg { // inside in "correction.scss"
+        font-size: 1rem;
+        margin: 0 0 0 2rem;
+        border-collapse: collapse;
+      }
+  }
+  @media screen and (max-height: 420px) and (orientation: landscape) {
+    top: 35vh;
+    height: 45vh;
+    min-width: 0;
+    width: 70vw;
+    opacity: 0.9;
+    justify-content: center;
+      & #message {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-top: 2vh;
+      }
+  }
+  @media screen and (max-height: 670px) and (orientation: portrait) { 
+    height: 55vh;
+    width: 100vw;
+    & #message {
+      margin-top: 0;
+      margin-left: -6vw;
+      & table.correction,
+      table.answersMsg { // inside in "correction.scss"
+        font-size: 0.9rem;
+        margin: 2rem 0 0 2rem;
+      }
+    }
+    }
+    @media screen and (max-width: 370px) and (orientation: portrait) { 
+    width: 100vw;
+    height: 55vh;
+      & #message {
+        margin-top: 3vh;
+        margin-left: -8vw;
+        & table.correction,
+        table.answersMsg { // inside in "correction.scss"
+          font-size: 0.9rem;
+          margin: 2rem 0 0 2rem;
+        }
+      }
+    }
+  
+
+  animation: 0.3s ease-in-out CorrectionFadeIn ;
+}
+@keyframes CorrectionFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+};

@@ -1,0 +1,65 @@
+div.messages {
+  & div.options-indicator {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    cursor: pointer;
+    color: rgba(255, 179, 56, 0.835);
+    color: hsla(37, 100%, 61%, 0.835);
+    border: 2px solid rgb(0, 0, 0);
+    border-bottom: none;
+    border-radius: 20px 20px 0 0 ;
+    box-shadow: rgba(49, 44, 26, 0.03) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.9) 0px 18px 36px -18px inset;
+    filter: none;
+    &.disable {
+      pointer-events: none;
+    }
+    & span {
+      font-size: 0.9rem;
+      margin: 0 1rem;
+      padding: 8px 12px;
+    }
+  }
+   @media screen and (max-height: 420px) and (orientation: landscape) {
+    & div.options-indicator {
+      align-items: center;
+      border: none;
+      height: 9vh;
+      padding: 0 1rem;
+      & span {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  @media screen and (max-width: 850px) and (orientation: portrait) {
+    & div.options-indicator {
+      align-items: center;
+      height: 5vh;
+      border: none;
+      border-radius: 0 0 20px 20px;
+      border-radius: 0 ;
+      background-color: transparent;
+      width: 96%;
+      // box-shadow: none;
+      top: 0vh;
+      // max-height: 18vh;
+      padding: 0 1vw;
+      & span {
+        font-size: 0.8rem;
+        padding: 1rem 0;
+        margin : 0 2vw;
+      }
+    }
+  }
+  @media screen and (max-width: 390px) {
+    & div.options-indicator.largest{
+      & span {
+        font-size: 0.7rem;
+        padding: 1rem 0;
+        margin : 0 2vw;
+      }
+    }
+  }
+}
+

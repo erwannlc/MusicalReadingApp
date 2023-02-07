@@ -1,0 +1,171 @@
+:root {
+  /* 1rem = 16px cf html {font-size}*/ 
+  --white-and-black_padding: 0.5rem 0;
+  --white_height: 12.5rem;
+  --white_width: 3.5rem;
+  --black_height: 8rem; /* --black_height * 4 */
+  --black_width: 2rem; 
+  --black-and-offset_margin: 0 0 0 -1rem;
+  --keyboard_height: 15.25rem; /* 244px */ 
+  --keyboard_width: 41rem; /* total : 656px (41*16) */
+  --keyboard_padding: 3rem 0 0 3rem;
+  
+  --keyboard: hsl(300, 100%, 16%);
+  --keyboard: hsl(0, 72%, 32%);
+  --keyboard-shadow: hsla(19, 50%, 66%, 0.2);
+  --keyboard-border: hsl(20, 91%, 5%);
+  --black-10: hsla(0, 0%, 0%, 0.1);
+  --black-20: hsla(0, 0%, 0%, 0.2);
+  --black-30: hsla(0, 0%, 0%, 0.3);
+  --black-50: hsla(0, 0%, 0%, 0.5);
+  --black-60: hsla(0, 0%, 0%, 0.6);
+  --white-20: hsla(0, 0%, 100%, 0.2);
+  --white-50: hsla(0, 0%, 100%, 0.5);
+  --white-80: hsla(0, 0%, 100%, 0.8);
+  --bg--bottom: hsl(0, 0%, 93%);
+  --border-note--color: hsl(0, 0%, 73%);
+}
+
+.white,
+.black {
+  position: relative;
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0.5rem 0;
+   -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  cursor: pointer;
+}
+
+
+#keyboard {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    // height: 15.25rem;
+    width: 41rem;
+    // margin: 0.5rem 0;
+    padding: 3rem 0 1.5rem 3rem;
+    position: relative;
+    border: 1px solid var(--keyboard-border);
+    border-radius: 1rem;
+    background-color: var(--keyboard);
+    box-shadow: 0 0 50px var(--black-50) inset, 0 1px var(--keyboard-shadow) inset,
+      0 5px 15px var(--black-50);
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+
+      //tuto vars 
+  --tuto-border-note--color: hsl(0, 0%, 73%);
+  $tutoTouchColor2: #D1E7E0;
+  $tutoTouchColor3: hsl(162, 17%, 76%);
+  $tutoTouchColor5: #005A07;
+  $tutoTouchColor6: #004EC2;
+  $tutoTouchColor7: hsl(7, 71%, 70%);
+
+  li:first-child {
+    border-radius: 5px 0 5px 5px;
+  }
+
+  li:last-child {
+    border-radius: 0 5px 5px 5px;
+  }
+
+  .white {
+    height: 12.5rem;
+    width: 3.5rem;
+    z-index: 1;
+    border-left: 1px solid var(--border-note--color);
+    border-bottom: 1px solid var(--border-note--color);
+    border-radius: 0 0 5px 5px;
+    box-shadow: -1px 0 0 var(--white-80) inset, 0 0 5px hsl(0, 0%, 80%) inset,
+      0 0 3px var(--black-20);
+    background: linear-gradient(to bottom, var(--bg--bottom) 0%, white 100%);
+    color: var(--black-30);
+    &.tuto {
+    background: linear-gradient(to bottom, hsl(0, 0%, 100%) 0%, $tutoTouchColor2 100%);
+    background-size: 400% 400%;
+    animation-name: highlights;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    }
+  }
+
+  .black {
+    height: 8rem;
+    width: 2rem;
+    margin: 0 0 0 -1.1rem;
+    z-index: 2;
+    border: 1px solid black;
+    border-radius: 0 0 3px 3px;
+    box-shadow: -1px -1px 2px var(--white-20) inset,
+      0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50);
+    background: linear-gradient(45deg, hsl(0, 0%, 13%) 0%, hsl(0, 0%, 33%) 100%);
+    color: var(--white-50);
+  }
+
+  .white.pressed {
+    border-top: 1px solid hsl(0, 0%, 47%);
+    border-left: 1px solid hsl(0, 0%, 60%);
+    border-bottom: 1px solid hsl(0, 0%, 60%);
+    box-shadow: 2px 0 3px var(--black-10) inset,
+      -5px 5px 20px var(--black-20) inset, 0 0 3px var(--black-20);
+    background: linear-gradient(to bottom, white 0%, hsl(0, 0%, 91%) 100%);
+    outline: none;
+  }
+
+  .black.pressed {
+    box-shadow: -1px -1px 2px var(--white-20) inset,
+      0 -2px 2px 3px var(--black-60) inset, 0 1px 2px var(--black-50);
+    background: linear-gradient(
+      to right,
+      hsl(0, 0%, 27%) 0%,
+      hsl(0, 0%, 13%) 100%
+    );
+    outline: none;
+  }
+
+  .offset {
+    margin: 0 0 0 -1.1rem;
+  }
+
+  @media screen and (max-width: 850px) {
+    // height: 15.25rem;
+    width: 98vw;
+    // margin: 0.5rem 0;
+    padding: 1rem 0 1.3rem 1.5rem;
+    .white {
+      height: 21vh;
+      width: 10.5vw;
+      padding: 0.84vh 0;
+    }
+    .black {
+      height: 13.4vh;
+      width: 6vw;
+      margin: 0 0 0 -3.28vw;
+      padding: 0.84vh 0;
+      font-size: 0.8rem;
+    }
+    .offset {
+      margin: 0 0 0 -2.7vw;
+    }
+  };
+}
+
+@keyframes highlights {
+  0%{background-position:51% 0%}
+  50%{background-position:50% 100%}
+  100%{background-position:51% 0%}
+}

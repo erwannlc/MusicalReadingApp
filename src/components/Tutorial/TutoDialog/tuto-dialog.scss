@@ -1,0 +1,129 @@
+@import "tuto-content";
+@import "tuto-dialog--buttons";
+
+dialog#tuto--dialog[open] {
+  --gold: hsl(37, 100%, 61%);
+  --gold-transparent: hsla(37, 70%, 16%, 0.785);
+  --light-gold: hsl(37, 97%, 66%);
+  --light-shadow: hsl(39, 61%, 29%);
+  --dark-shadow: hsl(37, 88%, 13%);
+  --dark-shadow: hsl(37, 87%, 9%);
+  $bgcolor: hsl(37, 1%, 15%);
+  $bgcolor-transparent: hsla(36, 61%, 9%, 0.587);
+  $bgcolor-transparent: hsla(0, 1%, 15%, 0.633);
+
+  --msg-height-XXS: 10rem;
+  --msg-height-XS: 12rem;
+  --msg-height-S: 13rem;
+  --msg-height-M: 15rem;
+  --msg-height-L: 17rem;
+  --msg-height-XL: 20rem;
+
+  --pointer-left: 2.5rem;
+  --pointer-right: 1.5rem;
+  --pointer-top: 1.5rem;
+  --pointer-bottom: 1.5rem;
+
+  grid-row: 1 / 2;
+  grid-column: 3 / 6;
+  
+  transition: all 0.3s ease-in-out;
+
+  opacity: 0.98;
+  height: var(--msg-height-XS);
+  width: 600px;
+  max-width: 600px;
+  // place-self: center center;
+  position: relative;
+  // margin: auto 50vw;
+  // transform: translate(-50%, 0);
+  padding: 0;
+  display: flex;
+  background-color: $bgcolor;
+  border: none;
+  border-radius: 10px;
+  color: whitesmoke;
+  z-index: 100;
+  filter: drop-shadow(0 0 4px var(--gold));
+  box-shadow:	0 0 8px var(--light-gold);
+  &::after { // glowing effect
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    filter: drop-shadow(0 -0.2rem 2px var(--gold));
+    border: 1.1rem solid transparent;
+  }
+  &.toUp-left::after {
+    bottom: 99%;
+    left: var(--pointer-left); 
+    border-top: none;
+    border-bottom-color: $bgcolor;
+  }
+  &.toUp-right::after {
+    bottom: 99%;
+    right: var(--pointer-right);
+    border-top: none;
+    border-bottom-color: $bgcolor;
+  }
+  &.toRight::after {
+    left: 100%;
+    top: var(--pointer-top);
+    border-left-color: $bgcolor;
+    filter: drop-shadow(0.2rem 0 2px var(--gold));
+  }
+  &.toDown::after {
+    top: 99%;
+    left: var(--pointer-left);
+    border-top-color: $bgcolor;
+    filter: drop-shadow(0 0.2rem 2px var(--gold));
+  }
+  &.none::after {
+    border: none;
+  }    
+
+  // @media screen and (max-height: 420px) and (orientation: landscape) {
+  // left: 30vw;
+  // top: 50vh;
+  // height: 45vh;
+  // min-width: 0;
+  // width: 70vw;
+  // opacity: 0.9;
+  // justify-content: center;
+  //   & #message {
+  //     display: flex;
+  //     justify-content: center;
+  //     align-items: flex-start;
+  //     margin-top: 2vh;
+  //   }
+  //   @media screen and (max-height: 350px) and (orientation: landscape) {
+  //     top: 52vh;
+  //   }  
+  // }
+
+  animation: 0.3s ease-in-out myFadeIn ;
+}
+@keyframes myFadeIn{
+  from {
+    opacity: 0;
+    transform: translate(0, -200%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+};
+
+dialog#tuto--dialog.close[close] {
+  animation: .6s ease-in-out myFadeOut ; // don't do anything
+};
+@keyframes myFadeOut{
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -200%);
+  }
+};

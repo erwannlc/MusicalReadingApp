@@ -1,0 +1,124 @@
+// Thx to Alvaro https://codepen.io/alvarotrigo/pen/abqwMJo
+div.options-switch {
+  // $active-color: hsl(195, 98%, 52%);
+  // $active-color: hsla(173, 63%, 64%, 0.291);
+  $active-color:  hsl(42, 55%, 44%);
+  // $non-active-color: #303030; // default
+  // $non-active-color: hsla(173, 63%, 64%, 0.579);
+  $non-active-color: hsl(42, 85%, 23%);
+  $HTMLCharIcon: bold calc(var(--round-btn-size) / 1.5)/calc(var(--round-btn-size) + 5px) sans-serif;
+  $HTMLCharIconPadding: 0 0 0.3rem 0.1rem;
+  $HTMLCharIcon2: bold calc(var(--round-btn-size) / 1.2)/calc(var(--round-btn-size) + 5px) sans-serif;
+  $HTMLCharIcon2Padding: 0 0 0.3rem 0.15rem;
+  $SVG1: bold calc(var(--round-btn-size) / 2)/calc(var(--round-btn-size) + 5px) sans-serif;
+  $SVG1Padding: 0;
+  $SVG2: bold calc(var(--round-btn-size) / 2)/calc(var(--round-btn-size) + 5px) sans-serif;
+  $SVG2Padding: 0.7rem;
+
+  pointer-events: none;
+
+  button:hover,
+  button:active {
+    outline: 0;
+  };
+  /* 3D Button */
+  button.depth {
+    height: var(--round-btn-size);
+    width: var(--round-btn-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #444;
+    border: none;
+    border-radius: 80px;
+    box-shadow: inset 0 0 2px 2px hsla(0,0%,0%,.2),
+                inset 0 0 2px 4px hsla(0,0%,0%,.2),
+                inset 0 0 2px 6px hsla(0,0%,0%,.2),
+                inset 0 0 1px 8px hsla(0,0%,0%,.5),
+                inset 0 -4px 2px 4px hsla(0,0%,0%,.5),
+                inset 0 1px 1px 8px hsla(0,0%,100%,.25),
+                inset 0 -30px 30px hsla(0,0%,0%,.2),
+                0 -4px 8px 4px hsla(0,0%,0%,.5),
+                0 10px 10px hsla(0,0%,0%,.25),
+                0 0 2px 2px hsla(0,0%,0%,.2),
+                0 0 2px 4px hsla(0,0%,0%,.2),
+                0 0 2px 6px hsla(0,0%,0%,.2),
+                0 0 2px 8px hsla(0,0%,0%,.5),
+                0 1px 2px 8px hsla(0,0%,100%,.25),
+                0 -1px 2px 8px hsla(0,0%,0%,.5);
+    color: $non-active-color;
+    cursor: pointer;
+    pointer-events: visible;
+    font: $HTMLCharIcon;
+    padding: $HTMLCharIconPadding;
+    text-shadow: 0 1px 1px hsla(0,0%,100%,.25),
+    0 -1px 1px hsla(0,0%,0%,.75);
+  &.tuto {
+    box-shadow: inset 0 0 2px 2px hsla(0,0%,0%,.2),
+                inset 0 0 2px 4px hsla(0,0%,0%,.2),
+                inset 0 0 2px 6px hsla(0,0%,0%,.2),
+                inset 0 0 1px 8px hsla(0,0%,0%,.5),
+                inset 0 -4px 2px 4px hsla(0,0%,0%,.5),
+                inset 0 1px 1px 8px hsla(0,0%,100%,.25),
+                inset 0 -30px 30px hsla(0,0%,0%,.2),
+                0 -4px 8px 4px hsla(0,0%,0%,.5),
+                0 10px 10px hsla(0,0%,0%,.25),
+                0 0 2px 2px hsla(0,0%,0%,.2),
+                0 0 2px 4px hsla(0,0%,0%,.2),
+                0 0 2px 6px hsla(0,0%,0%,.2),
+                0 0 2px 8px hsla(0,0%,0%,.5),
+                0 1px 2px 8px hsla(0,0%,100%,.25),
+                0 -1px 2px 8px hsla(0,0%,0%,.5),
+                0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
+                // 0 0px 100px 80vw rgba(140, 140, 140, 0.909); // light grey bg highlight
+    };
+    &.disable {
+      pointer-events: none;
+    };
+  };
+
+  @media (any-hover: hover) {
+    button.depth:hover {
+      & svg path {
+      fill: $active-color;
+      };
+      color: $active-color;        
+    };
+  };
+
+  button.is-active {
+    & svg path {
+    fill: $active-color;
+    };
+    color: $active-color;
+    text-shadow: 0 0 var(--round-btn-size / 4) hsla(240,75%,75%,.5),
+                0 1px 1px hsla(0,0%,100%,.25),
+                0 -1px 1px hsla(0,0%,0%,.75);
+    box-shadow: inset 0 0 2px 2px hsla(0,0%,0%,.2),
+                inset 0 0 2px 4px hsla(0,0%,0%,.2),
+                inset 0 0 2px 6px hsla(0,0%,0%,.2),
+                inset 0 0 1px 7px hsla(0,0%,0%,.5),
+                inset 0 5px 15px 7px hsla(0,0%,0%,.15),
+                inset 0 -4px 2px 3px hsla(0,0%,0%,.5),
+                inset 0 1px 1px 7px hsla(0,0%,100%,.25),
+                inset 0 -30px 30px hsla(0,0%,0%,.1),
+                inset 0 30px 30px hsla(0,0%,0%,.2),
+                0 -4px 8px 4px hsla(0,0%,0%,.5),
+                0 5px 10px hsla(0,0%,0%,.25),
+                0 0 2px 2px hsla(0,0%,0%,.2),
+                0 0 2px 4px hsla(0,0%,0%,.2),
+                0 0 2px 6px hsla(0,0%,0%,.2),
+                0 0 2px 8px hsla(0,0%,0%,.5),
+                0 1px 2px 8px hsla(0,0%,100%,.25),
+                0 -1px 2px 8px hsla(0,0%,0%,.5);
+    line-height: calc(var(--round-btn-size) + 6)px;           
+  };
+  
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}

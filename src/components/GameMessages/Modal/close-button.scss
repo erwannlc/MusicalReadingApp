@@ -1,0 +1,58 @@
+//
+// ****   Close Buttons  *****
+//
+button.close--correction {
+  --close--correction-btn-size: calc(1.1rem + 2vmin);
+  height: var(--close--correction-btn-size);
+  width: var(--close--correction-btn-size);
+  display: block;
+  background: transparent;
+  border: 1px solid whitesmoke;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0.5;
+  // transform: translateY(calc(-1 * (var(--close--correction-btn-size) / 10)))
+  //   translateX(calc((var(--close--correction-btn-size) / 10)));
+  outline-style: none; // For Safari
+  padding: 4px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0.7px 0.7px 1px;
+  transition: opacity 0.3s ease-in-out;
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    box-shadow: rgba(0, 0, 0, 0.4) 1.95px 1.95px 2.6px;
+    transition: opacity 0.2s ease-out;
+  }
+  &:hover{
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+  &:hover::after {
+    opacity: 0;
+  }
+  & .close--correction_line,
+  .close--correction_line::after {
+    pointer-events: none;
+    display: block;
+    width: 100%;
+    height: 2px;
+    position: relative;
+    border-radius: 20%;
+    background: goldenrod;
+  }
+  & .close--correction_line {
+    transform: rotate(-45deg);
+  }
+  & .close--correction_line::after {
+    content: "";
+    transform: rotate(90deg);
+  }
+}

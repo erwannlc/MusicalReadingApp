@@ -1,0 +1,264 @@
+@import "./OptionsIndicator/options-indicator";
+
+div.messages {
+  grid-row: 1 / 2;
+  grid-column: 3 / 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 85%;
+  @media screen and (max-width: 850px) and (orientation: portrait) {
+    grid-row: 1 / 2;
+    grid-column: 1 / 8;
+    width: 100%;
+    height: 100%;
+  };
+  @media screen and (max-height: 420px) and (orientation: landscape) {
+    grid-row: 1 / 2;
+    grid-column: 2 / 7;
+    width: 100%;
+    height: 100%;
+  };
+}
+
+div.messages div#message {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 575px; 
+  height: 100%;
+  border-radius: 20px;
+  background-color: rgba(255, 228, 196, 0.03);
+  padding: 2rem 1rem 1rem;
+  font-size: 1.5rem;
+  color:rgba(255, 255, 255, 0.9);
+  &.shadow-node {
+    filter: drop-shadow(0 0 5px hsla(37, 100%, 61%, 0.835)); // gold halo
+    // filter: drop-shadow(0 0 5px #55ff33); // green halo
+  };
+  &.default {
+    h5 { // La partie Tutoriel est lancée !
+      max-width: 70%;
+      font-size: 90%;
+      margin: 2rem 0 1rem 1rem;
+      text-align: center;
+    }
+    & p { // default Message
+      max-width: 70%;
+      font-size: 1.1rem;
+      margin: 0.8rem 0 0 0;
+      text-align: justify;
+      opacity: 0.3;
+      transition: opacity 0.3s ease-in-out;
+      &:hover {
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+      }
+    }
+  } 
+  &.answers { // note played
+    & p {
+      max-width: 70%;
+      font-size: 1.1rem;
+      text-align: justify ;
+      margin: 1rem 0 0 0;
+    }
+    &.error {
+      p.error-title {
+        max-width: 70%;
+        font-size: 1.1rem;       
+      }
+      p {
+        max-width: 50%;
+        font-size: 1rem;
+      }
+    }
+  }
+  &.stop_message { // "Partie stoppée"
+    font-size: 1.5rem;
+    padding-top: 1rem;
+  }
+  &.countdown {
+    justify-content: center;
+    & h3 { // 3, 2, 1
+      font-size: 3rem;
+      font-weight: 600;
+    }
+    & h4 { // Let's go !
+      font-size: 2rem;
+    }
+  }
+  &.center {
+    justify-content: center;
+    align-items: center;
+  }
+  &.note-played {
+    font-size: 3rem;
+  }
+  @media screen and (max-width: 850px) and (orientation: portrait) { // large mobile phone
+    min-width: 90%;
+    width: 95%;
+    height: 100%;
+    font-size: 1rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 3vh 0 0 0;
+    &.default {
+      font-size: 1.1rem;
+      p {
+      max-width: 95vw;
+      }
+    }
+    &.answers {
+      margin: 0;
+      padding: 5vh 0 0 0;
+      p {
+      font-size: 0.9rem;
+      max-width: 75vw;
+      margin: 0.5rem 0 0 0;
+      &.new-game {
+        margin: 2rem 0 0 0;
+      }
+      }
+      &.error {
+        padding-top: 8vh;
+        p.error-title {
+          text-align: center;
+          padding: 0;
+          margin: 0 0 1rem 0;
+        }
+        p {
+          max-width: 80vw;
+          margin: 0;
+        }
+      }   
+    }
+    &.countdown {
+      justify-content: center;
+      align-items: center;
+      & h3 {
+        font-size: 3rem;
+        font-weight: 600;
+      }
+      & h4 {
+        font-size: 1.5rem;        
+      }
+    }
+    & p.new-game {
+      padding-top: 10vh;
+      font-size: 0.9rem;
+      max-width: 95vw;
+    }
+    & p.end-of-game {
+      font-size: 1rem;
+      text-align: left;
+      &.center {
+        text-align: center;
+        margin-left: 0;
+        margin-bottom: 0.5rem;
+      }
+    }
+    @media screen and (max-height: 670px) and (orientation: portrait) {
+      padding: 0;
+      height: 100%;
+      &.default {
+        justify-content: center;
+        padding-top: 0;
+        p {
+          font-size: 1rem;
+          margin: 0;
+        }
+      }
+      &.answers {
+        &.error {
+          margin: 0;
+          padding: 3vh 5vw 0;
+          p.error-title {
+            padding: 0 ;
+            font-size: 0.9rem;
+            margin: 0 0 0.9rem;      
+          }
+          p {
+            margin: 0;
+            max-width: 90vw;
+            font-size: 0.9rem;       
+          }
+        }   
+      }
+    }
+  }
+  @media screen and (max-height: 420px) and (orientation: landscape) {
+    width: 100%;
+    font-size: 1rem;
+    margin: 0;
+    padding: 4vh 0 0 0;
+    border-radius: 10px;
+    &.default {
+      p {
+      font-size: 1rem;
+      max-width: 95vw;
+      margin: 0;
+      }
+    }
+    &.answers { // note played
+      & p {
+        max-width: 75vw;
+        font-size: 0.9rem;
+        // text-align: justify ;
+        margin: 0.5rem 0 0 0;
+      }
+      &.error {
+        margin: 0;
+        padding: 4vh 0 0 0;
+        p.error-title {
+          max-width: 70%;
+          font-size: 1rem;
+          margin: 0;       
+        }
+        p {
+          max-width: 55%;
+          font-size: 0.9rem;
+          margin: 1vh 0 0 0; 
+        }
+      }
+    }
+    & p.new-game {
+      // padding-top: 10vh;
+      font-size: 0.9rem;
+      max-width: 95vw;
+    }
+    & p.end-of-game {
+      width: 55%;
+      &.center {
+        text-align: center;
+        margin-top: 8vh;
+      }
+    }
+  }
+  button.open-modal {
+    position: absolute;
+    top: 99%;
+    height: 3rem;
+    font-size: 0.9rem;
+    background: none;
+    border: 2px solid goldenrod;
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+    color: white;
+    @media screen and (max-width: 850px) and (orientation: portrait) { // large mobile phone
+      top: 80%;
+      width: 85%;
+      left: 50%;
+      transform: translateX(-50%);
+      @media screen and (max-height: 670px) and (orientation: portrait) {
+        top: 150%;
+      }
+    }
+    @media screen and (orientation: landscape) {
+      top: 55vh;
+    }  
+  }
+}

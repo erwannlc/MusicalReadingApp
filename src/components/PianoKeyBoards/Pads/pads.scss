@@ -1,0 +1,117 @@
+$colorC: #fffcad;
+$colorD: #ffe577;
+$colorE: #ffcf86;
+$colorF: #fda63a;
+$colorG: #ff5a00;
+$colorA: #00ffec;
+$colorB: #00dfff;
+
+
+div.note-buttons {
+  margin-top: 10px;
+  padding: 1rem min(6vw, 4rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  &.disable {
+    pointer-events: none;
+  }
+  
+  & button {
+    margin: 1rem 0.1rem;
+    padding: 0.5rem 0 4rem 0;
+    padding: 1rem 0 3.5rem 0;
+    width: 50px;
+    border-radius: 0 0 1rem 1rem;
+    text-align: center;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: rgba(244, 255, 240, 0.685);
+    border: 1px solid black;
+    box-shadow: -1px -1px 2px var(--white-20) inset,
+      0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50);
+    background: linear-gradient(45deg, hsl(0, 0%, 13%) 0%, hsl(0, 0%, 33%) 100%);
+    cursor: pointer;
+    &#C-btn {
+      color: $colorC;
+    }
+    &#D-btn {
+      color: $colorD;
+    }
+    &#E-btn {
+      color: $colorE;
+    }
+    &#F-btn {
+      color: $colorF;
+    }
+    &#G-btn {
+      color: $colorG;
+    }
+    &#A-btn {
+      color: $colorA;
+    }
+    &#B-btn {
+      color: $colorB;
+    }
+    // &.tuto {
+    //   // box-shadow: -1px -1px 2px var(--white-20) inset,
+    //   // 0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50),
+    //   // 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
+    //   // z-index: 10;
+    // }
+  }
+
+  & button.pressed {
+    color: rgb(244, 255, 240);;
+    background-color: hsla(0, 0%, 0%, 0.554);
+    box-shadow: -1px -1px 2px var(--white-20) inset,
+    0 -2px 2px 3px var(--black-60) inset, 0 1px 2px var(--black-50);
+    background: linear-gradient(
+      to right,
+      hsl(0, 0%, 27%) 0%,
+      hsl(0, 0%, 13%) 100%);
+  }
+  &.tuto {
+    &.tuto {
+      box-shadow: 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
+    }
+  }
+  @media screen and (max-width: 850px) {
+    margin-top: 0;
+    & button {
+      margin: 1rem 0.1rem;
+      padding: 0.5rem 0 3rem 0;
+      padding: 1rem 0 2.5rem 0;
+      width: 45px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+  }
+  @media screen and (max-height: 420px) and (orientation: landscape) {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    & button {
+      margin: 0 0.3rem 0 0;
+      padding: calc(2px + 4vh) 0 calc(2px + 10vh) 0;
+      width: calc(12px + 5vw);
+      font-size: 0.9rem;
+      font-family: inherit;
+      @media screen and (max-width: 600px) {
+
+      }
+    }
+  }
+  @media screen and (max-width: 350px) {
+    & button {
+      margin: 0.5rem 0.1rem;
+      padding: 1rem 0 2.4rem 0;
+      width: 40px;
+    }
+  }
+
+}

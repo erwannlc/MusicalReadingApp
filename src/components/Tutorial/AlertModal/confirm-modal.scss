@@ -1,0 +1,75 @@
+dialog#confirm-modal[open] {
+  min-height: 20vh;
+  min-width: 50vw;
+  top: 0;
+  margin: 10vh auto;
+  display: flex;
+  background-color: rgb(29, 29, 29);
+  border: 1px solid gold;
+  border-radius: 5px;
+  color: white;
+  overflow: hidden;
+  animation: modalfade 0.2s ease-in-out;
+  &::backdrop {
+    backdrop-filter: blur(10px) brightness(0.4);
+    -webkit-backdrop-filter: blur(10px) brightness(0.4);
+  }    
+  & #confirm-content {
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  & .btn-wrapper {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    margin: 1rem 0;
+    button {
+      padding: 0.5rem 1rem;
+      font: inherit;
+      border: 1px solid whitesmoke;
+      background-color: transparent;
+      color: whitesmoke;
+      &:hover {
+        color: goldenrod;
+        border-color: goldenrod;
+      }
+      &:active { 
+        transform: translateY(2px)
+      }
+    }
+  }
+  }
+  @media screen and (max-height: 420px) and (orientation: landscape) {
+  left: 30vw;
+  top: 50vh;
+  height: 45vh;
+  min-width: 0;
+  width: 70vw;
+  opacity: 0.9;
+  justify-content: center;
+    & #confirm-content {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin-top: 2vh;
+    }
+    @media screen and (max-height: 350px) and (orientation: landscape) {
+      top: 52vh;
+    }  
+  }
+}
+
+@keyframes modalfade {
+  from {
+    opacity: 20%;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 100%;
+    transform: scale(1);
+  }
+}
