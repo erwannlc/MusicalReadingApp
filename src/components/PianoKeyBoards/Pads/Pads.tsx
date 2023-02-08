@@ -1,6 +1,7 @@
 import { FC, MouseEvent, TouchEvent, useEffect, useRef } from "react";
+import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import type { TutoData } from "../../../types/TutoTypes";
 import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
-import { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
 import "./pads.scss";
 
 type Props = {
@@ -8,9 +9,10 @@ type Props = {
   isTuto: boolean
   isTutoPlay: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
+  tutoData: TutoData
 };
 
-const Pads: FC<Props> = ({onPlay, isTuto, isTutoPlay, updateNodes}) => {
+const Pads: FC<Props> = ({onPlay, isTuto, isTutoPlay, updateNodes, tutoData}) => {
 
   const [nodeObj, padsRef] = useClientRect();
   useEffect(() => {
@@ -62,14 +64,17 @@ const Pads: FC<Props> = ({onPlay, isTuto, isTutoPlay, updateNodes}) => {
     stopKey(clickedKey);
   });
 
+  let classN = tutoData.padsDiv.isTuto ? "note-buttons tuto" : "note-buttons";
+  let padGClassN = tutoData.padGNote.isTuto ? "tuto" : "";
+
   return (
     <div id="pianoKeyboard">
-      <div ref={padsRef} className="note-buttons">
+      <div ref={padsRef} className={classN}>
       <button id="C-btn" data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>Do</button>
         <button id="D-btn" data-note="D" onMouseDown={pressNote} onTouchStart={touchNote}>Ré</button>
         <button id="E-btn" data-note="E" onMouseDown={pressNote} onTouchStart={touchNote}>Mi</button>
         <button id="F-btn" data-note="F" onMouseDown={pressNote} onTouchStart={touchNote}>Fa</button>
-        <button ref={padGRef} id="G-btn" data-note="G" onMouseDown={pressNote} onTouchStart={touchNote}>Sol</button>
+        <button ref={padGRef} className={padGClassN} id="G-btn" data-note="G" onMouseDown={pressNote} onTouchStart={touchNote}>Sol</button>
         <button id="A-btn" data-note="A" onMouseDown={pressNote} onTouchStart={touchNote}>La</button>
         <button id="B-btn" data-note="B" onMouseDown={pressNote} onTouchStart={touchNote}>Si</button>
       </div>

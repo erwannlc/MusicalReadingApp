@@ -66,13 +66,8 @@
             user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
 
-      //tuto vars 
-  --tuto-border-note--color: hsl(0, 0%, 73%);
+  //tuto vars 
   $tutoTouchColor2: #D1E7E0;
-  $tutoTouchColor3: hsl(162, 17%, 76%);
-  $tutoTouchColor5: #005A07;
-  $tutoTouchColor6: #004EC2;
-  $tutoTouchColor7: hsl(7, 71%, 70%);
 
   li:first-child {
     border-radius: 5px 0 5px 5px;
@@ -94,12 +89,12 @@
     background: linear-gradient(to bottom, var(--bg--bottom) 0%, white 100%);
     color: var(--black-30);
     &.tuto {
-    background: linear-gradient(to bottom, hsl(0, 0%, 100%) 0%, $tutoTouchColor2 100%);
-    background-size: 400% 400%;
-    animation-name: highlights;
-    animation-duration: 1.5s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
+      background: linear-gradient(to bottom, hsl(0, 0%, 100%) 0%, $tutoTouchColor2 100%);
+      background-size: 400% 400%;
+      animation-name: highlights;
+      animation-duration: 1.5s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
     }
   }
 
@@ -142,9 +137,7 @@
   }
 
   @media screen and (max-width: 850px) {
-    // height: 15.25rem;
     width: 98vw;
-    // margin: 0.5rem 0;
     padding: 1rem 0 1.3rem 1.5rem;
     .white {
       height: 21vh;

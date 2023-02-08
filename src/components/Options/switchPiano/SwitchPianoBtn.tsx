@@ -8,9 +8,10 @@ type Props = {
   switchPiano: () => void
   isPiano: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
+  tutoData: {isTuto: boolean, disabled: boolean}
 };
 
-const SwitchPianoBtn:FC<Props> = ({switchPiano, isPiano, updateNodes}) => {
+const SwitchPianoBtn:FC<Props> = ({switchPiano, isPiano, updateNodes, tutoData}) => {
 
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
@@ -18,6 +19,8 @@ const SwitchPianoBtn:FC<Props> = ({switchPiano, isPiano, updateNodes}) => {
   }, [nodeObj, updateNodes]);
 
   let classN= isPiano ? "depth is-active" : "depth";
+  classN += tutoData.disabled ? " disable" : "";
+  classN += tutoData.isTuto ? " tuto" : "";
 
   const handleClick = () => {
     switchPiano();

@@ -7,6 +7,7 @@ import type { Options } from "../../types/Options";
 import type { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 import useClientRect, { NodeObj } from "../../utils/Hooks/useClientRect";
 import "./game-messages.scss";
+import { TutoData } from "../../types/TutoTypes";
 
 type Props = {
  message: MessageObj
@@ -20,17 +21,23 @@ type Props = {
  tempoTime: number
  progressBarId: string | null
  isTutoOn: boolean
+ tutoData: TutoData
 };
 
-type PartialProps = Omit<Props, "isPlaying" | "options" | "handleMessage" | "scoreNumber" | "gameLength" | "showOptions" | "tempoTime" | "progressBarId" | "isTutoOn" >
+// type PartialProps = Omit<Props, "isPlaying" | "options" | "handleMessage" | "scoreNumber" | "gameLength" | "showOptions" | "tempoTime" | "progressBarId" | "isTutoOn" | "TutoData" >
+type MessageDivProps = {
+  message: MessageObj
+  updateNodes: (key: NodesKeys, obj: NodeObj) => void
+  highlight: boolean
+}
 
-const MessageDiv: FC<PartialProps> = ({message, updateNodes}) => { 
+const MessageDiv: FC<MessageDivProps> = ({message, updateNodes, highlight}) => { 
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
     updateNodes("messageDiv", nodeObj);
   }, [nodeObj, updateNodes]);
     
-  let className = `${"shadow-node"} ${message.className ? message.className : ""}`;
+  let className = `${"shadow-node"} ${message.className ? message.className : ""} ${highlight ? " tuto" : ""}`;
   return (
     <div ref={ref} id="message" className={className}>
       <>
@@ -40,24 +47,24 @@ const MessageDiv: FC<PartialProps> = ({message, updateNodes}) => {
   )
 };
 
-const GameMessages: FC<Props> = ({message, isPlaying, options, handleMessage, scoreNumber, gameLength, showOptions, updateNodes, tempoTime, progressBarId, isTutoOn}) => {
+const GameMessages: FC<Props> = ({message, isPlaying, options, handleMessage, scoreNumber, gameLength, showOptions, updateNodes, tempoTime, progressBarId, isTutoOn, tutoData}) => {
   const isModal = message.isModal ? message.isModal : false;
+  
   if (isModal) {
     return ( 
       <>
         <Modal handleMessage={handleMessage} message={message} score={scoreNumber} gameLength={gameLength}>
-          <MessageDiv message={message} updateNodes={updateNodes}/>
+          <MessageDiv message={message} updateNodes={updateNodes} highlight={tutoData.messageDiv.isTuto}/>
         </Modal>
-        <div className="messages">  
-          {/* {!isPlaying && <OptionsIndicator options={options} showOptions={showOptions} updateNodes={updateNodes}/>}          */}
+        <div className="messages">
         </div>
       </>
     )
   } else 
   return (
     <div className="messages">
-      <MessageDiv message={message} updateNodes={updateNodes}/>
-      {!isPlaying && <OptionsIndicator options={options} showOptions={showOptions} updateNodes={updateNodes}/>}
+      <MessageDiv message={message} updateNodes={updateNodes} highlight={tutoData.messageDiv.isTuto}/>
+      {!isPlaying && <OptionsIndicator options={options} showOptions={showOptions} updateNodes={updateNodes} tutoData={tutoData.optionsIndicator}/>}
       {progressBarId && isPlaying && <ProgressBar tempoTime={tempoTime} id={progressBarId} gameLength={gameLength} isTutoOn={isTutoOn}/> }
     </div>
   )

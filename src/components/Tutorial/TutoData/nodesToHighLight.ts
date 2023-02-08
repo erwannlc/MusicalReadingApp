@@ -1,7 +1,8 @@
 import { NodeObj } from "../../../utils/Hooks/useClientRect";
+import type { TutoDataKeys } from "../../../types/TutoTypes";
 
-export type HighLights = "playBtn" | "stopBtn" | "switchOptions" | "messageDiv" | 
-"optionsIndicator" | "switchPiano" | "vexScore" | "vexScoreMobile" | "vexScoreOutput" | "vexScoreMobileOutput" | "padsDiv" | "clefs" | "piano" | "note1" | "note2" | "padGNote";
+export type HighLights = TutoDataKeys;
+export type Disabling = TutoDataKeys[];
 
 export type Nodes = {
   [key in NodesKeys]: NodeObj;

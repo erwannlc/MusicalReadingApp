@@ -11,9 +11,10 @@ type Props = {
   isTuto: boolean
   isTutoPlay: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
+  isTutoNotes: boolean
 };
 
-const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes}) => {
+const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, isTutoNotes}) => {
   // Thx to Bret Cameron :
   // https://css-tricks.com/how-to-code-a-playable-synth-keyboard/
   // https://codepen.io/BretCameron/pen/MWmyWeo
@@ -29,10 +30,10 @@ const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes}) =
   useEffect(() => {
     updateNodes("note2", note2NodeObj);
   }, [note2NodeObj, updateNodes]);
-  
+
 
   const azertyKeys: PianoKeys = {  
-    Q: { id: "C", note: "C", octaveOffset: 0, classN: "white" },
+    Q: { id: "C", note: "C", octaveOffset: 0, classN: "white"},
     Z: { id: "C#", note: "C#", octaveOffset: 0, classN: "black" },
     S: { id: "D", note: "D", octaveOffset: 0, classN: "white offset" },
     E: { id: "D#", note: "D#", octaveOffset: 0, classN: "black" },
@@ -44,7 +45,7 @@ const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes}) =
     H: { id: "A", note: "A", octaveOffset: 1, classN: "white offset" },
     U: { id: "A#", note: "A#", octaveOffset: 1, classN: "black" },
     J: { id: "B", note: "B", octaveOffset: 1, classN: "white offset" },
-    K: { id: "C2", note: "C", octaveOffset: 1, classN: "white" },
+    K: { id: "C2", note: "C", octaveOffset: 1, classN: "white"},
     O: { id: "C#2", note: "C#", octaveOffset: 1, classN: "black" },
     L: { id: "D2", note: "D", octaveOffset: 1, classN: "white offset" },
     P: { id: "D#2", note: "D#", octaveOffset: 1, classN: "black" },
@@ -296,6 +297,9 @@ useEffect(() => { // handle piano played on keyboard
     };
   } 
 }, [isMobile, playKey, pressedNotes, stopKey]);
+
+classN.Q = `${isTutoNotes ? "white tuto" : "white"}`;
+classN.K = classN.Q;
 
   return (
     <div id="pianoKeyboard">

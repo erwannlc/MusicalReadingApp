@@ -8,10 +8,12 @@ import PianoKeyBoards from "./PianoKeyBoards";
 import GameMessages from "./GameMessages/GameMessages";
 import GameScore from "./GameMessages/GameScore";
 import Tutorial from "./Tutorial";
+import defaultTutoData from "./Tutorial/TutoData/defaultTutoData";
 import useMediaQuery from "../utils/Hooks/useMediaQuery/useMediaQuery";
 import restoreDefault from "../utils/restoreDefault";
 import type { StaveClef, BothClefs, ClefSelected } from "../types/Clefs";
 import type { MessageObj } from "../types/MessageObj";
+import type { TutoData, TutoDataKeys } from "../types/TutoTypes";
 import type { Nodes, NodesKeys } from "./Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../utils/Hooks/useClientRect";
 import { treble, bass, bothClefs, defaultMessage, defaultOptions, scaleA } from "../data/data";
@@ -67,6 +69,12 @@ const Main: FunctionComponent = () => {
   const updateNodes = useCallback((key: NodesKeys, obj: NodeObj) => {
     setNodes(nodes => ({...nodes, [key]: obj}));
   }, []);
+  const [tutoData, setTutoData] = useState(defaultTutoData as TutoData);
+  const modifyTutoData = (component: TutoDataKeys, value: {isTuto?: boolean, disabled?: boolean}) => {
+    setTutoData(tutoData => ({...tutoData, [component]: value}));
+  };
+  const resetTutoData = () => setTutoData(defaultTutoData);
+
   const [isTutoOn, setIsTutoOn] = useState(false);
   const activeTuto = (bool: boolean) => setIsTutoOn(bool);
   const [tutoPlay, setTutoPlay] = useState({
@@ -104,6 +112,7 @@ const Main: FunctionComponent = () => {
     changeProgressBarID: changeProgressBarID,
     nodes: nodes,
     appNode: appNode,
+    tutoData
   };
   const pianoKeyboardProps = {
     isPlaying: isPlaying,
@@ -123,7 +132,8 @@ const Main: FunctionComponent = () => {
     stopTutoPlay: stopTutoPlay,
     updateNodes: updateNodes,
     nodes: nodes,
-    appNode: appNode
+    appNode: appNode,
+    tutoData
     // tempoTime: options.intervalTime
   };
   const VFScoreProps = {
@@ -135,7 +145,8 @@ const Main: FunctionComponent = () => {
     both: both,
     gameLength: gameLength,
     updateNodes: updateNodes,
-    outputNode: nodes.vexScoreOutput?.node
+    outputNode: nodes.vexScoreOutput?.node,
+    highlight: tutoData.vexScore.isTuto
   };
   const optionsProps = {
     changeTimer: useCallback((interval: number, tempoNum: number) => {
@@ -152,7 +163,8 @@ const Main: FunctionComponent = () => {
     displayPiano,
     displayOptions,
     updateNodes: updateNodes,
-    options: options
+    options: options,
+    tutoData
   };
   const messageProps = {
     message: message,
@@ -165,7 +177,8 @@ const Main: FunctionComponent = () => {
     updateNodes: updateNodes,
     tempoTime: options.intervalTime,
     progressBarId: progressBarId,
-    isTutoOn: isTutoOn
+    isTutoOn: isTutoOn,
+    tutoData
   };
   const tutoProps = {
     options: options,
@@ -187,7 +200,12 @@ const Main: FunctionComponent = () => {
     displayPiano: displayPiano,
     closePiano: () => setDisplayPiano(false),
     nodes: nodes,
-    changeProgressBarID: changeProgressBarID
+    changeProgressBarID: changeProgressBarID,
+    // resetTutoData: useCallback(() => resetTutoData(), []),
+    resetTutoData,
+    changeTutoData: useCallback((component: TutoDataKeys, value: {isTuto?: boolean, disabled?: boolean}) => {
+      if (value) modifyTutoData(component, value);
+    }, [])
   };
 
   return (
@@ -196,7 +214,7 @@ const Main: FunctionComponent = () => {
       {!displayOptions && <GameMessages {...messageProps} />}
       {!displayOptions && <GameScore isModal={message.isModal ? true : false} scoreNumber={scoreNumber} gameLength={isTutoOn ? 5 : gameLength} isMobile={isMobile} />}
       {!displayOptions && <PlayBtn {...playGameProps}/>}
-      {!isPlaying && <ShowOptions showOptions={showOptions} displayOptions={displayOptions} updateNodes={updateNodes}/>}    
+      {!isPlaying && <ShowOptions showOptions={showOptions} displayOptions={displayOptions} updateNodes={updateNodes} tutoData={tutoData.switchOptions}/>}    
       {isMobile ? <VFBoxMobile {...VFScoreProps}/>
       : <VFBox {...VFScoreProps}/>}
       <PianoKeyBoards {...pianoKeyboardProps} />

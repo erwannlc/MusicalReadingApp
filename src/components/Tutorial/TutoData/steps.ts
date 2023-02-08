@@ -1,5 +1,5 @@
 import type { CSSPropertiesWithVars } from "../../../types/CSSPropertiesWithVars";
-import type { HighLights, Nodes } from "../TutoData/nodesToHighLight";
+import type { HighLights, Disabling, Nodes } from "./nodesToHighLight";
 import type { Options } from "../../../types/Options";
 import type { ChangeButton } from "../../../types/TutoTypes";
 
@@ -15,13 +15,14 @@ export type Steps = {
   highlights?: HighLights
   above?: boolean 
   listener?: string
-  func?: (changeButton: ChangeButton, nodes: Nodes, options: Options) => void
+  func?: (changeButton: ChangeButton, options: Options, nodes: Nodes, ) => void
   isOptionsOpen?: boolean
   isTableContents?: boolean
   beginPlayStep?: boolean
   beginAdvancedOptions?: boolean
   startTutoAutoPlay?: boolean
   backToZero?: boolean
+  disable?: Disabling
 }[];
 
 export const steps: Steps = [
@@ -46,11 +47,7 @@ export const steps: Steps = [
       height: "17rem",
       top: "10rem"
     },
-    func: (changeButton, nodes) => {
-      nodes.playBtn.node.classList.add("disable");
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.optionsIndicator.node.classList.add("disable");
-    },
+    disable: ["playBtn", "switchOptions", "optionsIndicator"],
     backToZero: true
   },
   {
@@ -63,11 +60,7 @@ export const steps: Steps = [
       "--pointer-left": "40%"
     },
     highlights: "optionsIndicator",
-    func: (changeButton, nodes) => { 
-      nodes.optionsIndicator.node.classList.add("disable");
-      nodes.playBtn.node.classList.add("disable");
-      nodes.switchOptions.node.classList.add("disable");
-    }, 
+    disable: ["playBtn", "switchOptions", "optionsIndicator"],
   },
   {
     id: "step03",
@@ -80,9 +73,9 @@ export const steps: Steps = [
     },
     highlights: "switchOptions",
     listener: "toggleOptions",
-    func: (changeButton, nodes) => { 
+    disable: ["playBtn"],
+    func: (changeButton) => { 
       changeButton.nextButton = false;
-      nodes.playBtn.node.classList.add("disable"); // ?
     }, 
   },
   {
@@ -96,9 +89,9 @@ export const steps: Steps = [
       height: "20rem"
     },
     isOptionsOpen: true,
-    func: (changeButton, nodes, options) => { 
+    disable: ["switchOptions"],
+    func: (changeButton, options) => { 
       changeButton.prevButton = false;
-      nodes.switchOptions.node.classList.add("disable");
       changeButton.isNextDisabled = true;
       if (options.intervalTime > 4400 && options.levelNum < 2) {
         changeButton.isNextDisabled = false;
@@ -117,7 +110,7 @@ export const steps: Steps = [
     },
     listener: "toggleOptions",
     isOptionsOpen: true,
-    func: (changeButton, nodes) => { 
+    func: (changeButton) => { 
       changeButton.nextButton = false;
     }
   },
@@ -130,11 +123,9 @@ export const steps: Steps = [
       "--pointer-left": "40%"
     },
     highlights:"optionsIndicator",
-    func: (changeButton, nodes) => { 
+    disable: ["playBtn", "switchOptions", "optionsIndicator"],
+    func: (changeButton) => { 
       changeButton.prevButton = false;
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.optionsIndicator.node.classList.add("disable");
-      nodes.playBtn.node.classList.add("disable");
     }
   },
   {
@@ -147,8 +138,9 @@ export const steps: Steps = [
       "--pointer-left": "5%"
     },
     listener: "play",
-    func: (changeButton, nodes) => { 
-      nodes.switchOptions.node.classList.add("disable");
+
+    disable: ["switchOptions"],
+    func: (changeButton) => {
       changeButton.nextButton = false;
     },
     backToZero: true,
@@ -164,9 +156,9 @@ export const steps: Steps = [
     },
     above: true,
     highlights:"vexScore",
-    func: (changeButton, nodes) => { 
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.stopBtn.node.classList.add("disable");
+
+    disable: ["stopBtn", "switchOptions"],
+    func: (changeButton, options, nodes) => {
       changeButton.prevButton = false;
       nodes.vexScoreOutput.node.firstElementChild?.children[1]?.classList.remove("hidden");
     }
@@ -183,9 +175,8 @@ export const steps: Steps = [
     above: true,
     highlights: "padGNote",
     listener: "padNote",
-    func: (changeButton, nodes) => { 
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.stopBtn.node.classList.add("disable");
+    disable: ["stopBtn", "switchOptions"],
+    func: (changeButton) => {
       changeButton.nextButton = false;
       changeButton.prevButton = false;
     }
@@ -201,10 +192,10 @@ export const steps: Steps = [
       "--pointer-left": "47%"
     },
     highlights:"messageDiv",
-    func: (changeButton, nodes) => { 
+
+    disable: ["stopBtn", "switchOptions"],
+    func: (changeButton) => { 
       changeButton.prevButton = false;
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.stopBtn.node.classList.add("disable");
     }
   },
   {
@@ -219,16 +210,12 @@ export const steps: Steps = [
 
     },
     above: true,
-    // highlights:"vexScore",
     listener: "pads",
-    func: (changeButton, nodes) => { 
+
+    disable: ["stopBtn", "switchOptions", "padsDiv"],
+    func: (changeButton, options, nodes) => { 
       changeButton.prevButton = false;
       changeButton.nextButton = false;
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.stopBtn.node.classList.add("disable");
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.stopBtn.node.classList.add("disable");
-      nodes.padsDiv.node.classList.remove("disable");
       nodes.vexScoreOutput.node.firstElementChild?.children[2]?.classList.remove("hidden");
     }
   },
@@ -241,11 +228,9 @@ export const steps: Steps = [
       height: "19rem",
       top: "5px"
     },
+    disable: ["stopBtn", "switchOptions"],
     func: (changeButton, nodes) => { 
-      nodes.padsDiv.node.classList.remove("disable");
       changeButton.prevButton = false;
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.stopBtn.node.classList.add("disable");
     }
   },
   {
@@ -264,10 +249,10 @@ export const steps: Steps = [
       height: "15rem",
       top: "5px"
     },
-    func: (changeButton, nodes) => {
+
+    disable: ["playBtn", "switchOptions"],
+    func: (changeButton) => {
       changeButton.prevButton = false;
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.playBtn.node.classList.add("disable");
     }
   },
   {
@@ -281,10 +266,8 @@ export const steps: Steps = [
       "--pointer-left": "50%"
     },
     highlights: "messageDiv",
-    func: (changeButton, nodes) => { 
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.playBtn.node.classList.add("disable");
-    }
+    
+    disable: ["playBtn", "switchOptions"],
   },
   {
     id: "step16",
@@ -294,10 +277,10 @@ export const steps: Steps = [
       height: "12rem",
       top: "8rem"
     },
-    func: (changeButton, nodes) => { 
+
+    disable: ["playBtn", "switchOptions"],
+    func: (changeButton) => { 
       changeButton.quitButton = true;
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.playBtn.node.classList.add("disable");
     },
     beginAdvancedOptions: true,
     backToZero: true
@@ -312,9 +295,10 @@ export const steps: Steps = [
     },
     highlights:"optionsIndicator",
     listener: "optionsIndicator",
-    func: (changeButton, nodes) => { 
+
+    disable: ["playBtn"],
+    func: (changeButton) => { 
       changeButton.nextButton = false;
-      nodes.playBtn.node.classList.add("disable");
     }
   },
   {
@@ -329,9 +313,9 @@ export const steps: Steps = [
     },
     highlights:"clefs",
     isOptionsOpen: true,
-    func: (changeButton, nodes, options) => { 
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.switchPiano.node.classList.add("disable");
+
+    disable: ["switchOptions", "switchPiano"],
+    func: (changeButton, options) => {
       changeButton.isNextDisabled = true;
       changeButton.prevButton = false;
       if (options.clefSelected === "bothClefs") {
@@ -352,8 +336,9 @@ export const steps: Steps = [
     highlights: "switchPiano",
     listener: "switchPiano",
     isOptionsOpen: true,
-    func: (changeButton, nodes) => { 
-      nodes.switchOptions.node.classList.add("disable");
+    
+    disable: ["switchOptions"],
+    func: (changeButton) => {
       changeButton.nextButton = false;
     }
   },
@@ -368,10 +353,10 @@ export const steps: Steps = [
       height: "20rem",
       "--pointer-left": "50%"
     },
-    func: (changeButton, nodes) => { 
+
+    disable: ["switchOptions", "playBtn"],
+    func: (changeButton) => { 
       changeButton.prevButton = false;
-      nodes.switchOptions.node.classList.add("disable");
-      nodes.playBtn.node.classList.add("disable");
     }
   },
   {
@@ -384,8 +369,9 @@ export const steps: Steps = [
     styling: {
       "--pointer-left": "5%"
     }, 
-    func: (changeButton, nodes) => { 
-      nodes.switchOptions.node.classList.add("disable");
+
+    disable: ["switchOptions"],
+    func: (changeButton) => {
       changeButton.nextButton = false;
     }
   },
@@ -402,10 +388,11 @@ export const steps: Steps = [
       top: "1.5rem"
     },
     listener: "notesOnPiano",
-    func: (changeButton, nodes, options) => {
+    highlights: "bothOctavesNote",
+    disable: ["switchOptions"],
+    func: (changeButton, options, nodes) => {
       changeButton.nextButton = false;
       changeButton.prevButton = false;
-      nodes.switchOptions.node.classList.add("disable");
       const children = nodes.vexScoreOutput.node.firstElementChild?.children;
       if (options.clefSelected === "treble" || options.clefSelected === "bass") {
         children && children[1]?.classList.remove("hidden");
@@ -414,8 +401,6 @@ export const steps: Steps = [
         children && children[2]?.classList.remove("hidden"); // vf-treble-n1
         children && children[8]?.classList.remove("hidden"); // vf-bass-n2
       };
-      nodes.note1.node.classList.add("tuto");
-      nodes.note2.node.classList.add("tuto");
     }
   },
   {
@@ -430,10 +415,10 @@ export const steps: Steps = [
       height: "15rem",
       marginTop: "2rem"
     },
-    func: (changeButton, nodes) => { 
+    disable: ["switchOptions"],
+    func: (changeButton) => { 
       changeButton.nextButton = false;
       changeButton.prevButton = false;
-      nodes.switchOptions.node.classList.add("disable");
     }
   },
   {
@@ -448,10 +433,10 @@ export const steps: Steps = [
     },
     highlights: "switchOptions",
     listener: "toggleOptions",
-    func: (changeButton, nodes) => { 
+    disable: ["playBtn"],
+    func: (changeButton) => { 
       changeButton.nextButton = false;
       changeButton.prevButton = false;
-      nodes.playBtn.node.classList.add("disable");
     }
   },
   {
@@ -466,8 +451,8 @@ export const steps: Steps = [
     highlights: "switchPiano",
     listener: "switchPiano",
     isOptionsOpen: true,
-    func: (changeButton, nodes) => { 
-      nodes.switchOptions.node.classList.add("disable");
+    disable: ["switchOptions"],
+    func: (changeButton) => { 
       changeButton.nextButton = false;
       changeButton.prevButton = false;
     },
@@ -480,12 +465,12 @@ export const steps: Steps = [
       height: "14rem",
       top: "5px"
     },
-    func: (changeButton, nodes) => { 
+
+    disable: ["switchOptions", "playBtn"],
+    func: (changeButton) => { 
       changeButton.changeNextToQuit = true;
       changeButton.nextButton = false;
       changeButton.prevButton = false;
-      nodes.playBtn.node.classList.add("disable");
-      nodes.switchOptions.node.classList.add("disable");
     },
     backToZero: true
   },

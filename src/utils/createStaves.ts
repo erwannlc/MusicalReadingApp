@@ -2,7 +2,7 @@ import { randomizeInteger } from "./randomizeInteger";
 import type { StaveClef, BothClefs } from "../types/Clefs";
 import renderVFScore from "./renderVFScore";
 import { modifyNodes, createBothMobileData } from "./handleGameData";
-import { tutoData } from "../data/data";
+import { tutoPlayData } from "../data/data";
 
 const generateRandomNote = (i: number, level: string, staveClef: StaveClef) => {
   const levelScale = staveClef.levels[level];
@@ -69,10 +69,10 @@ export const createNewStaves = async(level: string, levelNum: number, clefSelect
 
 // Create Tutorial's staves :
 const createTutoNotes = async (Treble: StaveClef, Bass:StaveClef, both:BothClefs) => {
-  Treble.notesArray = tutoData.trebleNotesArray;
-  Bass.notesArray = tutoData.bassNotesArray;
-  Treble.solution = tutoData.solution;
-  Bass.solution = tutoData.solution;
+  Treble.notesArray = tutoPlayData.trebleNotesArray;
+  Bass.notesArray = tutoPlayData.bassNotesArray;
+  Treble.solution = tutoPlayData.solution;
+  Bass.solution = tutoPlayData.solution;
   both.solution = [];
   Treble.notes = Treble.notesArray.toString();
   Bass.notes = Bass.notesArray.toString();

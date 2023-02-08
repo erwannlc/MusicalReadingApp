@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import TutoButton from "./SwitchTutoBtn";
 import TutoContent from "./TutoDialog/TutoContent";
 import TutoDialog from "./TutoDialog";
@@ -8,11 +8,11 @@ import { scaleA } from "../../data/data";
 import type { CSSPropertiesWithVars } from "../../types/CSSPropertiesWithVars";
 import type { Nodes } from "./TutoData/nodesToHighLight";
 import type { Options } from "../../types/Options";
-import type { ChangeButton } from "../../types/TutoTypes";
+import type { ChangeButton, ChangeTutoData } from "../../types/TutoTypes";
 import type { StaveClef, ClefSelected } from "../../types/Clefs";
 import type { MessageObj } from "../../types/MessageObj";
 import type { AlertContentType } from "./AlertModal/AlertMsgModal";
-import { stepStyling, resetClass } from "./TutoData/stepProcess";
+import { stepStyling } from "./TutoData/stepProcess";
 import { playTuto, stopPlaying } from "../../utils/handleGame";
 import "./TutoDialog/tuto-dialog.scss";
 import "./tuto-anims.scss";
@@ -37,6 +37,9 @@ type Props = {
   closePiano: () => void
   nodes: Nodes
   changeProgressBarID: (id: string | null) => void
+  resetTutoData: () => void
+  changeTutoData: ChangeTutoData
+
 };
 
 //state machine
@@ -48,8 +51,27 @@ const NOTUTO = 5;
 const defaultStep = 0; // test in dev
 
 const Tutorial: FC<Props> =  (props) => {
-
-  const {options, activeTuto, isTutoOn, activeTutoPlay, tutoPlay, restoreDefault, Treble, isMobile, isPlaying, setIsPlaying, handleMessage, changeClef, changeTempo, resetStavesData, stopGame, displayPiano, closePiano, nodes, changeProgressBarID} = props;
+  const {options, 
+    activeTuto, 
+    isTutoOn, 
+    activeTutoPlay, 
+    tutoPlay, 
+    restoreDefault, 
+    Treble, 
+    isMobile, 
+    isPlaying, 
+    setIsPlaying, 
+    handleMessage, 
+    changeClef, 
+    changeTempo, 
+    resetStavesData, 
+    stopGame, 
+    displayPiano, 
+    closePiano, 
+    nodes, 
+    changeProgressBarID, 
+    resetTutoData, 
+    changeTutoData} = props;
 
   const { playBtn, stopBtn, switchOptions, messageDiv, optionsIndicator, switchPiano, padsDiv, note1, note2 } = nodes;
 
@@ -68,7 +90,9 @@ const Tutorial: FC<Props> =  (props) => {
   const step = steps[stepIndex];
   const pointerClassName: string = step.pointer || "toUp";
   let modalClassName = `${pointerClassName}`;
-  let styling: CSSPropertiesWithVars =  step.styling || {};
+
+  const styling = useRef(step.styling || {} as CSSPropertiesWithVars);
+  
   const isCorrectionActive: boolean = messageDiv?.node.firstElementChild?.classList.contains("correction") as boolean;
 
   const startTuto = () => {
@@ -76,18 +100,6 @@ const Tutorial: FC<Props> =  (props) => {
     if (!isTutoOn) activeTuto(true);
     isCorrectionActive && restoreDefault();
   };
-
-  // const sendBackToStep = () => {
-  //   if (stepIndex === max) setStepIndex(defaultStep);
-  //   if (stepIndex === 3) setStepIndex(2);
-  //   if (stepIndex === 4 || stepIndex === 5) setStepIndex(3);
-  //   if (stepIndex === 18 || stepIndex === 19) setStepIndex(17);
-  //   if (stepIndex === 25) setStepIndex(24);
-  //   if (stepIndex === 6 && (options.levelNum > 1 || options.tempoNum > 1)) setStepIndex(3);
-  //   if (stepIndex >= 7 && stepIndex < 16) { // Play TutoGame steps
-  //     (options.levelNum !== 1 || options.tempoNum !== 1) ? setStepIndex(3) : setStepIndex(7);      
-  //   };
-  // };   
 
   const alertQuitPlay = () => {
     setAlertType("confirmQuitPlay");
@@ -99,11 +111,13 @@ const Tutorial: FC<Props> =  (props) => {
   };
   const closeTuto = async (pause?: boolean) => {
     if (isCorrectionActive) restoreDefault();
-    resetClass(nodes, changeButton);
+    changeButton.current = defaultChangeButton;
     if (!pause) {
       if (options.clefSelected !== "treble") changeClef("treble");
       if (isConfirmOpen) setIsConfirmOpen(false);
       activeTuto(false);
+      resetTutoData();
+      styling.current = steps[defaultStep].styling || {};
       setStepIndex(defaultStep);
     };
     setisModal(false);
@@ -123,13 +137,15 @@ const Tutorial: FC<Props> =  (props) => {
     setAlertType("");
   };
 
-  let changeButton: ChangeButton = {
+  const defaultChangeButton: ChangeButton = {
     isNextDisabled: false,
     nextButton: true,
     prevButton: true,
     quitButton: false,
     changeNextToQuit: false
   };
+  let changeButton = useRef(defaultChangeButton as ChangeButton);
+
 
   useEffect(() => { // listeners
     let funcName = "";
@@ -206,7 +222,6 @@ const Tutorial: FC<Props> =  (props) => {
       setTimeout(() => activeListener(), 0);
     };
     return () => {
-      // isListener.current = false;
      return window.removeEventListener("click", handleOutsideClick);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -236,7 +251,7 @@ const Tutorial: FC<Props> =  (props) => {
     if (isDialog) {
       if (step.beginPlayStep || step.beginAdvancedOptions) {
         if (options.clefSelected !== "treble") changeClef("treble");
-        if (step.beginPlayStep && options.tempoNum > 1) changeTempo(1); // to keep lower tempo if tuto chapter 1 was skipped
+        if (step.beginPlayStep && options.tempoNum > 1) changeTempo(1); // to keep lowest tempo if tuto chapter 1 was skipped
         if (displayPiano) closePiano(); // close Piano if it was open
       };
     };
@@ -246,16 +261,24 @@ const Tutorial: FC<Props> =  (props) => {
     if (isTutoOn && (stepIndex === 0 || step.beginAdvancedOptions) && isCorrectionActive) restoreDefault();
   }, [isCorrectionActive, isTutoOn, restoreDefault, step.beginAdvancedOptions, stepIndex]);
 
+  useEffect(() => { // styles with current step
+    if (isDialog) {
+      window.scrollTo(0, 0); // cancels previous unexpected scroll
+      resetTutoData();
+      changeButton.current = defaultChangeButton;
+      styling.current = stepStyling(step.styling || {}, changeTutoData, nodes, step.highlights, step.disable, step.above);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDialog, nodes, step]);
 
   if (isDialog) {
 
-    styling = stepStyling(steps, stepIndex, styling, changeButton, nodes); 
-    if (step.func) step.func(changeButton, nodes, options);
+    if (step.func) step.func(changeButton.current, options, nodes);
 
     if (step.startTutoAutoPlay) { // play Tuto Game
-      const outputNode = isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node
+      const outputNode = isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node;
       closeTuto(true)
-      .then(() => nodes.stopBtn.node.classList.add("disable"))
+      .then(() => changeTutoData("stopBtn", {isTuto: false, disabled: true}))
       .then(() => playTuto(Treble, isMobile, setIsPlaying, changeProgressBarID, outputNode));
     };
 
@@ -270,13 +293,13 @@ const Tutorial: FC<Props> =  (props) => {
       goPrev: goPrev,
       goToStep: goToStep,
       stepIndex: stepIndex,
-      changeButton: changeButton,
+      changeButton: changeButton.current,
       isTableContents: step.isTableContents ? true: false,
       backToZero: step.backToZero ? true : false
-    }; 
+    };
 
     return (
-      <TutoDialog id="tuto--dialog" modalClassName={modalClassName} isOpen={isDialog} styling={styling}>
+      <TutoDialog id="tuto--dialog" modalClassName={modalClassName} isOpen={isDialog} styling={styling.current}>
         <TutoContent {...contentProps} />
         {isConfirmOpen ? <AlertModal confirmQuitPlay={confirmQuitPlay} cancelConfirm={closeConfirmModal} quitTuto={quitTuto} contentType={alertType}/> : null}
       </TutoDialog>

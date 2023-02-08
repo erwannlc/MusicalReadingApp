@@ -8,9 +8,10 @@ type Props = {
   changeClef: (clef: ClefSelected) => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   clefSelected: string
+  highlight: boolean
 };
 
-const Clef: FunctionComponent<Props> = ({changeClef, updateNodes, clefSelected}) => {
+const Clef: FunctionComponent<Props> = ({changeClef, updateNodes, clefSelected, highlight}) => {
 
   const chooseClef = useCallback((clef: ClefSelected) => {
     changeClef(clef)
@@ -19,7 +20,7 @@ const Clef: FunctionComponent<Props> = ({changeClef, updateNodes, clefSelected})
   return (
     <div className="clef-option">
       <p className="clef-option-title">Clef</p>
-      <ClefsButtons chooseClef={chooseClef} updateNodes={updateNodes} clefSelected={clefSelected}/>
+      <ClefsButtons chooseClef={chooseClef} updateNodes={updateNodes} clefSelected={clefSelected} highlight={highlight}/>
     </div>
   )
 };

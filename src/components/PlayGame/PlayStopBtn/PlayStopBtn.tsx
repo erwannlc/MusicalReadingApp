@@ -4,6 +4,7 @@ import PlayIcon from "./icons/play-icon";
 import StopIcon from "./icons/stop-icon";
 import { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
 import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
+import type { TutoData } from "../../../types/TutoTypes";
 // Thx to HeadOnKeyboard https://codepen.io/headonkeyboard/pen/VwYdjRd
 
 type Props = {
@@ -12,12 +13,15 @@ type Props = {
   stopGame: () => void
   cancelStop: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
+  tutoData: TutoData
 };
 
-const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, updateNodes}) => {
+const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, updateNodes, tutoData}) => {
   
   const [isPlay, setIsPlay] = useState(false);
-  const [classN, setClassN] = useState("play");
+  const { playBtn, stopBtn } = tutoData;
+  const [playClassN, setPlayClassN] = useState("play");
+  const [stopClassN, setStopClassN] = useState("stop");
 
   const [playNodeObj, playRef] = useClientRect();
   useEffect(() => {
@@ -35,8 +39,15 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
 
   useEffect(() => {
     let className = isPlay ? `play is-play` : "play";
-    setClassN(className);
-  }, [isPlay]);
+    className += playBtn.disabled ? " disable" : "";
+    className += playBtn.isTuto ? " tuto" : "";
+    setPlayClassN(className);
+  }, [isPlay, playBtn.disabled, playBtn.isTuto]);
+  useEffect(() => {
+    let className = stopBtn.disabled ? "stop disable" : "stop";
+    className += stopBtn.isTuto ? " tuto" : "";
+    setStopClassN(className);
+  }, [stopBtn.disabled, stopBtn.isTuto]);
 
   const handleClick = (type: string) => {
     if (type === "play" && !isPlaying) {
@@ -55,10 +66,10 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
 
   return (
     <div className="btn-group">
-      <button ref={playRef} onClick={() => handleClick("play")} className={classN} title={playTooltip}>
+      <button ref={playRef} onClick={() => handleClick("play")} className={playClassN} title={playTooltip}>
         <PlayIcon />
       </button>
-      <button ref={stopRef} onClick={() => handleClick("stop")} className={"stop"} title={stopTooltip}>
+      <button ref={stopRef} onClick={() => handleClick("stop")} className={stopClassN} title={stopTooltip}>
         <StopIcon />
       </button>
     </div>

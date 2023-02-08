@@ -8,11 +8,11 @@ type Props = {
   showOptions: () => void;
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   displayOptions: boolean
+  tutoData: {isTuto: boolean, disabled: boolean}
 };
 
-const SwitchBtn:FC<Props> = ({showOptions, displayOptions, updateNodes}) => {
+const SwitchBtn:FC<Props> = ({showOptions, displayOptions, updateNodes, tutoData}) => {
 
-  // const [isOptionsShown, setIsOptionsShown] = useState(false);
   const [classN, setClassN] = useState("depth");
 
   const [nodeObj, ref] = useClientRect();
@@ -20,11 +20,12 @@ const SwitchBtn:FC<Props> = ({showOptions, displayOptions, updateNodes}) => {
     updateNodes("switchOptions", nodeObj);
   }, [nodeObj, updateNodes]);
 
-  
   useEffect(() => {
-    const className = displayOptions ? "depth is-active" : "depth";
-    setClassN(className)
-  }, [displayOptions])
+    let className = displayOptions ? "depth is-active" : "depth";
+    className += tutoData.disabled ? " disable" : "";
+    className += tutoData.isTuto ? " tuto" : "";
+    setClassN(className);
+  }, [displayOptions, tutoData.disabled, tutoData.isTuto]);
 
 
   const handleClick = () => {

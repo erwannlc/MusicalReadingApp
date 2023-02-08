@@ -7,6 +7,7 @@ import type { MessageObj } from "../../types/MessageObj";
 import type { Args } from "../../types/HandleAnswersArgs";
 import type { NodesKeys, Nodes } from "../Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
+import type { TutoData } from "../../types/TutoTypes";
 import { handleAnswers, handleError } from "../../utils/handleAnswers";
 
 
@@ -29,6 +30,7 @@ type Props = {
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   nodes: Nodes
   appNode: HTMLElement | null
+  tutoData: TutoData
 };
 
 //state machine
@@ -39,7 +41,7 @@ const NOGAME = 3;
 const PianoHandle: FC<Props> = (props) => {
   const {isPlaying, scaleA, clefSelected, Treble, Bass, both, 
     handleMessage, displayPiano, isGameStopped, isMobile, 
-    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, appNode} = props;
+    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, appNode, tutoData} = props;
 
   const isTutoActive = tutoPlay.isActive;
   const actualGameLength = isTutoActive ? 5 : gameLength;
@@ -143,8 +145,8 @@ const PianoHandle: FC<Props> = (props) => {
   };
   return (
     <>
-      {displayPiano ? <Piano onPlay={onPlay} isMobile={isMobile} scaleA={scaleA} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes}/> 
-      : <Pads onPlay={onPlay} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes}/> }
+      {displayPiano ? <Piano onPlay={onPlay} isMobile={isMobile} scaleA={scaleA} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes}  isTutoNotes={tutoData.bothOctavesNote.isTuto}/> 
+      : <Pads onPlay={onPlay} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes} tutoData={tutoData}/> }
     </>
   );
 };

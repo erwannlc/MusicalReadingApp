@@ -9,9 +9,10 @@ type Props = {
   chooseClef:(clef: ClefSelected) => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   clefSelected: string
+  highlight: boolean
 };
 
-const SimpleMetalButton:FC<Props> = ({chooseClef, updateNodes, clefSelected}) => {
+const SimpleMetalButton:FC<Props> = ({chooseClef, updateNodes, clefSelected, highlight}) => {
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
     updateNodes("clefs", nodeObj);
@@ -44,8 +45,10 @@ const SimpleMetalButton:FC<Props> = ({chooseClef, updateNodes, clefSelected}) =>
     both: "Clef de sol & clef de fa"
   }; 
 
+  let clefsClass = highlight ? "clefs-buttons tuto" : "clefs-buttons";
+
   return ( 
-    <div ref={ref} className="clefs-buttons">
+    <div ref={ref} className={clefsClass}>
       <div className={classN.treble}>𝄞</div>
       <div className={classN.bass}>𝄢</div>
       <div className={classN.bothClefs}>𝄞 𝄢</div>

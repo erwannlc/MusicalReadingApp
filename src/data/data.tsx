@@ -55,7 +55,7 @@ export const bass: StaveClef = {
 
 export const bothClefs: BothClefs = { solution: [], notesIndex: []};
 
-export const tutoData = {
+export const tutoPlayData = {
   trebleNotesArray: ["G4/q[id=\"treble-n1\"]", "C4/q[id=\"treble-n2\"]", "D4/q[id=\"treble-n3\"]", "A4/q[id=\"treble-n4\"]", "C5/q[id=\"treble-n5\"]"],
   bassNotesArray: ["G2/q[id=\"bass-n1\"]", "C3/q[id=\"bass-n2\"]", "D3/q[id=\"bass-n3\"]", "A2/q[id=\"bass-n4\"]", "C3/q[id=\"bass-n5\"]"],
   solution: ["G", "C", "D", "A", "C"],  

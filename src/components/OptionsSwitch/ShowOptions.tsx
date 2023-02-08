@@ -7,6 +7,7 @@ type Props = {
   showOptions: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   displayOptions: boolean
+  tutoData: {isTuto: boolean, disabled: boolean}
 }
 const ShowOptions: FC<Props> = (props) => 
     <SwitchBtn {...props}/>

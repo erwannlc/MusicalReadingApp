@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import type { Options } from "../../../types/Options";
 import useClientRect from "../../../utils/Hooks/useClientRect";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
@@ -8,9 +8,13 @@ type Props = {
   options: Options
   showOptions: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
+  tutoData: {isTuto: boolean, disabled: boolean}
 };
 
-const OptionsIndicator: FC<Props> = ({options, showOptions, updateNodes}) => {
+const OptionsIndicator: FC<Props> = ({options, showOptions, updateNodes, tutoData}) => {
+
+  const [classN, setClassN] = useState("options-indicator");
+
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
     updateNodes("optionsIndicator", nodeObj);
@@ -57,8 +61,16 @@ const OptionsIndicator: FC<Props> = ({options, showOptions, updateNodes}) => {
     level: `Niveau de difficulté : ${options.levelNum} sur 6 (${indicators.fr.levelTxt})`
   };
 
-  const isIndicatorTooLarge: boolean = (options.clefSelected === "bothClefs") && (options.intervalTime < 1001) ? true : false;
-  let classN = isIndicatorTooLarge ? "options-indicator largest" : "options-indicator";
+  // let classN = isIndicatorTooLarge ? "options-indicator largest" : "options-indicator";
+  // classN += tutoData.isTuto ? " tuto" : "";
+  // className += tutoData.disabled ? " disable" : "";
+  useEffect(() => {
+    const isIndicatorTooLarge: boolean = (options.clefSelected === "bothClefs") && (options.intervalTime < 1001) ? true : false;
+    let className = isIndicatorTooLarge ? "options-indicator largest" : "options-indicator";
+    className += tutoData.isTuto ? " tuto" : "";
+    className += tutoData.disabled ? " disable" : "";
+    setClassN(className);
+  }, [options.clefSelected, options.intervalTime, tutoData.disabled, tutoData.isTuto]);
 
   return (
     <div ref={ref} className={classN} onClick={showOptions} title={optionsTooltip.global}>
