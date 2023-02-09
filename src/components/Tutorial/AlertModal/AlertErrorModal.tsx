@@ -6,14 +6,16 @@ export type AlertContentType = "answersIncomplete" | "";
 
 type Props = {
   contentType: AlertContentType
+  cancelConfirm: () => void
+  isAlertOpen: boolean
 };
 
-const AlertErrorModal: FC<Props> = ({contentType}) => {
+const AlertErrorModal: FC<Props> = ({contentType, cancelConfirm, isAlertOpen}) => {
 
   const [open, setOpen] = useState(true);
 
       return (
-       open ?  <AlertModal id="error-modal">
+       open ?  <AlertModal classN="error-modal" cancelConfirm={cancelConfirm} isAlertOpen={isAlertOpen}>
           {contentType === "answersIncomplete" ? <ErrorModalContent handleClose={() => setOpen(false)} />
           : null }
         </AlertModal>

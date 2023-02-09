@@ -5,15 +5,16 @@ import ConfirmQuit from "./Contents/ConfirmQuit";
 export type AlertContentType = "confirmQuitPlay" | "confirmSimpleQuit" | "";
 
 type Props = {
-  cancelConfirm: () => void,
+  cancelConfirm: () => void
   confirmQuitPlay: () => void
   quitTuto: () => void
   contentType: AlertContentType
+  isAlertOpen: boolean
 };
 
-const AlertMsgModal: FC<Props> = ({cancelConfirm, confirmQuitPlay, quitTuto, contentType}) => {
+const AlertMsgModal: FC<Props> = ({cancelConfirm, confirmQuitPlay, quitTuto, contentType, isAlertOpen}) => {
       return (
-        <AlertModal id="confirm-modal">
+        <AlertModal classN="confirm-modal" cancelConfirm={cancelConfirm} isAlertOpen={isAlertOpen}>
           {contentType === "confirmSimpleQuit" ? <ConfirmQuit handleClose={cancelConfirm} closeTuto={quitTuto} />
           : contentType === "confirmQuitPlay" ? <ConfirmQuit handleClose={cancelConfirm} closeTuto={confirmQuitPlay}/>
           : null }

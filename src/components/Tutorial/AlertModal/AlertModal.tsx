@@ -1,22 +1,20 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import Modal from "./Modal";
 
 type Props = {
   children: React.ReactNode
-  id: string
+  classN: string
+  cancelConfirm: () => void
+  isAlertOpen: boolean
 };
 
-const AlertModal:FC<Props> = ({children, id}) => {
-  const [alertModalOpen, setAlertModalOpen] = useState(true);
-
-  const closeAlertModal = () => setAlertModalOpen(false);
- 
+const AlertModal:FC<Props> = ({children, classN, cancelConfirm, isAlertOpen}) => { 
   return (
     <Modal 
     children={children}
-    id={id}
-    isOpen={alertModalOpen}
-    onRequestClose={closeAlertModal}
+    classN={classN}
+    isOpen={isAlertOpen}
+    onRequestClose={cancelConfirm}
     closeOnOutsideClick/>
   )
 };

@@ -78,7 +78,7 @@ const Tutorial: FC<Props> =  (props) => {
   const [status, setStatus] = useState(isTutoOn ? ENTERING : NOTUTO);
  
   const [isDialog, setisModal] = useState(false);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertType, setAlertType] = useState("" as AlertContentType);
 
   const [stepIndex, setStepIndex] = useState(defaultStep);
@@ -103,18 +103,18 @@ const Tutorial: FC<Props> =  (props) => {
 
   const alertQuitPlay = () => {
     setAlertType("confirmQuitPlay");
-    setIsConfirmOpen(true);
+    setIsAlertOpen(true);
   };
   const alertSimpleQuit = () => {
     setAlertType("confirmSimpleQuit");
-    setIsConfirmOpen(true);
+    setIsAlertOpen(true);
   };
   const closeTuto = async (pause?: boolean) => {
     if (isCorrectionActive) restoreDefault();
     changeButton.current = defaultChangeButton;
     if (!pause) {
       if (options.clefSelected !== "treble") changeClef("treble");
-      if (isConfirmOpen) setIsConfirmOpen(false);
+      if (isAlertOpen) setIsAlertOpen(false);
       activeTuto(false);
       resetTutoData();
       styling.current = steps[defaultStep].styling || {};
@@ -133,7 +133,7 @@ const Tutorial: FC<Props> =  (props) => {
   };
 
   const closeConfirmModal = () => {
-    setIsConfirmOpen(false);
+    setIsAlertOpen(false);
     setAlertType("");
   };
 
@@ -270,7 +270,8 @@ const Tutorial: FC<Props> =  (props) => {
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDialog, nodes, step]);
-
+  console.log("isAlertOpen", isAlertOpen);
+  
   if (isDialog) {
 
     if (step.func) step.func(changeButton.current, options, nodes);
@@ -298,10 +299,13 @@ const Tutorial: FC<Props> =  (props) => {
       backToZero: step.backToZero ? true : false
     };
 
+
+
+
     return (
       <TutoDialog id="tuto--dialog" modalClassName={modalClassName} isOpen={isDialog} styling={styling.current}>
         <TutoContent {...contentProps} />
-        {isConfirmOpen ? <AlertModal confirmQuitPlay={confirmQuitPlay} cancelConfirm={closeConfirmModal} quitTuto={quitTuto} contentType={alertType}/> : null}
+        {isAlertOpen ? <AlertModal confirmQuitPlay={confirmQuitPlay} cancelConfirm={closeConfirmModal} quitTuto={quitTuto} contentType={alertType} isAlertOpen={isAlertOpen}/> : null}
       </TutoDialog>
       
     );

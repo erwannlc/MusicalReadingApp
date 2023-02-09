@@ -1,12 +1,12 @@
 import { useRef, useEffect, FC, MouseEvent, TouchEvent } from "react";
 import "./confirm-modal.scss"
 
-// thx to https://codesandbox.io/u/souporserious
+// thx to https://souporserious.com/build-a-dialog-component-in-react/
 type Props = {
   children: React.ReactNode
   isOpen: boolean
   onRequestClose: () => void
-  id: string
+  classN: string
   closeOnOutsideClick: boolean
 };
 
@@ -14,7 +14,7 @@ const Dialog: FC<Props> = ({
   children,
   isOpen,
   onRequestClose,
-  id,
+  classN,
   closeOnOutsideClick,
 }) => {
   const confirmModalRef = useRef<HTMLDialogElement>(null);
@@ -61,7 +61,7 @@ const Dialog: FC<Props> = ({
   }
 
   return (
-    <dialog ref={confirmModalRef} id={id} className="modal" onClick={handleOutsideClick}>
+    <dialog ref={confirmModalRef} className={classN} onClick={handleOutsideClick}>
       {children}
     </dialog>
   );
