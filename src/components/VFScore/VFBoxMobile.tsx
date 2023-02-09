@@ -10,15 +10,15 @@ type Props = {
  level: string
  levelNum: number
  clefSelected: string
- Treble: StaveClef
- Bass: StaveClef
- both: BothClefs
+ trebleData: StaveClef
+ bassData: StaveClef
+ bothClefsData: BothClefs
  gameLength: number
  updateNodes: (key: NodesKeys, obj: NodeObj) => void
  outputNode: HTMLElement | null
 };
 
-const VFBoxMobile: FunctionComponent<Props> = ({level, levelNum, clefSelected, Treble, Bass, both, gameLength, updateNodes, outputNode}) => {
+const VFBoxMobile: FunctionComponent<Props> = ({level, levelNum, clefSelected, trebleData, bassData, bothClefsData, gameLength, updateNodes, outputNode}) => {
 
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
@@ -31,7 +31,7 @@ const VFBoxMobile: FunctionComponent<Props> = ({level, levelNum, clefSelected, T
   }, [outputMobileNode, updateNodes]);
 
  useEffect(() => {
-  createMobileStaves(level, Treble, Bass, both, gameLength, outputMobileNode.node).then(() => renderVFEmptyStave(clefSelected))
+  createMobileStaves(level, trebleData, bassData, bothClefsData, gameLength, outputMobileNode.node).then(() => renderVFEmptyStave(clefSelected))
  // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
   

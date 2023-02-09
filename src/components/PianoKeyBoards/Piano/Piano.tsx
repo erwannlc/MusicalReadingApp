@@ -304,7 +304,7 @@ useEffect(() => { // handle piano played on keyboard
   } 
 }, [isMobile, playKey, pressedNotes, stopKey]);
 
-classN.Q += `${isTutoNotes ? " tuto" : ""}`; // highligts both C touches for tutorial 
+classN.Q += `${isTutoNotes ? " tuto" : ""}`; // highligts bothClefsData C touches for tutorial 
 classN.K += `${isTutoNotes ? " tuto" : ""}`;
 
   return (

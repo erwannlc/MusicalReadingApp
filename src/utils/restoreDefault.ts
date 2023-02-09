@@ -13,7 +13,7 @@ const restoreDefault = (
   isMobile: boolean
   ) => {
     console.log("restoringDefault");
-    const staveType = clefSelected === "bothClefs" ? "both" : "simple";
+    const staveType = clefSelected === "bothClefs" ? "bothClefsData" : "simple";
     hideNotes(staveType, outputNode, gameLength, isMobile);
     resetStavesData();
     displayScoreCircle(-1);

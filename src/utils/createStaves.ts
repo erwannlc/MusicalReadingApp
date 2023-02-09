@@ -22,24 +22,24 @@ const generateRandomNote = (i: number, level: string, staveClef: StaveClef) => {
   };
 };
 
-const generateNotes = async (level: string, Treble: StaveClef, Bass:StaveClef, both:BothClefs, gameLength: number) => {
-  Treble.notesArray = [];
-  Bass.notesArray = [];
-  Treble.solution = [];
-  Bass.solution = [];
-  both.solution = [];
-  both.notesIndex = [];
+const generateNotes = async (level: string, trebleData: StaveClef, bassData:StaveClef, bothClefsData:BothClefs, gameLength: number) => {
+  trebleData.notesArray = [];
+  bassData.notesArray = [];
+  trebleData.solution = [];
+  bassData.solution = [];
+  bothClefsData.solution = [];
+  bothClefsData.notesIndex = [];
   for (let i=1; i<(gameLength + 1); i++) {
-    generateRandomNote(i, level, Treble);
-    generateRandomNote(i, level, Bass);
-    Treble.notes = Treble.notesArray.toString();
-    Bass.notes = Bass.notesArray.toString();
+    generateRandomNote(i, level, trebleData);
+    generateRandomNote(i, level, bassData);
+    trebleData.notes = trebleData.notesArray.toString();
+    bassData.notes = bassData.notesArray.toString();
   };
 };
 
-export const createNotes = async (level: string, Treble: StaveClef, Bass:StaveClef, both:BothClefs, gameLength: number) =>  {
+export const createNotes = async (level: string, trebleData: StaveClef, bassData:StaveClef, bothClefsData:BothClefs, gameLength: number) =>  {
   try {
-    await generateNotes(level, Treble, Bass, both, gameLength);
+    await generateNotes(level, trebleData, bassData, bothClefsData, gameLength);
   }
   catch (error) {
     console.error(`A problem occurs: ${error}`);
@@ -50,42 +50,42 @@ const removeNodes = async (outputNode: HTMLElement | null) => {
   if (outputNode) outputNode.innerHTML = "";
 };
 
-export const createStaves = async (level: string, levelNum: number, clefSelected:string, Treble: StaveClef, Bass:StaveClef, both:BothClefs, gameLength: number, outputNode: HTMLElement | null) => {
-  createNotes(level, Treble, Bass, both, gameLength)
-  .then (() => renderVFScore(clefSelected, Treble, Bass, levelNum, gameLength))
-  .then (() => modifyNodes(clefSelected, Treble, Bass, both, gameLength, outputNode))
+export const createStaves = async (level: string, levelNum: number, clefSelected:string, trebleData: StaveClef, bassData:StaveClef, bothClefsData:BothClefs, gameLength: number, outputNode: HTMLElement | null) => {
+  createNotes(level, trebleData, bassData, bothClefsData, gameLength)
+  .then (() => renderVFScore(clefSelected, trebleData, bassData, levelNum, gameLength))
+  .then (() => modifyNodes(clefSelected, trebleData, bassData, bothClefsData, gameLength, outputNode))
 };
 
-export const createMobileStaves = async (level: string, Treble: StaveClef, Bass:StaveClef, both:BothClefs, gameLength: number, outputMobileNode: HTMLElement | null) => {
+export const createMobileStaves = async (level: string, trebleData: StaveClef, bassData:StaveClef, bothClefsData:BothClefs, gameLength: number, outputMobileNode: HTMLElement | null) => {
   removeNodes(outputMobileNode)
-  .then(() => createNotes(level, Treble, Bass, both, gameLength))
-  .then(() => createBothMobileData(both, Treble, Bass, gameLength))
+  .then(() => createNotes(level, trebleData, bassData, bothClefsData, gameLength))
+  .then(() => createBothMobileData(bothClefsData, trebleData, bassData, gameLength))
 };
 
-export const createNewStaves = async(level: string, levelNum: number, clefSelected:string, Treble: StaveClef, Bass:StaveClef, both:BothClefs, gameLength: number, outputNode: HTMLElement | null) => {
+export const createNewStaves = async(level: string, levelNum: number, clefSelected:string, trebleData: StaveClef, bassData:StaveClef, bothClefsData:BothClefs, gameLength: number, outputNode: HTMLElement | null) => {
   removeNodes(outputNode)
-  .then(() => createStaves(level, levelNum, clefSelected, Treble, Bass, both, gameLength, outputNode))
+  .then(() => createStaves(level, levelNum, clefSelected, trebleData, bassData, bothClefsData, gameLength, outputNode))
 };
 
 // Create Tutorial's staves :
-const createTutoNotes = async (Treble: StaveClef, Bass:StaveClef, both:BothClefs) => {
-  Treble.notesArray = tutoPlayData.trebleNotesArray;
-  Bass.notesArray = tutoPlayData.bassNotesArray;
-  Treble.solution = tutoPlayData.solution;
-  Bass.solution = tutoPlayData.solution;
-  both.solution = [];
-  Treble.notes = Treble.notesArray.toString();
-  Bass.notes = Bass.notesArray.toString();
+const createTutoNotes = async (trebleData: StaveClef, bassData:StaveClef, bothClefsData:BothClefs) => {
+  trebleData.notesArray = tutoPlayData.trebleNotesArray;
+  bassData.notesArray = tutoPlayData.bassNotesArray;
+  trebleData.solution = tutoPlayData.solution;
+  bassData.solution = tutoPlayData.solution;
+  bothClefsData.solution = [];
+  trebleData.notes = trebleData.notesArray.toString();
+  bassData.notes = bassData.notesArray.toString();
 };
 
-export const createTutoStave = async(clefSelected:string, Treble: StaveClef, Bass:StaveClef, both:BothClefs, outputNode: HTMLElement | null) => {
+export const createTutoStave = async(clefSelected:string, trebleData: StaveClef, bassData:StaveClef, bothClefsData:BothClefs, outputNode: HTMLElement | null) => {
   removeNodes(outputNode)
-  .then(() => createTutoNotes(Treble, Bass, both))
-  .then (() => renderVFScore(clefSelected, Treble, Bass, 1, 5))
-  .then (() => modifyNodes(clefSelected, Treble, Bass, both, 5, outputNode))
+  .then(() => createTutoNotes(trebleData, bassData, bothClefsData))
+  .then (() => renderVFScore(clefSelected, trebleData, bassData, 1, 5))
+  .then (() => modifyNodes(clefSelected, trebleData, bassData, bothClefsData, 5, outputNode))
 };
-export const createTutoMobileStave = async(Treble: StaveClef, Bass:StaveClef, both:BothClefs, outputNode: HTMLElement | null) => {
+export const createTutoMobileStave = async(trebleData: StaveClef, bassData:StaveClef, bothClefsData:BothClefs, outputNode: HTMLElement | null) => {
   removeNodes(outputNode)
-  .then(() => createTutoNotes(Treble, Bass, both))
-  .then(() => createBothMobileData(both, Treble, Bass, 5))
+  .then(() => createTutoNotes(trebleData, bassData, bothClefsData))
+  .then(() => createBothMobileData(bothClefsData, trebleData, bassData, 5))
 };

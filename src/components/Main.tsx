@@ -44,14 +44,15 @@ const Main: FunctionComponent = () => {
   const handleMessage = (message: MessageObj) => setMessage({...message});
 
   // Musical data
-  const [Treble, setTreble] = useState(treble as StaveClef);
-  const [Bass, setBass] = useState(bass as StaveClef);
-  const [both, setBoth] = useState(bothClefs as BothClefs);
+  const [trebleData, setTreble] = useState(treble as StaveClef);
+  const [bassData, setBass] = useState(bass as StaveClef);
+  const [bothClefsData, setBoth] = useState(bothClefs as BothClefs);
   const resetStavesData = () => {
-    setTreble(Treble => ({...Treble, notesArray: [], notes: "", solution: []}));
-    setBass(Bass => ({...Bass, notesArray: [], notes: "", solution: []}));
+    setTreble(trebleData => ({...trebleData, notesArray: [], notes: "", solution: []}));
+    setBass(bassData => ({...bassData, notesArray: [], notes: "", solution: []}));
     setBoth(bothClefs);
   };
+  
 
   // Game handling
   const gameLength = 12;
@@ -95,9 +96,9 @@ const Main: FunctionComponent = () => {
   // Props
   const playGameProps = {
     options,
-    Treble, 
-    Bass, 
-    both, 
+    trebleData, 
+    bassData, 
+    bothClefsData, 
     handleMessage,
     isPlaying,
     setIsPlaying,
@@ -118,9 +119,9 @@ const Main: FunctionComponent = () => {
     isPlaying,
     scaleA,
     clefSelected: options.clefSelected, 
-    Treble, 
-    Bass, 
-    both, 
+    trebleData, 
+    bassData, 
+    bothClefsData, 
     handleMessage: (message: MessageObj) => handleMessage(message),
     displayPiano,
     isGameStopped,
@@ -139,9 +140,9 @@ const Main: FunctionComponent = () => {
     level: options.level,
     levelNum: options.levelNum,
     clefSelected: options.clefSelected,
-    Treble,
-    Bass,
-    both,
+    trebleData,
+    bassData,
+    bothClefsData,
     gameLength,
     updateNodes,
     outputNode: nodes.vexScoreOutput?.node,
@@ -186,8 +187,8 @@ const Main: FunctionComponent = () => {
     isTutoOn,
     tutoPlay,
     restoreDefault: () => restoreDefault(handleMessage, options.clefSelected, nodes.vexScoreOutput.node, 5, resetStavesData, displayScoreCircle, isMobile),
-    Treble,
-    Bass,
+    trebleData,
+    bassData,
     isMobile,
     isPlaying,
     setIsPlaying,

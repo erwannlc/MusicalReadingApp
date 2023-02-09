@@ -52,7 +52,7 @@ export const stopPlaying = (
     };
     time = 3;
     handleMessage(stopMsg);
-    const staveType = clefSelected === "bothClefs" ? "both" : "simple";
+    const staveType = clefSelected === "bothClefs" ? "bothClefsData" : "simple";
     hideNotes(staveType, outputNode, gameLength, isMobile);
     resetStavesData();
     setTimeout(() => {
@@ -60,27 +60,27 @@ export const stopPlaying = (
     }, 1000);
 };
 
-const playMobile = (current: number, clef: string, Treble: StaveClef, Bass: StaveClef, both: BothClefs, levelNum: number, gameLength: number, outputNode: HTMLElement | null) => {
+const playMobile = (current: number, clef: string, trebleData: StaveClef, bassData: StaveClef, bothClefsData: BothClefs, levelNum: number, gameLength: number, outputNode: HTMLElement | null) => {
   if (current > gameLength) return;
   if (outputNode) outputNode.innerHTML = "";
   if (clef ==="bothClefs") {
-    const staveClef = (both.mobileNotesArray && both.mobileNotesArray[current - 1][0]) as string;
-    const note = (both.mobileNotesArray && both.mobileNotesArray[current - 1][1]) as string;
+    const staveClef = (bothClefsData.mobileNotesArray && bothClefsData.mobileNotesArray[current - 1][0]) as string;
+    const note = (bothClefsData.mobileNotesArray && bothClefsData.mobileNotesArray[current - 1][1]) as string;
     renderVFScoreMobile(note, staveClef, levelNum);
   } else {
-    const notesArray = clef === "treble" ? Treble.notesArray : Bass.notesArray;
+    const notesArray = clef === "treble" ? trebleData.notesArray : bassData.notesArray;
     const note = notesArray[current - 1];  
     renderVFScoreMobile(note, clef, levelNum);
   };
 };
 
-async function displayNote (current: number, clef: string, outputNode: HTMLElement | null, both: BothClefs ) {
+async function displayNote (current: number, clef: string, outputNode: HTMLElement | null, bothClefsData: BothClefs ) {
   switch (clef) {
     case "treble": 
     case "bass": outputNode?.firstElementChild?.children[current].classList.remove("hidden");
       break;
     case "bothClefs":
-      const noteIndex = both.notesIndex[current - 1]
+      const noteIndex = bothClefsData.notesIndex[current - 1]
       outputNode?.firstElementChild?.children[noteIndex].classList.remove("hidden");
      break;
   };
@@ -92,9 +92,9 @@ export const playGame = (
   level: string, 
   levelNum: number,
   clefSelected: string, 
-  Treble: StaveClef, 
-  Bass: StaveClef, 
-  both: BothClefs,
+  trebleData: StaveClef, 
+  bassData: StaveClef, 
+  bothClefsData: BothClefs,
   isMobile: boolean,
   handleMessage: (message: MessageObj) => void,
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
@@ -124,8 +124,8 @@ export const playGame = (
       };
       padsDiv.classList.remove("disable");
       const callFunc = async () => {
-        isMobile ? playMobile(current, clefSelected, Treble, Bass, both, levelNum, gameLength, outputNode) 
-        : displayNote(current, clefSelected, outputNode, both);
+        isMobile ? playMobile(current, clefSelected, trebleData, bassData, bothClefsData, levelNum, gameLength, outputNode) 
+        : displayNote(current, clefSelected, outputNode, bothClefsData);
         changeProgressBarID(current.toString());
       };  
       if (isOnPlay) {
@@ -161,10 +161,10 @@ export const playGame = (
     if (isMobile) {
       appNode?.classList.remove("while-correction");
       vexbox.classList.remove("while-correction");
-      createMobileStaves(level, Treble, Bass, both, gameLength, outputNode)
+      createMobileStaves(level, trebleData, bassData, bothClefsData, gameLength, outputNode)
       .then(() => setTimeout(countdown));  
     } else {
-      createNewStaves(level, levelNum, clefSelected, Treble, Bass, both, gameLength, outputNode)
+      createNewStaves(level, levelNum, clefSelected, trebleData, bassData, bothClefsData, gameLength, outputNode)
       .then(() => setTimeout(countdown));  
     };
 };
@@ -173,7 +173,7 @@ export const playGame = (
 /////// Tutorial handle game ---------------------------------------------------------------->
 
 export const playTuto = (
-  Treble: StaveClef, 
+  trebleData: StaveClef, 
   isMobile: boolean,
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
   changeProgressBarID: (id: string | null) => void,
@@ -186,10 +186,10 @@ export const playTuto = (
     setIsPlaying(false);
   }, (0));
 
-  const playTutoMobile = (current: number, Treble: StaveClef) => {
+  const playTutoMobile = (current: number, trebleData: StaveClef) => {
     if (current > gameLength) return;
     if (outputNode) outputNode.innerHTML = "";
-    const notesArray = Treble.notesArray;
+    const notesArray = trebleData.notesArray;
     const note = notesArray[current - 1];  
     renderVFScoreMobile(note, "treble", 1);
   };
@@ -202,7 +202,7 @@ export const playTuto = (
       endTutoGame();
     };
     const callFunc = async () => {
-      isMobile ? playTutoMobile(current, Treble) 
+      isMobile ? playTutoMobile(current, trebleData) 
       : outputNode?.firstElementChild?.children[current].classList.remove("hidden"); 
         changeProgressBarID(current.toString());
     };
@@ -223,9 +223,9 @@ export const playTuto = (
 
 export const createTutoGame = (
   clefSelected: string, 
-  Treble: StaveClef, 
-  Bass: StaveClef, 
-  both: BothClefs,
+  trebleData: StaveClef, 
+  bassData: StaveClef, 
+  bothClefsData: BothClefs,
   isMobile: boolean,
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
   handleMessage: (message: MessageObj) => void,
@@ -249,8 +249,8 @@ export const createTutoGame = (
   if (isMobile) {
     vexbox.classList.remove("while-correction");
     appNode?.classList.remove("while-correction");
-    createTutoMobileStave(Treble, Bass, both, outputNode);
+    createTutoMobileStave(trebleData, bassData, bothClefsData, outputNode);
   } else {
-    createTutoStave(clefSelected, Treble, Bass, both, outputNode);
+    createTutoStave(clefSelected, trebleData, bassData, bothClefsData, outputNode);
   };
 };

@@ -2,7 +2,7 @@ import { Vex } from "vexflow";
 
 import { StaveClef } from "../types/Clefs";
 
-const renderVFSCore = (clefSelected: string, Treble: StaveClef, Bass:StaveClef, level: number, gameLength: number) => {
+const renderVFSCore = (clefSelected: string, trebleData: StaveClef, bassData:StaveClef, level: number, gameLength: number) => {
   const containerWidth = 575;
   const containerHeight = clefSelected === "bothClefs" ? (level > 3 ? level > 4 ? level > 5 ? 380 : 350 : 320 : 300) : 250;
   const staveWidth = 500;
@@ -25,7 +25,7 @@ const renderVFSCore = (clefSelected: string, Treble: StaveClef, Bass:StaveClef, 
     const scoreG = vf.EasyScore();
     system.addStave({
       voices: [
-        scoreG.voice(scoreG.notes(Treble.notes), 
+        scoreG.voice(scoreG.notes(trebleData.notes), 
         {time: `${gameLength.toString()}/4`}),
       ]
     }).addClef("treble")
@@ -35,7 +35,7 @@ const renderVFSCore = (clefSelected: string, Treble: StaveClef, Bass:StaveClef, 
     const scoreF = vf.EasyScore();
     system.addStave({
       voices: [
-        scoreF.voice(scoreF.notes(Bass.notes, {clef: "bass"}), 
+        scoreF.voice(scoreF.notes(bassData.notes, {clef: "bass"}), 
         {time: `${gameLength.toString()}/4`}),
       ]
     }).addClef("bass")

@@ -15,9 +15,9 @@ type Props = {
   isPlaying: boolean
   scaleA: {[key: string]: string}
   clefSelected: ClefSelected
-  Treble: StaveClef 
-  Bass: StaveClef 
-  both: BothClefs
+  trebleData: StaveClef 
+  bassData: StaveClef 
+  bothClefsData: BothClefs
   handleMessage: (message: MessageObj) => void
   displayPiano: boolean
   isGameStopped: boolean
@@ -39,7 +39,7 @@ const QUITGAME = 2;
 const NOGAME = 3;
 
 const PianoHandle: FC<Props> = (props) => {
-  const {isPlaying, scaleA, clefSelected, Treble, Bass, both, 
+  const {isPlaying, scaleA, clefSelected, trebleData, bassData, bothClefsData, 
     handleMessage, displayPiano, isGameStopped, isMobile, 
     gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, appNode, tutoData} = props;
 
@@ -106,13 +106,13 @@ const PianoHandle: FC<Props> = (props) => {
   const handleAnswersByClef = (args : Args, clefSelected: ClefSelected) => {
     switch(clefSelected) {
       case "treble" : 
-        handleAnswers(Treble.solution, ...args);
+        handleAnswers(trebleData.solution, ...args);
         break; 
       case "bass" :
-        handleAnswers(Bass.solution, ...args);
+        handleAnswers(bassData.solution, ...args);
         break;
       case "bothClefs" :
-        handleAnswers(both.solution, ...args, both.notesIndex);
+        handleAnswers(bothClefsData.solution, ...args, bothClefsData.notesIndex);
         break;
     };
   };
@@ -130,7 +130,7 @@ const PianoHandle: FC<Props> = (props) => {
     if (userAnswers.length > 0 && (userAnswers.length < actualGameLength) ) {
       if (isTutoActive) {
         completeTutoAnswers(userAnswers)
-          .then(() => handleAnswers(Treble.solution, ...args))
+          .then(() => handleAnswers(trebleData.solution, ...args))
           .then(() => setTimeout(() => stopTutoPlay(), 0));
       } else {
         handleError(resetAnswer, handleMessage, "incompleteAnswer");

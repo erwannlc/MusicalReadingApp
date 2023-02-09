@@ -24,7 +24,7 @@ type Props = {
   activeTutoPlay: (option: string, value: string | boolean) => void
   tutoPlay: {isActive: boolean, answer: string}
   restoreDefault: () => void
-  Treble: StaveClef
+  trebleData: StaveClef
   isMobile: boolean
   isPlaying: boolean
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
@@ -57,7 +57,7 @@ const Tutorial: FC<Props> =  (props) => {
     activeTutoPlay, 
     tutoPlay, 
     restoreDefault, 
-    Treble, 
+    trebleData, 
     isMobile, 
     isPlaying, 
     setIsPlaying, 
@@ -279,7 +279,7 @@ const Tutorial: FC<Props> =  (props) => {
       const outputNode = isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node;
       closeTuto(true)
       .then(() => changeTutoData("stopBtn", {isTuto: false, disabled: true}))
-      .then(() => playTuto(Treble, isMobile, setIsPlaying, changeProgressBarID, outputNode));
+      .then(() => playTuto(trebleData, isMobile, setIsPlaying, changeProgressBarID, outputNode));
     };
 
     const handleClose = () => 

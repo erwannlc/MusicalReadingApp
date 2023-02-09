@@ -10,9 +10,9 @@ import PlayStopBtn from "./PlayStopBtn";
 
 type Props = {
   options: Options
-  Treble: StaveClef 
-  Bass: StaveClef 
-  both: BothClefs
+  trebleData: StaveClef 
+  bassData: StaveClef 
+  bothClefsData: BothClefs
   handleMessage: (message: MessageObj) => void
   isPlaying: boolean
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
@@ -33,9 +33,9 @@ type Props = {
 const PlayBtn: FunctionComponent<Props> = (props) => {
   const {
     options,
-    Treble, 
-    Bass, 
-    both, 
+    trebleData, 
+    bassData, 
+    bothClefsData, 
     handleMessage,
     isPlaying,
     setIsPlaying,
@@ -63,7 +63,7 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
     } else {
       isTutoOn ? createTutoGame(
         options.clefSelected, 
-        Treble, Bass, both, 
+        trebleData, bassData, bothClefsData, 
         isMobile, 
         setIsPlaying, 
         handleMessage, 
@@ -78,7 +78,7 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
         options.level, 
         options.levelNum, 
         options.clefSelected, 
-        Treble, Bass, both, 
+        trebleData, bassData, bothClefsData, 
         isMobile, 
         handleMessage, 
         setIsPlaying, 

@@ -42,7 +42,7 @@ const SimpleMetalButton:FC<Props> = ({chooseClef, updateNodes, clefSelected, hig
   const clefsTooltips = {
     treble: "Clef de sol",
     bass: "Clef de fa",
-    both: "Clef de sol & clef de fa"
+    bothClefsData: "Clef de sol & clef de fa"
   }; 
 
   let clefsClass = highlight ? "clefs-buttons tuto" : "clefs-buttons";
@@ -54,7 +54,7 @@ const SimpleMetalButton:FC<Props> = ({chooseClef, updateNodes, clefSelected, hig
       <div className={classN.bothClefs}>𝄞 𝄢</div>
       <button className="metal-button" data-clef="treble" onClick={handleClick} title={clefsTooltips.treble}></button>
       <button className="metal-button" data-clef="bass" onClick={handleClick} title={clefsTooltips.bass}></button>
-      <button className="metal-button" data-clef="bothClefs" onClick={handleClick} title={clefsTooltips.both}></button>
+      <button className="metal-button" data-clef="bothClefs" onClick={handleClick} title={clefsTooltips.bothClefsData}></button>
     
     </div>
   )

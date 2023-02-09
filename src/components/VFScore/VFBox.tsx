@@ -8,15 +8,15 @@ type Props = {
  level: string
  levelNum: number
  clefSelected: string
- Treble: StaveClef
- Bass: StaveClef
- both: BothClefs
+ trebleData: StaveClef
+ bassData: StaveClef
+ bothClefsData: BothClefs
  gameLength: number
  updateNodes: (key: NodesKeys, obj: NodeObj) => void
  highlight: boolean
 };
 
-const VFBox: FunctionComponent<Props> = ({level, levelNum, clefSelected, Treble, Bass, both, gameLength, updateNodes, highlight}) => {
+const VFBox: FunctionComponent<Props> = ({level, levelNum, clefSelected, trebleData, bassData, bothClefsData, gameLength, updateNodes, highlight}) => {
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
     updateNodes("vexScore", nodeObj);
@@ -28,7 +28,7 @@ const VFBox: FunctionComponent<Props> = ({level, levelNum, clefSelected, Treble,
 
   useEffect(() => {
     if (outputNode.node) {
-      createStaves(level, levelNum, clefSelected, Treble, Bass, both, gameLength, outputNode.node);
+      createStaves(level, levelNum, clefSelected, trebleData, bassData, bothClefsData, gameLength, outputNode.node);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [outputNode.node]);
