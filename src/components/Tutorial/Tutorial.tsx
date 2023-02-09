@@ -89,7 +89,7 @@ const Tutorial: FC<Props> =  (props) => {
 
   const step = steps[stepIndex];
   const pointerClassName: string = step.pointer || "toUp";
-  let modalClassName = `${pointerClassName}`;
+  let modalClassName = `tuto--dialog ${pointerClassName}`;
 
   const styling = useRef(step.styling || {} as CSSPropertiesWithVars);
   
@@ -298,11 +298,8 @@ const Tutorial: FC<Props> =  (props) => {
       backToZero: step.backToZero ? true : false
     };
 
-
-
-
     return (
-      <TutoDialog id="tuto--dialog" modalClassName={modalClassName} isOpen={isDialog} styling={styling.current}>
+      <TutoDialog modalClassName={modalClassName} isOpen={isDialog} styling={styling.current}>
         <TutoContent {...contentProps} />
         {isAlertOpen ? <AlertModal confirmQuitPlay={confirmQuitPlay} cancelConfirm={closeConfirmModal} quitTuto={quitTuto} contentType={alertType} isAlertOpen={isAlertOpen}/> : null}
       </TutoDialog>

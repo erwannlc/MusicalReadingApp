@@ -54,7 +54,7 @@ const GameScore: FC<Props> = ({isModal, scoreNumber, gameLength, isMobile}) => {
               <circle cx="55" cy="55" r="50" id="scoreCircle" className={className.scoreCircle}> </circle>
               {/* <circle cx="80" cy="80" r="70" id="scoreCircle" className="progressbar__svg-circle shadow-node"> </circle> */}
             </svg>
-            <span id="score-txt" className={className.scoreTxt}>{scoreTxt}</span>
+            <span className={className.scoreTxt}>{scoreTxt}</span>
           </div>
         </div>
       </div>

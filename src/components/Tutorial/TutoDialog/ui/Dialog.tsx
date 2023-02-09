@@ -7,12 +7,11 @@ import "../tuto-dialog.scss";
 type Props = {
   children: React.ReactNode
   isOpen: boolean
-  id: string
   modalClassName: string
   styling: CSSPropertiesWithVars
 };
 
-const Dialog: FC<Props> = ({ children, isOpen, id, modalClassName, styling}) => {
+const Dialog: FC<Props> = ({ children, isOpen, modalClassName, styling}) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
  
   useEffect(() => {
@@ -26,7 +25,8 @@ const Dialog: FC<Props> = ({ children, isOpen, id, modalClassName, styling}) => 
     };
   }, [isOpen]);
 
-  return <dialog ref={dialogRef} id={id} className={modalClassName} style={styling}>{children}</dialog>;
+  return <dialog ref={dialogRef} className={modalClassName} style={styling}>{children}</dialog>;
+  // return <dialog ref={dialogRef} id={id} className={modalClassName} style={styling}>{children}</dialog>;
 };
 
 export default Dialog;
