@@ -70,13 +70,13 @@ const Pads: FC<Props> = ({onPlay, isTuto, isTutoPlay, updateNodes, tutoData}) =>
   return (
     <div id="pianoKeyboard">
       <div ref={padsRef} className={classN}>
-      <button id="C-btn" data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>Do</button>
-        <button id="D-btn" data-note="D" onMouseDown={pressNote} onTouchStart={touchNote}>Ré</button>
-        <button id="E-btn" data-note="E" onMouseDown={pressNote} onTouchStart={touchNote}>Mi</button>
-        <button id="F-btn" data-note="F" onMouseDown={pressNote} onTouchStart={touchNote}>Fa</button>
-        <button ref={padGRef} className={padGClassN} id="G-btn" data-note="G" onMouseDown={pressNote} onTouchStart={touchNote}>Sol</button>
-        <button id="A-btn" data-note="A" onMouseDown={pressNote} onTouchStart={touchNote}>La</button>
-        <button id="B-btn" data-note="B" onMouseDown={pressNote} onTouchStart={touchNote}>Si</button>
+      <button data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>Do</button>
+        <button data-note="D" onMouseDown={pressNote} onTouchStart={touchNote}>Ré</button>
+        <button data-note="E" onMouseDown={pressNote} onTouchStart={touchNote}>Mi</button>
+        <button data-note="F" onMouseDown={pressNote} onTouchStart={touchNote}>Fa</button>
+        <button ref={padGRef} className={padGClassN} data-note="G" onMouseDown={pressNote} onTouchStart={touchNote}>Sol</button>
+        <button data-note="A" onMouseDown={pressNote} onTouchStart={touchNote}>La</button>
+        <button data-note="B" onMouseDown={pressNote} onTouchStart={touchNote}>Si</button>
       </div>
     </div>
   )
