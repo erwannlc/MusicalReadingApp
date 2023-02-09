@@ -12,8 +12,6 @@ div.tempo {
     display: grid;
     justify-content: center;
     align-items: center;
-    // grid-template-columns: 1fr 1fr;
-    // grid-gap: 5em;
   }
 
   .knob {
@@ -33,7 +31,6 @@ div.tempo {
   }
   .knob .ticks .tick.active {
     box-shadow: inset 0 0 5px 2px $knob-color1, 0 0 0 1px $knob-color2;
-    // box-shadow: inset 0 0 5px 2px #ec5050, 0 0 0 1px rgb(153, 51, 51);
   }
   .knob.outer {
     border-radius: 50%;
@@ -54,7 +51,6 @@ div.tempo {
     transform: translateX(-50%);
     border-radius: 50%;
     background: $knob-color1;
-    // background: #ae0404;
     box-shadow: 0 0 3px 1px black;
   }
 }

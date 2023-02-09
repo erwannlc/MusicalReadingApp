@@ -134,7 +134,6 @@ const Main: FunctionComponent = () => {
     nodes: nodes,
     appNode: appNode,
     tutoData
-    // tempoTime: options.intervalTime
   };
   const VFScoreProps = {
     level: options.level,
@@ -201,7 +200,6 @@ const Main: FunctionComponent = () => {
     closePiano: () => setDisplayPiano(false),
     nodes: nodes,
     changeProgressBarID: changeProgressBarID,
-    // resetTutoData: useCallback(() => resetTutoData(), []),
     resetTutoData,
     changeTutoData: useCallback((component: TutoDataKeys, value: {isTuto?: boolean, disabled?: boolean}) => {
       if (value) modifyTutoData(component, value);

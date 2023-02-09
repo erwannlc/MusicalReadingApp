@@ -1,5 +1,4 @@
 import { useRef, useEffect, FC } from "react";
-// import type { StylingObj } from "../../../types/TutoStylingByStep";
 import type { CSSPropertiesWithVars } from "../../../../types/CSSPropertiesWithVars";
 import "../tuto-dialog.scss";
 

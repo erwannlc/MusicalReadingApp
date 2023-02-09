@@ -48,7 +48,7 @@ const LAUNCHGAME = 2;
 const QUITGAME = 3;
 const NOTUTO = 5;
 
-const defaultStep = 0; // test in dev
+const defaultStep = 0; 
 
 const Tutorial: FC<Props> =  (props) => {
   const {options, 

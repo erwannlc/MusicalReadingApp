@@ -5,9 +5,9 @@ import ProgressBar from "./ProgressBar";
 import type { MessageObj } from "../../types/MessageObj";
 import type { Options } from "../../types/Options";
 import type { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
+import type { TutoData } from "../../types/TutoTypes";
 import useClientRect, { NodeObj } from "../../utils/Hooks/useClientRect";
 import "./game-messages.scss";
-import { TutoData } from "../../types/TutoTypes";
 
 type Props = {
  message: MessageObj
@@ -24,7 +24,6 @@ type Props = {
  tutoData: TutoData
 };
 
-// type PartialProps = Omit<Props, "isPlaying" | "options" | "handleMessage" | "scoreNumber" | "gameLength" | "showOptions" | "tempoTime" | "progressBarId" | "isTutoOn" | "TutoData" >
 type MessageDivProps = {
   message: MessageObj
   updateNodes: (key: NodesKeys, obj: NodeObj) => void

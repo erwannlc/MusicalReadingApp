@@ -7,8 +7,8 @@ import type { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
 import type { Options } from "../../types/Options";
 import type { ClefSelected } from "../../types/Clefs";
+import type { TutoData } from "../../types/TutoTypes";
 import "./options.scss";
-import { TutoData } from "../../types/TutoTypes";
 
 type Props = {
   changeTimer: (interval: number, tempoNum: number) => void
@@ -32,7 +32,6 @@ const OptionsPanel: FunctionComponent <Props>= (props) => {
       <Levels changeLevel={changeLevel}/>
       <Clef changeClef={changeClef} updateNodes={updateNodes} clefSelected={options.clefSelected} highlight={tutoData.clefs.isTuto}/>
       <SwitchPiano switchPiano={switchPiano} isPiano={displayPiano}  updateNodes={updateNodes} tutoData={tutoData.switchPiano}/>
-      {/* {!isMobile && <SwitchPiano switchPiano={switchPiano}/>} */}
     </div>
   )
 };

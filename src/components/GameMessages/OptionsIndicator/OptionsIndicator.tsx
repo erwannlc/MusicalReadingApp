@@ -61,10 +61,7 @@ const OptionsIndicator: FC<Props> = ({options, showOptions, updateNodes, tutoDat
     level: `Niveau de difficulté : ${options.levelNum} sur 6 (${indicators.fr.levelTxt})`
   };
 
-  // let classN = isIndicatorTooLarge ? "options-indicator largest" : "options-indicator";
-  // classN += tutoData.isTuto ? " tuto" : "";
-  // className += tutoData.disabled ? " disable" : "";
-  useEffect(() => {
+  useEffect(() => { // className handling
     const isIndicatorTooLarge: boolean = (options.clefSelected === "bothClefs") && (options.intervalTime < 1001) ? true : false;
     let className = isIndicatorTooLarge ? "options-indicator largest" : "options-indicator";
     className += tutoData.isTuto ? " tuto" : "";

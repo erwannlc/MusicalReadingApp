@@ -39,7 +39,6 @@ div.clefs-buttons {
     font-size: 140%;
     color: rgba(255, 255, 255, 0.242);
     transition: color 0.3s ease-in-out;
-    // text-align: center;
     &.is-active {
       color: rgb(255, 255, 255);
       color: var(--gold);

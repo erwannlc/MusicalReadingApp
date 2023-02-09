@@ -29,8 +29,8 @@ div.note-buttons {
     font-size: 0.9rem;
     color: rgba(244, 255, 240, 0.685);
     border: 1px solid black;
-    box-shadow: -1px -1px 2px var(--white-20) inset,
-      0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50);
+    box-shadow: -1px -1px 2px var(--piano--white-20) inset,
+      0 -5px 2px 3px var(--piano--black-60) inset, 0 2px 4px var(--piano--black-50);
     background: linear-gradient(45deg, hsl(0, 0%, 13%) 0%, hsl(0, 0%, 33%) 100%);
     cursor: pointer;
     &#C-btn {
@@ -54,19 +54,13 @@ div.note-buttons {
     &#B-btn {
       color: $colorB;
     }
-    // &.tuto {
-    //   // box-shadow: -1px -1px 2px var(--white-20) inset,
-    //   // 0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50),
-    //   // 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
-    //   // z-index: 10;
-    // }
   }
 
   & button.pressed {
     color: rgb(244, 255, 240);;
     background-color: hsla(0, 0%, 0%, 0.554);
-    box-shadow: -1px -1px 2px var(--white-20) inset,
-    0 -2px 2px 3px var(--black-60) inset, 0 1px 2px var(--black-50);
+    box-shadow: -1px -1px 2px var(--piano--white-20) inset,
+    0 -2px 2px 3px var(--piano--black-60) inset, 0 1px 2px var(--piano--black-50);
     background: linear-gradient(
       to right,
       hsl(0, 0%, 27%) 0%,
@@ -101,9 +95,6 @@ div.note-buttons {
       width: calc(12px + 5vw);
       font-size: 0.9rem;
       font-family: inherit;
-      @media screen and (max-width: 600px) {
-
-      }
     }
   }
   @media screen and (max-width: 350px) {

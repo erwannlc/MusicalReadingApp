@@ -55,7 +55,7 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
 
   const handlePlay = () => {
     const padsNode = nodes.padsDiv.node;
-    const vexbox = isMobile ? nodes.vexScoreMobile?.node : nodes.vexScore?.node; // isMobile ==> différencier nodes de VFMObile et de VFNormal
+    const vexbox = isMobile ? nodes.vexScoreMobile?.node : nodes.vexScore?.node;
     const outputNode = isMobile ? nodes.vexScoreMobileOutput?.node : nodes.vexScoreOutput?.node;
     
     if (isPlaying) {

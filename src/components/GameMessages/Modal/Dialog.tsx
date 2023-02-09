@@ -70,39 +70,4 @@ const Modal: FC<Props> = ({
   );
 };
 
-//*****************  WHITHOUT optionnal handleOutsideClick :
-
-// const Dialog = ({ children, open, onRequestClose, id }) => {
-//   const dialogRef = useRef(null);
-
-//   //returning focus to the element that opened the Dialog, suggested from WAI-ARIA
-//   const lastActiveElement = useRef(null);
-
-//   useEffect(() => {
-//     const dialogNode = dialogRef.current;
-//     if (open) {
-//       lastActiveElement.current = document.activeElement;
-//       dialogNode.showModal();
-//     } else {
-//       dialogNode.close();
-//       lastActiveElement.current.focus();
-//     }
-//   }, [open]);
-
-//   // handleCancel listen to other ways of closing a dialog (like pressing escape)
-//   useEffect(() => {
-//     const dialogNode = dialogRef.current;
-//     const handleCancel = (event) => {
-//       event.preventDefault();
-//       onRequestClose();
-//     };
-//     dialogNode.addEventListener("cancel", handleCancel);
-//     return () => {
-//       dialogNode.removeEventListener("cancel", handleCancel);
-//     };
-//   }, [onRequestClose]);
-
-//   return <dialog ref={dialogRef} id={id}>{children}</dialog>;
-// };
-
 export default Modal;

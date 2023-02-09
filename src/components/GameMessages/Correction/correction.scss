@@ -51,8 +51,7 @@ table.answersMsg {
       min-width: min-content;
       flex-shrink: 0;
     }
-    & tr.title {   
-      // display: none;
+    & tr.title {
       &:not(:first-of-type) th {
         padding-top: 0;
         padding-left: 1rem;

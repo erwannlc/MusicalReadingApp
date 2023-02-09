@@ -42,21 +42,18 @@ export const SettingOutlineIcon: FC = () => {
 export const GearIcon: FC = () => {
   return (
     <>&#9881;&#xfe0e;</>
-    // <span>&#9881;</span>
   )
 };
 
 export const DialOutlineIcon: FC = () => {
   return (
     <>&#9862;</>
-    // <span>&#9862;</span>
   )
 };
 
 export const DialIcon: FC = () => {
   return (
    <>&#9864;</>
-  //  <span>&#9864;</span>
   )
 };
 

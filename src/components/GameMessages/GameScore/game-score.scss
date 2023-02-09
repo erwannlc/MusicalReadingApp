@@ -19,7 +19,6 @@ div#game-score {
   @media screen and (max-width: 851px) and (orientation: portrait){
     grid-row: 3 / 4;
     grid-column: 4 / 5;
-    // transform: none;
     place-self: start center;
     @media screen and (max-height: 670px) { 
       margin-top: -11vh;

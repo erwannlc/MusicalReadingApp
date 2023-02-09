@@ -1,19 +1,9 @@
 // Thx to Alvaro https://codepen.io/alvarotrigo/pen/abqwMJo
 div.options-switch {
-  // $active-color: hsl(195, 98%, 52%);
-  // $active-color: hsla(173, 63%, 64%, 0.291);
   $active-color:  hsl(42, 55%, 44%);
-  // $non-active-color: #303030; // default
-  // $non-active-color: hsla(173, 63%, 64%, 0.579);
   $non-active-color: hsl(42, 85%, 23%);
   $HTMLCharIcon: bold calc(var(--round-btn-size) / 1.5)/calc(var(--round-btn-size) + 5px) sans-serif;
   $HTMLCharIconPadding: 0 0 0.3rem 0.1rem;
-  $HTMLCharIcon2: bold calc(var(--round-btn-size) / 1.2)/calc(var(--round-btn-size) + 5px) sans-serif;
-  $HTMLCharIcon2Padding: 0 0 0.3rem 0.15rem;
-  $SVG1: bold calc(var(--round-btn-size) / 2)/calc(var(--round-btn-size) + 5px) sans-serif;
-  $SVG1Padding: 0;
-  $SVG2: bold calc(var(--round-btn-size) / 2)/calc(var(--round-btn-size) + 5px) sans-serif;
-  $SVG2Padding: 0.7rem;
 
   pointer-events: none;
 

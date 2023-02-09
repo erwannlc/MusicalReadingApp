@@ -32,7 +32,7 @@ div.messages div#message.answers {
         }
       }
     }
-
+    
     @media screen and (max-height: 420px) and (orientation: landscape) {
       margin: 0;
       padding: 0.5rem 0 1rem;
@@ -64,43 +64,6 @@ div.messages div#message.answers {
           margin: 0;
         }
       }
-      // & div.table-wrapper {
-
-      //   animation: answerTranslateY 0.3s ease-in-out infinite;
-      //   table.last-answers {
-      //     margin: 0;
-      //     display: grid;
-      //     grid-template-columns: min-content min-content;
-      //     grid-template-rows: auto auto;
-      //     grid-template-areas:
-      //     "head body";
-      //     width: 100%;
-      //     font-size: 0.9rem;
-      //     & tbody {
-      //       grid-area: body;
-      //     } 
-      //     /* Flex - Cross Browser CSS */
-      //     & tbody {
-      //       display: flex;
-      //     }
-      //     & tr {
-      //       display: flex;
-      //       flex-direction: column;
-      //       min-width: min-content;
-      //       flex-shrink: 0;
-      //     }
-      //     & td, & th {
-      //       display: block;
-      //     }
-      //     & tr.notes td {
-      //       text-align: end;
-      //       border-right: none;
-      //       &:not(:last-child){
-      //         border-bottom: 1px solid rgba(255, 255, 255, 0.562);
-      //     } 
-      //     }
-      //   }
-      // }
       @media screen and (max-height: 670px) and (orientation: portrait) {
         width: 100%;
         font-size: 0.9rem;

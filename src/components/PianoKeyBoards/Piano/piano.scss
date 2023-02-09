@@ -1,28 +1,26 @@
 :root {
-  /* 1rem = 16px cf html {font-size}*/ 
-  --white-and-black_padding: 0.5rem 0;
-  --white_height: 12.5rem;
-  --white_width: 3.5rem;
-  --black_height: 8rem; /* --black_height * 4 */
-  --black_width: 2rem; 
-  --black-and-offset_margin: 0 0 0 -1rem;
-  --keyboard_height: 15.25rem; /* 244px */ 
-  --keyboard_width: 41rem; /* total : 656px (41*16) */
-  --keyboard_padding: 3rem 0 0 3rem;
+  // --piano--white-and-black_padding: 0.5rem 0;
+  // --white_height: 12.5rem;
+  // --white_width: 3.5rem;
+  // --black_height: 8rem; /* --black_height * 4 */
+  // --black_width: 2rem; 
+  // --piano--black-and-offset_margin: 0 0 0 -1rem;
+  // --keyboard_height: 15.25rem; /* 244px */ 
+  // --keyboard_width: 41rem; /* total : 656px (41*16) */
+  // --keyboard_padding: 3rem 0 0 3rem;
   
-  --keyboard: hsl(300, 100%, 16%);
-  --keyboard: hsl(0, 72%, 32%);
-  --keyboard-shadow: hsla(19, 50%, 66%, 0.2);
-  --keyboard-border: hsl(20, 91%, 5%);
-  --black-10: hsla(0, 0%, 0%, 0.1);
-  --black-20: hsla(0, 0%, 0%, 0.2);
-  --black-30: hsla(0, 0%, 0%, 0.3);
-  --black-50: hsla(0, 0%, 0%, 0.5);
-  --black-60: hsla(0, 0%, 0%, 0.6);
-  --white-20: hsla(0, 0%, 100%, 0.2);
-  --white-50: hsla(0, 0%, 100%, 0.5);
-  --white-80: hsla(0, 0%, 100%, 0.8);
-  --bg--bottom: hsl(0, 0%, 93%);
+  --piano: hsl(0, 72%, 32%);
+  --piano-shadow: hsla(19, 50%, 66%, 0.2);
+  --piano-border: hsl(20, 91%, 5%);
+  --piano--black-10: hsla(0, 0%, 0%, 0.1);
+  --piano--black-20: hsla(0, 0%, 0%, 0.2);
+  --piano--black-30: hsla(0, 0%, 0%, 0.3);
+  --piano--black-50: hsla(0, 0%, 0%, 0.5);
+  --piano--black-60: hsla(0, 0%, 0%, 0.6);
+  --piano--white-20: hsla(0, 0%, 100%, 0.2);
+  --piano--white-50: hsla(0, 0%, 100%, 0.5);
+  --piano--white-80: hsla(0, 0%, 100%, 0.8);
+  --note-bg--bottom: hsl(0, 0%, 93%);
   --border-note--color: hsl(0, 0%, 73%);
 }
 
@@ -48,16 +46,14 @@
 #keyboard {
     grid-column: 3 / 4;
     grid-row: 3 / 4;
-    // height: 15.25rem;
     width: 41rem;
-    // margin: 0.5rem 0;
     padding: 3rem 0 1.5rem 3rem;
     position: relative;
-    border: 1px solid var(--keyboard-border);
+    border: 1px solid var(--piano-border);
     border-radius: 1rem;
-    background-color: var(--keyboard);
-    box-shadow: 0 0 50px var(--black-50) inset, 0 1px var(--keyboard-shadow) inset,
-      0 5px 15px var(--black-50);
+    background-color: var(--piano);
+    box-shadow: 0 0 50px var(--piano--black-50) inset, 0 1px var(--piano-shadow) inset,
+      0 5px 15px var(--piano--black-50);
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -84,10 +80,10 @@
     border-left: 1px solid var(--border-note--color);
     border-bottom: 1px solid var(--border-note--color);
     border-radius: 0 0 5px 5px;
-    box-shadow: -1px 0 0 var(--white-80) inset, 0 0 5px hsl(0, 0%, 80%) inset,
-      0 0 3px var(--black-20);
-    background: linear-gradient(to bottom, var(--bg--bottom) 0%, white 100%);
-    color: var(--black-30);
+    box-shadow: -1px 0 0 var(--piano--white-80) inset, 0 0 5px hsl(0, 0%, 80%) inset,
+      0 0 3px var(--piano--black-20);
+    background: linear-gradient(to bottom, var(--note-bg--bottom) 0%, white 100%);
+    color: var(--piano--black-30);
     &.tuto {
       background: linear-gradient(to bottom, hsl(0, 0%, 100%) 0%, $tutoTouchColor2 100%);
       background-size: 400% 400%;
@@ -105,25 +101,25 @@
     z-index: 2;
     border: 1px solid black;
     border-radius: 0 0 3px 3px;
-    box-shadow: -1px -1px 2px var(--white-20) inset,
-      0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50);
+    box-shadow: -1px -1px 2px var(--piano--white-20) inset,
+      0 -5px 2px 3px var(--piano--black-60) inset, 0 2px 4px var(--piano--black-50);
     background: linear-gradient(45deg, hsl(0, 0%, 13%) 0%, hsl(0, 0%, 33%) 100%);
-    color: var(--white-50);
+    color: var(--piano--white-50);
   }
 
   .white.pressed {
     border-top: 1px solid hsl(0, 0%, 47%);
     border-left: 1px solid hsl(0, 0%, 60%);
     border-bottom: 1px solid hsl(0, 0%, 60%);
-    box-shadow: 2px 0 3px var(--black-10) inset,
-      -5px 5px 20px var(--black-20) inset, 0 0 3px var(--black-20);
+    box-shadow: 2px 0 3px var(--piano--black-10) inset,
+      -5px 5px 20px var(--piano--black-20) inset, 0 0 3px var(--piano--black-20);
     background: linear-gradient(to bottom, white 0%, hsl(0, 0%, 91%) 100%);
     outline: none;
   }
 
   .black.pressed {
-    box-shadow: -1px -1px 2px var(--white-20) inset,
-      0 -2px 2px 3px var(--black-60) inset, 0 1px 2px var(--black-50);
+    box-shadow: -1px -1px 2px var(--piano--white-20) inset,
+      0 -2px 2px 3px var(--piano--black-60) inset, 0 1px 2px var(--piano--black-50);
     background: linear-gradient(
       to right,
       hsl(0, 0%, 27%) 0%,
