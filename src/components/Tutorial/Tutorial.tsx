@@ -270,7 +270,6 @@ const Tutorial: FC<Props> =  (props) => {
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDialog, nodes, step]);
-  console.log("isAlertOpen", isAlertOpen);
   
   if (isDialog) {
 

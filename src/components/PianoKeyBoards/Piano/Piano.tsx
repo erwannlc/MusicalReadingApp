@@ -1,8 +1,9 @@
 import { FC, MouseEvent, TouchEvent, useCallback, useMemo, useEffect, useRef, useState } from "react";
-import "./piano.scss";
-import { PianoKeys, NotesClassN } from "../../../types/PianoKeys";
-import { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import type { PianoKeys, NotesClassN } from "../../../types/PianoKeys";
+import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import { scaleA } from "../../../data/data";
 import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
+import "./piano.scss";
 
 type Props = {
   onPlay: (keyValue: string) => void
@@ -18,7 +19,9 @@ const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, is
   // Thx to Bret Cameron :
   // https://css-tricks.com/how-to-code-a-playable-synth-keyboard/
   // https://codepen.io/BretCameron/pen/MWmyWeo
+  
   const [pianoNodeObj, pianoRef] = useClientRect(); // nodes for Tutorial
+
   useEffect(() => {
     updateNodes("piano", pianoNodeObj);
   }, [pianoNodeObj, updateNodes]);
@@ -30,7 +33,6 @@ const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, is
   useEffect(() => {
     updateNodes("note2", note2NodeObj);
   }, [note2NodeObj, updateNodes]);
-
 
   const azertyKeys: PianoKeys = {  
     Q: { id: "C", note: "C", octaveOffset: 0, classN: "white"},
@@ -70,6 +72,9 @@ const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, is
     "D#2": { note: "D#", octaveOffset: 1, classN: "black" },
     "E2": { note: "E", octaveOffset: 1, classN: "white offset" }
   };
+ 
+  const keys = isMobile ? mobileKeys : azertyKeys;
+
   const [classN, setClassN] = useState(isMobile ? {
     "C": "white",
     "C#": "black",
@@ -106,9 +111,9 @@ const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, is
     L: "white offset",
     P: "black",
     M: "white offset"
-  } as NotesClassN)
+  } as NotesClassN);
   
-  const keys = isMobile ? mobileKeys : azertyKeys;
+
   const keysRef = useRef(keys);
   keysRef.current = keys;
   const changeClassN = useCallback((isPressed: boolean, key: string) => {
@@ -213,14 +218,13 @@ const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, is
     if (Number.isFinite(freq)) {
       osc.frequency.value = freq;
     };
-
-
-    changeClassN(true, key);
-
+    
     pressedNotes.set(key, osc);
     pressedNotes.get(key).start();
+    changeClassN(true, key);
 
-    const keyValue = keys[key].note as string;
+    const scale = Object.keys(scaleA);
+    const keyValue = scale.indexOf(keys[key].note) < 0 ? "?" : keys[key].note as string; // prevent error while play with sharp or flat (while play data is only considering natural notes);
     if (!(isTuto && !isTutoPlay)) {
       onPlay(keyValue);
     };
@@ -279,13 +283,15 @@ useEffect(() => { // handle piano played on keyboard
   if (!isMobile) {
     const handleKeyDown = (e: KeyboardEvent) => {
       const eventKey: string = e.key.toUpperCase();
-      const key: string = eventKey === ";" ? "semicolon" : eventKey;
+      const key: string = eventKey;
+      // const key: string = eventKey === ";" ? "semicolon" : eventKey; // for qwerty keyboards
       if (!key || pressedNotes.get(key)) return;
       playKey(key, keysRef.current);
     };
     const handleKeyUp = (e: KeyboardEvent) => {
       const eventKey = e.key.toUpperCase();
-      const key = eventKey === ";" ? "semicolon" : eventKey;
+      const key: string = eventKey;
+      // const key: string = eventKey === ";" ? "semicolon" : eventKey; // for qwerty keyboards
       if (!key) return;
       stopKey(key, keysRef.current);
     };    
@@ -298,46 +304,46 @@ useEffect(() => { // handle piano played on keyboard
   } 
 }, [isMobile, playKey, pressedNotes, stopKey]);
 
-classN.Q = `${isTutoNotes ? "white tuto" : "white"}`;
-classN.K = classN.Q;
+classN.Q += `${isTutoNotes ? " tuto" : ""}`; // highligts both C touches for tutorial 
+classN.K += `${isTutoNotes ? " tuto" : ""}`;
 
   return (
     <div id="pianoKeyboard">
       <ul ref={pianoRef} id="keyboard">        
         {isMobile ? 
         <>
-          <li data-note="C" ref={note1Ref} data-octaveoffset={0} className={classN.C} onMouseDown={pressKey} onTouchStart={touchKey}>C</li>
-          <li data-note="C#" data-octaveoffset={0} className={classN[`C#`]} onMouseDown={pressKey} onTouchStart={touchKey}>C#</li>
-          <li data-note="D" data-octaveoffset={0} className={classN.D} onMouseDown={pressKey} onTouchStart={touchKey}>D</li>
-          <li data-note="D#" data-octaveoffset={0} className={classN[`D#`]} onMouseDown={pressKey} onTouchStart={touchKey}>D#</li>
-          <li data-note="E" data-octaveoffset={0} className={classN.E} onMouseDown={pressKey} onTouchStart={touchKey}>E</li>
-          <li data-note="F" data-octaveoffset={0} className={classN.F} onMouseDown={pressKey} onTouchStart={touchKey}>F</li>
-          <li data-note="F#" data-octaveoffset={0} className={classN[`F#`]} onMouseDown={pressKey} onTouchStart={touchKey}>F#</li>
-          <li data-note="G" data-octaveoffset={0} className={classN.G} onMouseDown={pressKey} onTouchStart={touchKey}>G</li>
-          <li data-note="G#" data-octaveoffset={0} className={classN[`G#`]} onMouseDown={pressKey} onTouchStart={touchKey}>G#</li>
-          <li data-note="A" data-octaveoffset={1} className={classN.A} onMouseDown={pressKey} onTouchStart={touchKey}>A</li>
-          <li data-note="A#" data-octaveoffset={1} className={classN[`A#`]} onMouseDown={pressKey} onTouchStart={touchKey}>A#</li>
-          <li data-note="B" data-octaveoffset={1} className={classN.B} onMouseDown={pressKey} onTouchStart={touchKey}>B</li>
+          <li data-note="C" ref={note1Ref} className={classN.C} onMouseDown={pressKey} onTouchStart={touchKey}>C</li>
+          <li data-note="C#" className={classN[`C#`]} onMouseDown={pressKey} onTouchStart={touchKey}>C#</li>
+          <li data-note="D" className={classN.D} onMouseDown={pressKey} onTouchStart={touchKey}>D</li>
+          <li data-note="D#" className={classN[`D#`]} onMouseDown={pressKey} onTouchStart={touchKey}>D#</li>
+          <li data-note="E" className={classN.E} onMouseDown={pressKey} onTouchStart={touchKey}>E</li>
+          <li data-note="F" className={classN.F} onMouseDown={pressKey} onTouchStart={touchKey}>F</li>
+          <li data-note="F#" className={classN[`F#`]} onMouseDown={pressKey} onTouchStart={touchKey}>F#</li>
+          <li data-note="G" className={classN.G} onMouseDown={pressKey} onTouchStart={touchKey}>G</li>
+          <li data-note="G#" className={classN[`G#`]} onMouseDown={pressKey} onTouchStart={touchKey}>G#</li>
+          <li data-note="A" className={classN.A} onMouseDown={pressKey} onTouchStart={touchKey}>A</li>
+          <li data-note="A#" className={classN[`A#`]} onMouseDown={pressKey} onTouchStart={touchKey}>A#</li>
+          <li data-note="B" className={classN.B} onMouseDown={pressKey} onTouchStart={touchKey}>B</li>
         </>  
         : 
         <>
-          <li data-note="C" ref={note1Ref} data-octaveoffset={0} className={classN.Q} onMouseDown={pressKey} onTouchStart={touchKey}>Q</li>
-          <li data-note="C#" data-octaveoffset={0} className={classN.Z} onMouseDown={pressKey} onTouchStart={touchKey}>Z</li>
-          <li data-note="D" data-octaveoffset={0} className={classN.S} onMouseDown={pressKey} onTouchStart={touchKey}>S</li>
-          <li data-note="D#" data-octaveoffset={0} className={classN.E} onMouseDown={pressKey} onTouchStart={touchKey}>E</li>
-          <li data-note="E" data-octaveoffset={0} className={classN.D} onMouseDown={pressKey} onTouchStart={touchKey}>D</li>
-          <li data-note="F" data-octaveoffset={0} className={classN.F} onMouseDown={pressKey} onTouchStart={touchKey}>F</li>
-          <li data-note="F#" data-octaveoffset={0} className={classN.T} onMouseDown={pressKey} onTouchStart={touchKey}>T</li>
-          <li data-note="G" data-octaveoffset={0} className={classN.G} onMouseDown={pressKey} onTouchStart={touchKey}>G</li>
-          <li data-note="G#" data-octaveoffset={0} className={classN.Y} onMouseDown={pressKey} onTouchStart={touchKey}>Y</li>
-          <li data-note="A" data-octaveoffset={1} className={classN.H} onMouseDown={pressKey} onTouchStart={touchKey}>H</li>
-          <li data-note="A#" data-octaveoffset={1} className={classN.U} onMouseDown={pressKey} onTouchStart={touchKey}>U</li>
-          <li data-note="B" data-octaveoffset={1} className={classN.J} onMouseDown={pressKey} onTouchStart={touchKey}>J</li>
-          <li data-note="C2" ref={note2Ref} data-octaveoffset={1} className={classN.K} onMouseDown={pressKey} onTouchStart={touchKey}>K</li>
-          <li data-note="C#2" data-octaveoffset={1} className={classN.O} onMouseDown={pressKey} onTouchStart={touchKey}>O</li>
-          <li data-note="D2" data-octaveoffset={1} className={classN.L} onMouseDown={pressKey} onTouchStart={touchKey}>L</li>
-          <li data-note="D#2" data-octaveoffset={1} className={classN.P} onMouseDown={pressKey} onTouchStart={touchKey}>P</li>
-          <li data-note="E2" data-octaveoffset={1} className={classN.M} onMouseDown={pressKey} onTouchStart={touchKey}>M</li>
+          <li data-note="C" ref={note1Ref} className={classN.Q} onMouseDown={pressKey} onTouchStart={touchKey}>Q</li>
+          <li data-note="C#" className={classN.Z} onMouseDown={pressKey} onTouchStart={touchKey}>Z</li>
+          <li data-note="D" className={classN.S} onMouseDown={pressKey} onTouchStart={touchKey}>S</li>
+          <li data-note="D#" className={classN.E} onMouseDown={pressKey} onTouchStart={touchKey}>E</li>
+          <li data-note="E" className={classN.D} onMouseDown={pressKey} onTouchStart={touchKey}>D</li>
+          <li data-note="F" className={classN.F} onMouseDown={pressKey} onTouchStart={touchKey}>F</li>
+          <li data-note="F#" className={classN.T} onMouseDown={pressKey} onTouchStart={touchKey}>T</li>
+          <li data-note="G" className={classN.G} onMouseDown={pressKey} onTouchStart={touchKey}>G</li>
+          <li data-note="G#" className={classN.Y} onMouseDown={pressKey} onTouchStart={touchKey}>Y</li>
+          <li data-note="A" className={classN.H} onMouseDown={pressKey} onTouchStart={touchKey}>H</li>
+          <li data-note="A#" className={classN.U} onMouseDown={pressKey} onTouchStart={touchKey}>U</li>
+          <li data-note="B" className={classN.J} onMouseDown={pressKey} onTouchStart={touchKey}>J</li>
+          <li data-note="C2" ref={note2Ref} className={classN.K} onMouseDown={pressKey} onTouchStart={touchKey}>K</li>
+          <li data-note="C#2" className={classN.O} onMouseDown={pressKey} onTouchStart={touchKey}>O</li>
+          <li data-note="D2" className={classN.L} onMouseDown={pressKey} onTouchStart={touchKey}>L</li>
+          <li data-note="D#2" className={classN.P} onMouseDown={pressKey} onTouchStart={touchKey}>P</li>
+          <li data-note="E2" className={classN.M} onMouseDown={pressKey} onTouchStart={touchKey}>M</li>
         </>
         }
       </ul>
