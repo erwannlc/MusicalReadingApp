@@ -89,6 +89,7 @@ const Main: FunctionComponent = () => {
 
   useEffect(() => {
     if (isMobile) {
+      window.scrollTo(0, -10); // allow display entire screen 
       document.body.classList.add("avoid-scroll--on-touch");
     } else document.body.classList.remove("avoid-scroll--on-touch");
   }, [isMobile]);
