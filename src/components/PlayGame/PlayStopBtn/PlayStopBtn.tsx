@@ -18,10 +18,10 @@ type Props = {
 
 const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, updateNodes, tutoData}) => {
   
-  const [isPlay, setIsPlay] = useState(false);
-  const { playBtn, stopBtn } = tutoData;
+  const [isPlay, setIsPlay] = useState(false); // className handling
   const [playClassN, setPlayClassN] = useState("play");
   const [stopClassN, setStopClassN] = useState("stop");
+  const { playBtn, stopBtn } = tutoData;
 
   const [playNodeObj, playRef] = useClientRect();
   useEffect(() => {
@@ -61,8 +61,8 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
     }
   };
 
-  const playTooltip = "Lancer une nouvelle partie"
-  const stopTooltip = "Stopper la partie en cours"
+  const playTooltip = "Lancer une nouvelle partie";
+  const stopTooltip = "Stopper la partie en cours";
 
   return (
     <div className="btn-group">

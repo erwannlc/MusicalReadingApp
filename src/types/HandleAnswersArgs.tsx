@@ -12,5 +12,6 @@ export type Args = [
   vexScoreNode: HTMLElement,
   appNode: HTMLElement | null,
   outputNode: HTMLElement,
-  clefSelected: ClefSelected
+  clefSelected: ClefSelected,
+  activateCorrection: () => void
 ];

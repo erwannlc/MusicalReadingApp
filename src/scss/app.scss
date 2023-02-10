@@ -52,15 +52,12 @@ main#App {
       @media screen and (max-height: 670px) {
         grid-template-rows: 25vh var(--vexflow_height) var(--piano_height) auto; 
       }
-  }
-  &.while-correction { // only if isMobile....
-    grid-template-rows: 55vh var(--vexflow_height) var(--piano_height) auto;
-    & div#pianoKeyboard {
-      display: none;
-    }
-    @media screen and (max-width: 850px) and (orientation: portrait) {
-      grid-template-rows: 40vh var(--vexflow_height) auto auto; 
-    }
+      &.while-correction { // only if isMobile....
+        grid-template-rows: 40vh var(--vexflow_height) auto auto; 
+        & div#pianoKeyboard {
+          display: none;
+        }
+      }
   }
 }
 
@@ -214,7 +211,6 @@ div#pianoKeyboard {
     grid-template-columns: 5vw repeat(5, 18vw) 5vw;
     grid-template-columns: auto repeat(5, 18vw) auto;
     max-height: 100vh;
-    // margin: -2rem auto 0;
     margin: 0;
     overflow: hidden;
     &.while-correction {

@@ -8,17 +8,16 @@ import { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 
 type Props = {
  level: string
- levelNum: number
  clefSelected: string
  trebleData: StaveClef
  bassData: StaveClef
  bothClefsData: BothClefs
  gameLength: number
  updateNodes: (key: NodesKeys, obj: NodeObj) => void
- outputNode: HTMLElement | null
+ isCorrection: boolean
 };
 
-const VFBoxMobile: FunctionComponent<Props> = ({level, levelNum, clefSelected, trebleData, bassData, bothClefsData, gameLength, updateNodes, outputNode}) => {
+const VFBoxMobile: FunctionComponent<Props> = ({level, clefSelected, trebleData, bassData, bothClefsData, gameLength, updateNodes, isCorrection}) => {
 
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
@@ -34,9 +33,11 @@ const VFBoxMobile: FunctionComponent<Props> = ({level, levelNum, clefSelected, t
   createMobileStaves(level, trebleData, bassData, bothClefsData, gameLength, outputMobileNode.node).then(() => renderVFEmptyStave(clefSelected))
  // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
+
+ const classN = isCorrection ? "while-correction" : "";
   
   return (     // change id s ==> add "mobile"
-    <div ref={ref} id="vexboxMobile"> 
+    <div ref={ref} id="vexboxMobile" className={classN}> 
 
       <div ref={outputMobileRef} id="outputMobile"></div>
     </div>

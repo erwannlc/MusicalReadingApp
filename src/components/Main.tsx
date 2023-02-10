@@ -53,7 +53,6 @@ const Main: FunctionComponent = () => {
     setBoth(bothClefs);
   };
   
-
   // Game handling
   const gameLength = 12;
   const [isPlaying, setIsPlaying] = useState(false);
@@ -64,6 +63,15 @@ const Main: FunctionComponent = () => {
   const displayScoreCircle = async (scoreNumber: number) => setScoreNumber(scoreNumber);
   const [progressBarId, setProgressBarID] = useState(null as string | null);
   const changeProgressBarID = (id: string | null) => setProgressBarID(id);
+  const [isCorrection, setIsCorrection] = useState(false);
+  const activateCorrection = () => setIsCorrection(true);
+  const deactivateCorrection = () => setIsCorrection(false);
+  useEffect(() => {
+    if (isPlaying === true && isCorrection === true) setIsCorrection(false);
+  }, [isCorrection, isPlaying]);
+  const mainClassN = isCorrection ? "while-correction" : "";
+  console.log("isCorrection", isCorrection)
+
 
   // Tutorial data
   const [nodes, setNodes] = useState({} as Nodes);
@@ -114,7 +122,8 @@ const Main: FunctionComponent = () => {
     changeProgressBarID,
     nodes,
     appNode,
-    tutoData
+    tutoData,
+    isCorrection
   };
   const pianoKeyboardProps = {
     isPlaying,
@@ -135,7 +144,8 @@ const Main: FunctionComponent = () => {
     updateNodes,
     nodes,
     appNode,
-    tutoData
+    tutoData,
+    activateCorrection
   };
   const VFScoreProps = {
     level: options.level,
@@ -147,7 +157,8 @@ const Main: FunctionComponent = () => {
     gameLength,
     updateNodes,
     outputNode: nodes.vexScoreOutput?.node,
-    highlight: tutoData.vexScore.isTuto
+    highlight: tutoData.vexScore.isTuto,
+    isCorrection
   };
   const optionsProps = {
     changeTimer: useCallback((interval: number, tempoNum: number) => {
@@ -187,7 +198,7 @@ const Main: FunctionComponent = () => {
     activeTutoPlay,
     isTutoOn,
     tutoPlay,
-    restoreDefault: () => restoreDefault(handleMessage, options.clefSelected, nodes.vexScoreOutput.node, 5, resetStavesData, displayScoreCircle, isMobile),
+    restoreDefault: () => restoreDefault(handleMessage, options.clefSelected, nodes.vexScoreOutput.node, 5, resetStavesData, displayScoreCircle, isMobile, deactivateCorrection),
     trebleData,
     bassData,
     isMobile,
@@ -205,11 +216,12 @@ const Main: FunctionComponent = () => {
     resetTutoData,
     changeTutoData: useCallback((component: TutoDataKeys, value: {isTuto?: boolean, disabled?: boolean}) => {
       if (value) modifyTutoData(component, value);
-    }, [])
+    }, []),
+    isCorrection
   };
 
   return (
-    <main id="App" ref={ref}>
+    <main id="App" ref={ref} className={mainClassN}>
       <Options {...optionsProps}/>
       {!displayOptions && <GameMessages {...messageProps} />}
       {!displayOptions && <GameScore isModal={message.isModal ? true : false} scoreNumber={scoreNumber} gameLength={isTutoOn ? 5 : gameLength} isMobile={isMobile} />}

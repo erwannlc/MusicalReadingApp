@@ -1,10 +1,9 @@
 import { FC } from "react";
 import "./tuto-button.scss";
 
-type Props = {
+interface Props {
   startTuto: () => void
   isPlaying: boolean
-
 };
 
 const TutoButton: FC<Props> =  ({startTuto, isPlaying}) => {

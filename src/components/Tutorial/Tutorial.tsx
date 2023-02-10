@@ -39,6 +39,7 @@ type Props = {
   changeProgressBarID: (id: string | null) => void
   resetTutoData: () => void
   changeTutoData: ChangeTutoData
+  isCorrection: boolean
 
 };
 
@@ -71,9 +72,10 @@ const Tutorial: FC<Props> =  (props) => {
     nodes, 
     changeProgressBarID, 
     resetTutoData, 
-    changeTutoData} = props;
+    changeTutoData,
+    isCorrection} = props;
 
-  const { playBtn, stopBtn, switchOptions, messageDiv, optionsIndicator, switchPiano, padsDiv, note1, note2 } = nodes;
+  const { playBtn, stopBtn, switchOptions, optionsIndicator, switchPiano, padsDiv, note1, note2 } = nodes;
 
   const [status, setStatus] = useState(isTutoOn ? ENTERING : NOTUTO);
  
@@ -93,12 +95,9 @@ const Tutorial: FC<Props> =  (props) => {
 
   const styling = useRef(step.styling || {} as CSSPropertiesWithVars);
   
-  const isCorrectionActive: boolean = messageDiv?.node.firstElementChild?.classList.contains("correction") as boolean;
-
   const startTuto = () => {
     setisModal(true);
     if (!isTutoOn) activeTuto(true);
-    isCorrectionActive && restoreDefault();
   };
 
   const alertQuitPlay = () => {
@@ -110,9 +109,9 @@ const Tutorial: FC<Props> =  (props) => {
     setIsAlertOpen(true);
   };
   const closeTuto = async (pause?: boolean) => {
-    if (isCorrectionActive) restoreDefault();
     changeButton.current = defaultChangeButton;
     if (!pause) {
+      isCorrection && restoreDefault();
       if (options.clefSelected !== "treble") changeClef("treble");
       if (isAlertOpen) setIsAlertOpen(false);
       activeTuto(false);
@@ -258,8 +257,8 @@ const Tutorial: FC<Props> =  (props) => {
   }, [isDialog, step, options.clefSelected, changeClef, options.tempoNum, changeTempo, displayPiano, closePiano]);
 
   useEffect(() => { // delete correction when expected
-    if (isTutoOn && (stepIndex === 0 || step.beginAdvancedOptions) && isCorrectionActive) restoreDefault();
-  }, [isCorrectionActive, isTutoOn, restoreDefault, step.beginAdvancedOptions, stepIndex]);
+    if (isTutoOn && (stepIndex === 0 || step.beginAdvancedOptions) && isCorrection) restoreDefault();
+  }, [isCorrection, isTutoOn, restoreDefault, step.beginAdvancedOptions, stepIndex]);
 
   useEffect(() => { // styles with current step
     if (isDialog) {
@@ -302,8 +301,7 @@ const Tutorial: FC<Props> =  (props) => {
       <TutoDialog modalClassName={modalClassName} isOpen={isDialog} styling={styling.current}>
         <TutoContent {...contentProps} />
         {isAlertOpen ? <AlertModal confirmQuitPlay={confirmQuitPlay} cancelConfirm={closeConfirmModal} quitTuto={quitTuto} contentType={alertType} isAlertOpen={isAlertOpen}/> : null}
-      </TutoDialog>
-      
+      </TutoDialog>      
     );
   } else return ( 
     <div className="tuto-btn-wrapper">

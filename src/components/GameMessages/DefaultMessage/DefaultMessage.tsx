@@ -1,30 +1,27 @@
-import { FC } from "react";
-import type { MessageObj } from "../../../types/MessageObj";
+import { FC, useRef } from "react";
 
-const DefaultMsgContent: FC<{switchOptionsNode: HTMLElement, playBtnNode: HTMLElement}> = ({switchOptionsNode, playBtnNode}) => {
-  const handleHover = (node: string) => {
-    node === "switch" ? switchOptionsNode.classList.add("tuto")
-    : playBtnNode.classList.add("tuto")
+interface Props {
+
+}
+
+const DefaultMsgContent: FC<Props> = () => {
+  const node = useRef(null as "switch" | "playBtn" | null);
+
+
+  const handleHover = (element: "switch" | "playBtn" ) => {
+    node.current = element;
+    node.current === "switch" ? console.log("highlights switch") : console.log("highlights playBtn");
   };
-  const handleLeave = (node: string) => {
-    node === "switch" ? switchOptionsNode.classList.remove("tuto")
-    : playBtnNode.classList.remove("tuto")
+  const handleLeave = () => {
+    node.current === "switch" ? console.log("cancel highlights switch") : console.log("cancel highlights playBtn");
   };
+
   return (
     <>
-    <p onMouseEnter={() => handleHover("switch")} onMouseLeave={() => handleLeave("switch")}>Appuyez sur&nbsp; <span style={{fontSize:"140%", verticalAlign: "middle"}}>&#x2699;&#xfe0e;</span> &nbsp;pour afficher les options</p>
-    <p onMouseEnter={() => handleHover("play")} onMouseLeave={() => handleLeave("play")}>Appuyez sur&nbsp; <span style={{fontSize:"110%", verticalAlign: "middle"}}>&#x25B6;&#xfe0e;</span> &nbsp;pour lancer une partie !</p>
+    <p onMouseEnter={() => handleHover("switch")} onMouseLeave={() => handleLeave()}>Appuyez sur&nbsp; <span style={{fontSize:"140%", verticalAlign: "middle"}}>&#x2699;&#xfe0e;</span> &nbsp;pour afficher les options</p>
+    <p onMouseEnter={() => handleHover("playBtn")} onMouseLeave={() => handleLeave()}>Appuyez sur&nbsp; <span style={{fontSize:"110%", verticalAlign: "middle"}}>&#x25B6;&#xfe0e;</span> &nbsp;pour lancer une partie !</p>
   </>
   )
 };
 
-const getDefaultMessage = (switchOptionsNode: HTMLElement, playBtnNode: HTMLElement) => {
-  const defaultMessage: MessageObj = {
-    className: "default",
-    content: 
-      <DefaultMsgContent switchOptionsNode={switchOptionsNode} playBtnNode={playBtnNode}/>
-  };
-  return defaultMessage
-};
-
-export default getDefaultMessage;
+export default DefaultMsgContent;

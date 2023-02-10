@@ -17,7 +17,8 @@ export const handleAnswers = async (
   appNode: HTMLElement | null,
   outputNode: HTMLElement,
   clefSelected: ClefSelected,
-  notesIndex?: number[]
+  activateCorrection: () => void,
+  notesIndex?: number[],
   ) => {
     let answersTD: CorrectionTD = [];
     let solutionTD: CorrectionTD = [];
@@ -35,10 +36,10 @@ export const handleAnswers = async (
           isModal: isMobile ? true : false,
           modal: {content: <CorrectionTable {...props}/>,  className: "answers"}
       };
-      if (isMobile) {
-        appNode?.classList.add("while-correction");
-        vexScoreNode.classList.add("while-correction");
-      };
+
+      activateCorrection();
+      // if (isMobile) {
+      // };
       handleMessage(correctionMsg);
     };
     

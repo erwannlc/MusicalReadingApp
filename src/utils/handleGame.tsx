@@ -132,11 +132,11 @@ export const playGame = (
         if (current === gameLength) {
           callFunc()
           .then(() => current ++)
-          .then(() => timer = setTimeout(play, intervalTime * 2))  
+          .then(() => timer = setTimeout(play, intervalTime * 2));
         }
         callFunc()
         .then(() => current ++)
-        .then(() => timer = setTimeout(play, intervalTime))
+        .then(() => timer = setTimeout(play, intervalTime));
         // .then(() => timer = setTimeout(play, current === gameLength + 1 ? intervalTime * 2 : intervalTime))
       } else return ;
     };
@@ -159,8 +159,6 @@ export const playGame = (
     setIsPlaying(true);
 
     if (isMobile) {
-      appNode?.classList.remove("while-correction");
-      vexbox.classList.remove("while-correction");
       createMobileStaves(level, trebleData, bassData, bothClefsData, gameLength, outputNode)
       .then(() => setTimeout(countdown));  
     } else {
@@ -247,8 +245,6 @@ export const createTutoGame = (
   handleMessage(msg);
 
   if (isMobile) {
-    vexbox.classList.remove("while-correction");
-    appNode?.classList.remove("while-correction");
     createTutoMobileStave(trebleData, bassData, bothClefsData, outputNode);
   } else {
     createTutoStave(clefSelected, trebleData, bassData, bothClefsData, outputNode);

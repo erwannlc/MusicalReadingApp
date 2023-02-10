@@ -11,7 +11,7 @@ import type { TutoData } from "../../types/TutoTypes";
 import { handleAnswers, handleError } from "../../utils/handleAnswers";
 
 
-type Props = {
+interface Props {
   isPlaying: boolean
   scaleA: {[key: string]: string}
   clefSelected: ClefSelected
@@ -31,6 +31,7 @@ type Props = {
   nodes: Nodes
   appNode: HTMLElement | null
   tutoData: TutoData
+  activateCorrection: () => void,
 };
 
 //state machine
@@ -41,7 +42,7 @@ const NOGAME = 3;
 const PianoHandle: FC<Props> = (props) => {
   const {isPlaying, scaleA, clefSelected, trebleData, bassData, bothClefsData, 
     handleMessage, displayPiano, isGameStopped, isMobile, 
-    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, appNode, tutoData} = props;
+    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, appNode, tutoData, activateCorrection} = props;
 
   const isTutoActive = tutoPlay.isActive;
   const actualGameLength = isTutoActive ? 5 : gameLength;
@@ -79,12 +80,6 @@ const PianoHandle: FC<Props> = (props) => {
     }
   }, [isPlaying, isGameStopped, resetAnswer]);
 
-  useEffect(() => { // handle vexScore display on Mobile
-    if (isMobile) {
-      nodes.vexScore?.node.classList.remove("hidden");
-    }
-  }, [isMobile, nodes])
-
   const onPlay = (keyValue: string) => {
     const actualAnswers = isTutoActive ? tutoAnswers : answers;
     const prevAnswers = actualAnswers.map(answer => scaleA[answer]);
@@ -121,7 +116,7 @@ const PianoHandle: FC<Props> = (props) => {
     const userAnswers = tutoPlay.isActive ? tutoAnswers : answers;
     const vexScore = isMobile ? nodes.vexScoreMobile.node : nodes.vexScore.node;
     const outputNode = isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node;
-    const args = [userAnswers, scaleA, resetAnswer, handleMessage, isMobile, actualGameLength, displayScoreCircle, vexScore, appNode, outputNode, clefSelected] as Args;
+    const args = [userAnswers, scaleA, resetAnswer, handleMessage, isMobile, actualGameLength, displayScoreCircle, vexScore, appNode, outputNode, clefSelected, activateCorrection] as Args;
     if (userAnswers.length === actualGameLength) {
       if(isTutoActive) setTimeout(() => stopTutoPlay());
       handleAnswersByClef(args, clefSelected);
