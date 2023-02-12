@@ -64,13 +64,12 @@ const Pads: FC<Props> = ({onPlay, isTuto, isTutoPlay, updateNodes, tutoData, isP
   document.addEventListener("touchend", () => {
     stopKey(clickedKey);
   });
-  const classN = `note-buttons ${tutoData.padGNote.isTuto ? " tuto" : ""} ${isPianoActive ? "" : "disable"}`
+  const classN = `note-buttons ${tutoData.padsDiv.isTuto ? "tuto" : ""} ${isPianoActive ? "" : "disable"}`;
   let padGClassN = tutoData.padGNote.isTuto ? "tuto" : "";
-
   return (
     <div id="pianoKeyboard">
       <div ref={padsRef} className={classN}>
-      <button data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>Do</button>
+        <button data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>Do</button>
         <button data-note="D" onMouseDown={pressNote} onTouchStart={touchNote}>Ré</button>
         <button data-note="E" onMouseDown={pressNote} onTouchStart={touchNote}>Mi</button>
         <button data-note="F" onMouseDown={pressNote} onTouchStart={touchNote}>Fa</button>

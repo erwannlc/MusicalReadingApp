@@ -17,7 +17,6 @@ div.note-buttons {
   &.disable {
     pointer-events: none;
   }
-  
   & button {
     margin: 1rem 0.1rem;
     padding: 0.5rem 0 4rem 0;
@@ -66,11 +65,11 @@ div.note-buttons {
       hsl(0, 0%, 27%) 0%,
       hsl(0, 0%, 13%) 100%);
   }
-  &.tuto {
-    &.tuto {
-      box-shadow: 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
-    }
-  }
+  // &.tuto {
+  //   // &.tuto {
+  //   //   box-shadow: 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
+  //   // }
+  // }
   @media screen and (max-width: 850px) {
     margin-top: 0;
     & button {

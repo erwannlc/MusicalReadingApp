@@ -20,7 +20,7 @@ div.clefs-buttons {
 }
 div.note-buttons {
   & button {
-    &#G-btn.tuto {
+    &.tuto {
       animation: 1s ease-in infinite alternate tutoPadsNoteGShine;
       z-index: 10;
     }
@@ -45,13 +45,13 @@ div.note-buttons {
 };
 @keyframes tutoPadsNoteGShine{
   from {   
-    box-shadow: -1px -1px 2px var(--white-20) inset,
-    0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50),
+    box-shadow: -1px -1px 2px var(--piano--white-20) inset,
+      0 -5px 2px 3px var(--piano--black-60) inset, 0 2px 4px var(--piano--black-50),
     0 0px 100px 4vw hsla(43, 40%, 79%, 0); // line added to highlight component 
   }
   to {
-    box-shadow: -1px -1px 2px var(--white-20) inset,
-    0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50),
+    box-shadow: -1px -1px 2px var(--piano--white-20) inset,
+      0 -5px 2px 3px var(--piano--black-60) inset, 0 2px 4px var(--piano--black-50),
     0 0px 100px 4vw hsla(43, 40%, 79%, 0.619); // line added to highlight component 
   }
 };
