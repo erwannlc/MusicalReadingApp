@@ -29,7 +29,6 @@ interface Props {
   stopTutoPlay: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   nodes: Nodes
-  appNode: HTMLElement | null
   tutoData: TutoData
   activateCorrection: () => void,
   isPianoActive: boolean
@@ -43,7 +42,7 @@ const NOGAME = 3;
 const PianoHandle: FC<Props> = (props) => {
   const {isPlaying, scaleA, clefSelected, trebleData, bassData, bothClefsData, 
     handleMessage, displayPiano, isGameStopped, isMobile, 
-    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, appNode, tutoData, activateCorrection, isPianoActive} = props;
+    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, tutoData, activateCorrection, isPianoActive} = props;
 
   const isTutoActive = tutoPlay.isActive;
   const actualGameLength = isTutoActive ? 5 : gameLength;
@@ -115,9 +114,8 @@ const PianoHandle: FC<Props> = (props) => {
 
   if (status === QUITGAME) {
     const userAnswers = tutoPlay.isActive ? tutoAnswers : answers;
-    const vexScore = isMobile ? nodes.vexScoreMobile.node : nodes.vexScore.node;
     const outputNode = isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node;
-    const args = [userAnswers, scaleA, resetAnswer, handleMessage, isMobile, actualGameLength, displayScoreCircle, vexScore, appNode, outputNode, clefSelected, activateCorrection] as Args;
+    const args = [userAnswers, scaleA, resetAnswer, handleMessage, isMobile, actualGameLength, displayScoreCircle, outputNode, clefSelected, activateCorrection] as Args;
     if (userAnswers.length === actualGameLength) {
       if(isTutoActive) setTimeout(() => stopTutoPlay());
       handleAnswersByClef(args, clefSelected);
@@ -129,12 +127,12 @@ const PianoHandle: FC<Props> = (props) => {
           .then(() => handleAnswers(trebleData.solution, ...args))
           .then(() => setTimeout(() => stopTutoPlay(), 0));
       } else {
-        handleError(resetAnswer, handleMessage, "incompleteAnswer");
+        handleError(resetAnswer, handleMessage, activateCorrection, "incompleteAnswer");
       };
     };
 
     if (userAnswers.length === 0) {
-      handleError(resetAnswer, handleMessage, "noAnswer");
+      handleError(resetAnswer, handleMessage, activateCorrection, "noAnswer");
     };
       
     setStatus(NOGAME);

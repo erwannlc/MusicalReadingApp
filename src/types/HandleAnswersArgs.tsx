@@ -9,8 +9,6 @@ export type Args = [
   isMobile: boolean,
   gameLength: number,
   displayScoreCircle: (score: number) => void,
-  vexScoreNode: HTMLElement,
-  appNode: HTMLElement | null,
   outputNode: HTMLElement,
   clefSelected: ClefSelected,
   activateCorrection: () => void

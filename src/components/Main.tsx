@@ -146,7 +146,6 @@ const disablePiano = () => setIsPianoActive(false);
     stopTutoPlay,
     updateNodes,
     nodes,
-    appNode,
     tutoData,
     activateCorrection,
     isPianoActive

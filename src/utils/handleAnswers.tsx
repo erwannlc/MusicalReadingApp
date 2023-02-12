@@ -13,8 +13,6 @@ export const handleAnswers = async (
   isMobile: boolean,
   gameLength: number,
   displayScoreCircle: (score: number) => void,
-  vexScoreNode: HTMLElement,
-  appNode: HTMLElement | null,
   outputNode: HTMLElement,
   clefSelected: ClefSelected,
   activateCorrection: () => void,
@@ -38,8 +36,6 @@ export const handleAnswers = async (
       };
 
       activateCorrection();
-      // if (isMobile) {
-      // };
       handleMessage(correctionMsg);
     };
     
@@ -79,10 +75,12 @@ export const handleAnswers = async (
 export const handleError = async (
   resetAnswer: () => void,
   handleMessage: (message: MessageObj) => void,
+  activateCorrection: () => void,
   errorType: "noAnswer" | "incompleteAnswer"
   ) => {
   let errorMsg: MessageObj;
   const writeErrorMsg = async () => {
+    activateCorrection();
     if (errorType === "noAnswer") {
       errorMsg = {content: <>
         <p className="error-title">Aucune réponse enregistrée.</p>
