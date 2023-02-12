@@ -295,7 +295,6 @@ export const steps: Steps = [
     },
     highlights:"optionsIndicator",
     listener: "optionsIndicator",
-
     disable: ["playBtn"],
     func: (changeButton) => { 
       changeButton.nextButton = false;

@@ -32,8 +32,8 @@ export  const stepStyling = (
   if (highlights) { // highlights and/or disable node
     if (nodesToDisable) {
       for (let node of nodesToDisable) {
-        const value = {highlight: node === highlights ? true : false, disable: true};
-        changeNodeBehavior(node, value);
+        const newBehavior = {highlight: node === highlights ? true : false, disable: true};
+        changeNodeBehavior(node, newBehavior);
       };
       if (nodesToDisable.indexOf(highlights) < 0) changeNodeBehavior(highlights, {highlight: true, disable: false});
     } else changeNodeBehavior(highlights, {highlight: true, disable: false});

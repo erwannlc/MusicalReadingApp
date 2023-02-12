@@ -8,7 +8,7 @@ import { scaleA } from "../../data/data";
 import type { CSSPropertiesWithVars } from "../../types/CSSPropertiesWithVars";
 import type { Nodes } from "./TutoData/nodesToHighLight";
 import type { Options } from "../../types/Options";
-import type { ChangeButton, ChangeTutoData } from "../../types/TutoTypes";
+import type { ChangeButton, ChangeNodeBehavior } from "../../types/TutoTypes";
 import type { StaveClef, ClefSelected } from "../../types/Clefs";
 import type { MessageObj } from "../../types/MessageObj";
 import type { AlertContentType } from "./AlertModal/AlertMsgModal";
@@ -38,7 +38,7 @@ interface Props {
   nodes: Nodes
   changeProgressBarID: (id: string | null) => void
   resetNodesBehavior: () => void
-  changeNodeBehavior: ChangeTutoData
+  changeNodeBehavior: ChangeNodeBehavior
   isCorrection: boolean
 
 };

@@ -37,9 +37,6 @@ $gold: hsl(37, 100%, 61%);
     cursor: pointer;
 
     &.play {
-      &.tuto {
-        box-shadow: 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
-      }
       &.disable {
         pointer-events: none;
       }      
@@ -48,11 +45,8 @@ $gold: hsl(37, 100%, 61%);
       }   
     }
     &.stop {
-      &.tuto {
-        box-shadow: 0 0px 100px 4vw hsl(43, 40%, 79%); // line added to highlight component 
-      }
       &.tuto-play {
-        opacity: 0.4;
+        opacity: 0.5;
       }
       &.disable {
         pointer-events: none;

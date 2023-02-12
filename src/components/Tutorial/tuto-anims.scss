@@ -1,7 +1,32 @@
 
+$color1: hsl(105, 30%, 40%);
+$color1-active: hsl(105, 50%, 80%);
+$color2: hsla(0, 3%, 41%, 0.894);
+$color2-active: hsl(37, 100%, 61%);
 .tuto {
   animation: 3s ease-in-out infinite alternate tutoShine;
   z-index: 10;
+}
+div.playDiv div.btn-group {
+  button.play, button.stop {
+    &.tuto {
+      animation: .7s ease-in-out infinite alternate tutoShine;
+    }    
+  }
+  button.play {
+    &.tuto {
+      & svg path {
+        animation: .7s ease-in-out infinite alternate play-btn-coloring;
+      }   
+    }
+  }
+  button.stop {
+    &.tuto {
+      & svg path {
+        animation: .7s ease-in-out infinite alternate stop-btn-coloring;
+      }   
+    }
+  }
 }
 button.depth {
   &.tuto {
@@ -33,6 +58,22 @@ div.note-buttons {
   }
   to {
     box-shadow: 0 0px 100px 1vw hsl(43, 34%, 67%); // line added to highlight component 
+  }
+};
+@keyframes play-btn-coloring {
+    from {
+    fill: $color1; // line added to highlight component 
+  }
+  to {
+    fill: $color1-active; // line added to highlight component 
+  }
+};
+@keyframes stop-btn-coloring {
+    from {
+    fill: $color2; // line added to highlight component 
+  }
+  to {
+    fill: $color2-active; // line added to highlight component 
   }
 };
 @keyframes tutoClefsShine{

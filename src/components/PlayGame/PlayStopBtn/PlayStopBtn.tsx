@@ -38,16 +38,13 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
   }, [isPlaying]);
 
   useEffect(() => {
-    let className = isPlay ? `play is-play` : "play";
-    className += playBtn.disable ? " disable" : "";
-    className += playBtn.highlight ? " tuto" : "";
+    const className = `play${isPlay ?" is-play":""}${playBtn.disable ? " disable" : ""}${playBtn.highlight ? " tuto" :""}`;
     setPlayClassN(className);
   }, [isPlay, playBtn.disable, playBtn.highlight]);
   useEffect(() => {
-    let className = stopBtn.disable ? "stop disable" : "stop";
-    className += stopBtn.highlight ? " tuto" : "";
+    const className = `stop${stopBtn.disable ? " disable" : ""}${stopBtn.highlight ? " tuto" :""}${playBtn.highlight ? " tuto-play" : ""}`;
     setStopClassN(className);
-  }, [stopBtn.disable, stopBtn.highlight]);
+  }, [isPlay, playBtn.highlight, stopBtn.disable, stopBtn.highlight]);
 
   const handleClick = (type: string) => {
     if (type === "play" && !isPlaying) {
