@@ -99,9 +99,6 @@ export const playGame = (
   handleMessage: (message: MessageObj) => void,
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
   changeProgressBarID: (id: string | null) => void,
-  padsDiv: HTMLElement,
-  vexbox: HTMLElement,
-  appNode: HTMLElement | null,
   displayScoreCircle: (score: number) => void,
   outputNode: HTMLElement | null,
   enablePiano: () => void,
@@ -229,8 +226,6 @@ export const createTutoGame = (
   isMobile: boolean,
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
   handleMessage: (message: MessageObj) => void,
-  vexbox: HTMLElement,
-  appNode: HTMLElement | null,
   displayScoreCircle: (score: number) => void,
   outputNode: HTMLElement | null
 ) => {

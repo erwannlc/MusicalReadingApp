@@ -51,7 +51,6 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
     updateNodes,
     changeProgressBarID,
     nodes,
-    appNode,
     tutoData,
     enablePiano,
     disablePiano
@@ -59,8 +58,6 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
   } = props;
 
   const handlePlay = () => {
-    const padsNode = nodes.padsDiv.node;
-    const vexbox = isMobile ? nodes.vexScoreMobile?.node : nodes.vexScore?.node;
     const outputNode = isMobile ? nodes.vexScoreMobileOutput?.node : nodes.vexScoreOutput?.node;
     
     if (isPlaying) {
@@ -71,9 +68,7 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
         trebleData, bassData, bothClefsData, 
         isMobile, 
         setIsPlaying, 
-        handleMessage, 
-        vexbox, 
-        appNode, 
+        handleMessage,
         displayScoreCircle,
         nodes.vexScoreOutput.node
         )
@@ -87,8 +82,7 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
         isMobile, 
         handleMessage, 
         setIsPlaying, 
-        changeProgressBarID, 
-        padsNode, vexbox, appNode, 
+        changeProgressBarID,
         displayScoreCircle,
         outputNode,
         enablePiano,
