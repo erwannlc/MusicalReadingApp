@@ -8,10 +8,10 @@ interface Props {
   showOptions: () => void;
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   displayOptions: boolean
-  tutoData: {isTuto: boolean, disabled: boolean}
+  nodesBehavior: {highlight: boolean, disable: boolean}
 };
 
-const SwitchBtn:FC<Props> = ({showOptions, displayOptions, updateNodes, tutoData}) => {
+const SwitchBtn:FC<Props> = ({showOptions, displayOptions, updateNodes, nodesBehavior}) => {
 
   const [classN, setClassN] = useState("depth");
 
@@ -22,10 +22,10 @@ const SwitchBtn:FC<Props> = ({showOptions, displayOptions, updateNodes, tutoData
 
   useEffect(() => {
     let className = displayOptions ? "depth is-active" : "depth";
-    className += tutoData.disabled ? " disable" : "";
-    className += tutoData.isTuto ? " tuto" : "";
+    className += nodesBehavior.disable ? " disable" : "";
+    className += nodesBehavior.highlight ? " tuto" : "";
     setClassN(className);
-  }, [displayOptions, tutoData.disabled, tutoData.isTuto]);
+  }, [displayOptions, nodesBehavior.disable, nodesBehavior.highlight]);
 
 
   const handleClick = () => {

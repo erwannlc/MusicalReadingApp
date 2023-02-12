@@ -37,8 +37,8 @@ interface Props {
   closePiano: () => void
   nodes: Nodes
   changeProgressBarID: (id: string | null) => void
-  resetTutoData: () => void
-  changeTutoData: ChangeTutoData
+  resetNodesBehavior: () => void
+  changeNodeBehavior: ChangeTutoData
   isCorrection: boolean
 
 };
@@ -71,8 +71,8 @@ const Tutorial: FC<Props> =  (props) => {
     closePiano, 
     nodes, 
     changeProgressBarID, 
-    resetTutoData, 
-    changeTutoData,
+    resetNodesBehavior, 
+    changeNodeBehavior,
     isCorrection} = props;
 
   const { playBtn, stopBtn, switchOptions, optionsIndicator, switchPiano, padsDiv, note1, note2 } = nodes;
@@ -115,7 +115,7 @@ const Tutorial: FC<Props> =  (props) => {
       if (options.clefSelected !== "treble") changeClef("treble");
       if (isAlertOpen) setIsAlertOpen(false);
       activeTuto(false);
-      resetTutoData();
+      resetNodesBehavior();
       styling.current = steps[defaultStep].styling || {};
       setStepIndex(defaultStep);
     };
@@ -263,9 +263,9 @@ const Tutorial: FC<Props> =  (props) => {
   useEffect(() => { // styles with current step
     if (isDialog) {
       window.scrollTo(0, 0); // cancels previous unexpected scroll
-      resetTutoData();
+      resetNodesBehavior();
       changeButton.current = defaultChangeButton;
-      styling.current = stepStyling(step.styling || {}, changeTutoData, nodes, step.highlights, step.disable, step.above);
+      styling.current = stepStyling(step.styling || {}, changeNodeBehavior, nodes, step.highlights, step.disable, step.above);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDialog, nodes, step]);
@@ -277,7 +277,7 @@ const Tutorial: FC<Props> =  (props) => {
     if (step.startTutoAutoPlay) { // play Tuto Game
       const outputNode = isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node;
       closeTuto(true)
-      .then(() => changeTutoData("stopBtn", {isTuto: false, disabled: true}))
+      .then(() => changeNodeBehavior("stopBtn", {highlight: false, disable: true}))
       .then(() => playTuto(trebleData, isMobile, setIsPlaying, changeProgressBarID, outputNode));
     };
 

@@ -8,10 +8,10 @@ interface Props {
   options: Options
   showOptions: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
-  tutoData: {isTuto: boolean, disabled: boolean}
+  nodesBehavior: {highlight: boolean, disable: boolean}
 };
 
-const OptionsIndicator: FC<Props> = ({options, showOptions, updateNodes, tutoData}) => {
+const OptionsIndicator: FC<Props> = ({options, showOptions, updateNodes, nodesBehavior}) => {
 
   const [classN, setClassN] = useState("options-indicator");
 
@@ -64,10 +64,10 @@ const OptionsIndicator: FC<Props> = ({options, showOptions, updateNodes, tutoDat
   useEffect(() => { // className handling
     const isIndicatorTooLarge: boolean = (options.clefSelected === "bothClefs") && (options.intervalTime < 1001) ? true : false;
     let className = isIndicatorTooLarge ? "options-indicator largest" : "options-indicator";
-    className += tutoData.isTuto ? " tuto" : "";
-    className += tutoData.disabled ? " disable" : "";
+    className += nodesBehavior.highlight ? " tuto" : "";
+    className += nodesBehavior.disable ? " disable" : "";
     setClassN(className);
-  }, [options.clefSelected, options.intervalTime, tutoData.disabled, tutoData.isTuto]);
+  }, [options.clefSelected, options.intervalTime, nodesBehavior.disable, nodesBehavior.highlight]);
 
   return (
     <div ref={ref} className={classN} onClick={showOptions} title={optionsTooltip.global}>

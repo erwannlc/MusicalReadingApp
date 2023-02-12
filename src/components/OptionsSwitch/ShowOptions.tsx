@@ -7,7 +7,7 @@ interface Props {
   showOptions: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   displayOptions: boolean
-  tutoData: {isTuto: boolean, disabled: boolean}
+  nodesBehavior: {highlight: boolean, disable: boolean}
 }
 const ShowOptions: FC<Props> = (props) => 
     <SwitchBtn {...props}/>

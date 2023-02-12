@@ -8,53 +8,53 @@ export interface ChangeButton {
 
 export type TutoPlayStep = "step1"|"step2" |"step3";
 
-export interface TutoData {
+export interface NodesBehavior {
   playBtn: {
-    disabled: boolean,
-    isTuto: boolean
+    disable: boolean,
+    highlight: boolean
   },
   stopBtn:  { // ("tuto" only)  stopBtn: (remove "tuto-play" & "tuto"),
-    disabled: boolean,
-    isTuto: boolean 
+    disable: boolean,
+    highlight: boolean 
   }, 
   messageDiv: {
-    isTuto: boolean
+    highlight: boolean
   },
   optionsIndicator: {
-    disabled: boolean,
-    isTuto: boolean
+    disable: boolean,
+    highlight: boolean
   },
   switchOptions: {
-    disabled: boolean,
-    isTuto: boolean
+    disable: boolean,
+    highlight: boolean
   },
   switchPiano: {
-    disabled: boolean,
-    isTuto: boolean
+    disable: boolean,
+    highlight: boolean
   },
   clefs: {
-    isTuto: boolean
+    highlight: boolean
   },
   vexScore: {
-    isTuto: boolean
+    highlight: boolean
   },
   padsDiv: {
-    isTuto: boolean
+    highlight: boolean
   },
   padGNote: {
-    isTuto: boolean
+    highlight: boolean
   },
   bothOctavesNote: {
-    isTuto: boolean
+    highlight: boolean
   }
 };
 
-export type TutoDataKeys = keyof TutoData;
+export type NodesBehaviorKeys = keyof NodesBehavior;
 
-interface ChangeTutoDataObj {
-  isTuto?: boolean, 
-  disabled?: boolean
+interface ChangeNodesBehaviorObj {
+  highlight?: boolean, 
+  disable?: boolean
 } 
 
-export type ChangeTutoData = (component: TutoDataKeys, value: ChangeTutoDataObj) => void
+export type ChangeTutoData = (component: NodesBehaviorKeys, value: ChangeNodesBehaviorObj) => void
 

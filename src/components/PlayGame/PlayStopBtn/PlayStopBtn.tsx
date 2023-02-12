@@ -4,7 +4,7 @@ import PlayIcon from "./icons/play-icon";
 import StopIcon from "./icons/stop-icon";
 import { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
 import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
-import type { TutoData } from "../../../types/TutoTypes";
+import type { NodesBehavior } from "../../../types/TutoTypes";
 // Thx to HeadOnKeyboard https://codepen.io/headonkeyboard/pen/VwYdjRd
 
 interface Props {
@@ -13,15 +13,15 @@ interface Props {
   stopGame: () => void
   cancelStop: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
-  tutoData: TutoData
+  nodesBehavior: NodesBehavior
 };
 
-const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, updateNodes, tutoData}) => {
+const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, updateNodes, nodesBehavior}) => {
   
   const [isPlay, setIsPlay] = useState(false); // className handling
   const [playClassN, setPlayClassN] = useState("play");
   const [stopClassN, setStopClassN] = useState("stop");
-  const { playBtn, stopBtn } = tutoData;
+  const { playBtn, stopBtn } = nodesBehavior;
 
   const [playNodeObj, playRef] = useClientRect();
   useEffect(() => {
@@ -39,15 +39,15 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
 
   useEffect(() => {
     let className = isPlay ? `play is-play` : "play";
-    className += playBtn.disabled ? " disable" : "";
-    className += playBtn.isTuto ? " tuto" : "";
+    className += playBtn.disable ? " disable" : "";
+    className += playBtn.highlight ? " tuto" : "";
     setPlayClassN(className);
-  }, [isPlay, playBtn.disabled, playBtn.isTuto]);
+  }, [isPlay, playBtn.disable, playBtn.highlight]);
   useEffect(() => {
-    let className = stopBtn.disabled ? "stop disable" : "stop";
-    className += stopBtn.isTuto ? " tuto" : "";
+    let className = stopBtn.disable ? "stop disable" : "stop";
+    className += stopBtn.highlight ? " tuto" : "";
     setStopClassN(className);
-  }, [stopBtn.disabled, stopBtn.isTuto]);
+  }, [stopBtn.disable, stopBtn.highlight]);
 
   const handleClick = (type: string) => {
     if (type === "play" && !isPlaying) {

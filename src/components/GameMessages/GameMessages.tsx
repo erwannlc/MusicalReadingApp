@@ -5,7 +5,7 @@ import ProgressBar from "./ProgressBar";
 import type { MessageObj } from "../../types/MessageObj";
 import type { Options } from "../../types/Options";
 import type { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
-import type { TutoData } from "../../types/TutoTypes";
+import type { NodesBehavior } from "../../types/TutoTypes";
 import useClientRect, { NodeObj } from "../../utils/Hooks/useClientRect";
 import "./game-messages.scss";
 
@@ -21,7 +21,7 @@ interface Props {
  tempoTime: number
  progressBarId: string | null
  isTutoOn: boolean
- tutoData: TutoData
+ nodesBehavior: NodesBehavior
 };
 
 interface MessageDivProps {
@@ -46,14 +46,14 @@ const MessageDiv: FC<MessageDivProps> = ({message, updateNodes, highlight}) => {
   )
 };
 
-const GameMessages: FC<Props> = ({message, isPlaying, options, handleMessage, scoreNumber, gameLength, showOptions, updateNodes, tempoTime, progressBarId, isTutoOn, tutoData}) => {
+const GameMessages: FC<Props> = ({message, isPlaying, options, handleMessage, scoreNumber, gameLength, showOptions, updateNodes, tempoTime, progressBarId, isTutoOn, nodesBehavior}) => {
   const isModal = message.isModal ? message.isModal : false;
   
   if (isModal) {
     return ( 
       <>
         <Modal handleMessage={handleMessage} message={message} score={scoreNumber} gameLength={gameLength}>
-          <MessageDiv message={message} updateNodes={updateNodes} highlight={tutoData.messageDiv.isTuto}/>
+          <MessageDiv message={message} updateNodes={updateNodes} highlight={nodesBehavior.messageDiv.highlight}/>
         </Modal>
         <div className="messages">
         </div>
@@ -62,8 +62,8 @@ const GameMessages: FC<Props> = ({message, isPlaying, options, handleMessage, sc
   } else 
   return (
     <div className="messages">
-      <MessageDiv message={message} updateNodes={updateNodes} highlight={tutoData.messageDiv.isTuto}/>
-      {!isPlaying && <OptionsIndicator options={options} showOptions={showOptions} updateNodes={updateNodes} tutoData={tutoData.optionsIndicator}/>}
+      <MessageDiv message={message} updateNodes={updateNodes} highlight={nodesBehavior.messageDiv.highlight}/>
+      {!isPlaying && <OptionsIndicator options={options} showOptions={showOptions} updateNodes={updateNodes} nodesBehavior={nodesBehavior.optionsIndicator}/>}
       {progressBarId && isPlaying && <ProgressBar tempoTime={tempoTime} id={progressBarId} gameLength={gameLength} isTutoOn={isTutoOn}/> }
     </div>
   )

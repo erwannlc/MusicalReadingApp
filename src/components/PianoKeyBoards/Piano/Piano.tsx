@@ -9,14 +9,14 @@ interface Props {
   onPlay: (keyValue: string) => void
   isMobile: boolean
   scaleA: {[key: string]: string}
-  isTuto: boolean
+  isTutoOn: boolean
   isTutoPlay: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   isTutoNotes: boolean
   isPianoActive: boolean
 };
 
-const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, isTutoNotes, isPianoActive}) => {
+const Piano: FC<Props> = ({onPlay, isMobile, isTutoOn, isTutoPlay, updateNodes, isTutoNotes, isPianoActive}) => {
   // Thx to Bret Cameron :
   // https://css-tricks.com/how-to-code-a-playable-synth-keyboard/
   // https://codepen.io/BretCameron/pen/MWmyWeo
@@ -226,10 +226,10 @@ const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, is
 
     const scale = Object.keys(scaleA);
     const keyValue = scale.indexOf(keys[key].note) < 0 ? "?" : keys[key].note as string; // prevent error while play with sharp or flat (while play data is only considering natural notes);
-    if (!(isTuto && !isTutoPlay)) {
+    if (!(isTutoOn && !isTutoPlay)) {
       onPlay(keyValue);
     };
-}, [audioContext, changeClassN, isTuto, isTutoPlay, onPlay, pressedNotes]);
+}, [audioContext, changeClassN, isTutoOn, isTutoPlay, onPlay, pressedNotes]);
 
   const stopKey = useCallback((key: string, keys: PianoKeys) => {
   if (!keys[key]) {

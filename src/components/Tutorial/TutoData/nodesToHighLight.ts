@@ -1,8 +1,8 @@
 import { NodeObj } from "../../../utils/Hooks/useClientRect";
-import type { TutoDataKeys } from "../../../types/TutoTypes";
+import type { NodesBehaviorKeys } from "../../../types/TutoTypes";
 
-export type HighLights = TutoDataKeys;
-export type Disabling = TutoDataKeys[];
+export type HighLights = NodesBehaviorKeys;
+export type Disabling = NodesBehaviorKeys[];
 
 export type Nodes = {
   [key in NodesKeys]: NodeObj;

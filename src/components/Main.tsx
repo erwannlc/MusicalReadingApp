@@ -8,12 +8,12 @@ import PianoKeyBoards from "./PianoKeyBoards";
 import GameMessages from "./GameMessages/GameMessages";
 import GameScore from "./GameMessages/GameScore";
 import Tutorial from "./Tutorial";
-import defaultTutoData from "./Tutorial/TutoData/defaultTutoData";
+import defaultNodesBehavior from "./Tutorial/TutoData/defaultNodesBehavior";
 import useMediaQuery from "../utils/Hooks/useMediaQuery/useMediaQuery";
 import restoreDefault from "../utils/restoreDefault";
 import type { StaveClef, BothClefs, ClefSelected } from "../types/Clefs";
 import type { MessageObj } from "../types/MessageObj";
-import type { TutoData, TutoDataKeys } from "../types/TutoTypes";
+import type { NodesBehavior, NodesBehaviorKeys } from "../types/TutoTypes";
 import type { Nodes, NodesKeys } from "./Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../utils/Hooks/useClientRect";
 import { treble, bass, bothClefs, defaultMessage, defaultOptions, scaleA } from "../data/data";
@@ -80,11 +80,11 @@ const disablePiano = () => setIsPianoActive(false);
   const updateNodes = useCallback((key: NodesKeys, obj: NodeObj) => {
     setNodes(nodes => ({...nodes, [key]: obj}));
   }, []);
-  const [tutoData, setTutoData] = useState(defaultTutoData as TutoData);
-  const modifyTutoData = (component: TutoDataKeys, value: {isTuto?: boolean, disabled?: boolean}) => {
-    setTutoData(tutoData => ({...tutoData, [component]: value}));
+  const [nodesBehavior, setNodesBehavior] = useState(defaultNodesBehavior as NodesBehavior);
+  const changeNodeBehavior = (component: NodesBehaviorKeys, value: {highlight?: boolean, disable?: boolean}) => {
+    setNodesBehavior(nodesBehavior => ({...nodesBehavior, [component]: value}));
   };
-  const resetTutoData = () => setTutoData(defaultTutoData);
+  const resetNodesBehavior = () => setNodesBehavior(defaultNodesBehavior);
   const [isTutoOn, setIsTutoOn] = useState(false);
   const activeTuto = (bool: boolean) => setIsTutoOn(bool);
   const [tutoPlay, setTutoPlay] = useState({
@@ -123,7 +123,7 @@ const disablePiano = () => setIsPianoActive(false);
     changeProgressBarID,
     nodes,
     appNode,
-    tutoData,
+    nodesBehavior,
     isCorrection,
     disablePiano,
     enablePiano
@@ -141,12 +141,12 @@ const disablePiano = () => setIsPianoActive(false);
     isMobile,
     gameLength,
     displayScoreCircle,
-    isTuto: isTutoOn,
+    isTutoOn,
     tutoPlay,
     stopTutoPlay,
     updateNodes,
     nodes,
-    tutoData,
+    nodesBehavior,
     activateCorrection,
     isPianoActive
   };
@@ -160,7 +160,7 @@ const disablePiano = () => setIsPianoActive(false);
     gameLength,
     updateNodes,
     outputNode: nodes.vexScoreOutput?.node,
-    highlight: tutoData.vexScore.isTuto,
+    highlight: nodesBehavior.vexScore.highlight,
     isCorrection
   };
   const optionsProps = {
@@ -179,7 +179,7 @@ const disablePiano = () => setIsPianoActive(false);
     displayOptions,
     updateNodes,
     options,
-    tutoData
+    nodesBehavior
   };
   const messageProps = {
     message,
@@ -193,7 +193,7 @@ const disablePiano = () => setIsPianoActive(false);
     tempoTime: options.intervalTime,
     progressBarId,
     isTutoOn,
-    tutoData
+    nodesBehavior
   };
   const tutoProps = {
     options,
@@ -216,9 +216,9 @@ const disablePiano = () => setIsPianoActive(false);
     closePiano: () => setDisplayPiano(false),
     nodes,
     changeProgressBarID,
-    resetTutoData,
-    changeTutoData: useCallback((component: TutoDataKeys, value: {isTuto?: boolean, disabled?: boolean}) => {
-      if (value) modifyTutoData(component, value);
+    resetNodesBehavior,
+    changeNodeBehavior: useCallback((component: NodesBehaviorKeys, value: {highlight?: boolean, disable?: boolean}) => {
+      if (value) changeNodeBehavior(component, value);
     }, []),
     isCorrection
   };
@@ -229,7 +229,7 @@ const disablePiano = () => setIsPianoActive(false);
       {!displayOptions && <GameMessages {...messageProps} />}
       {!displayOptions && <GameScore isModal={message.isModal ? true : false} scoreNumber={scoreNumber} gameLength={isTutoOn ? 5 : gameLength} isMobile={isMobile} />}
       {!displayOptions && <PlayBtn {...playGameProps}/>}
-      {!isPlaying && <ShowOptions showOptions={showOptions} displayOptions={displayOptions} updateNodes={updateNodes} tutoData={tutoData.switchOptions}/>}    
+      {!isPlaying && <ShowOptions showOptions={showOptions} displayOptions={displayOptions} updateNodes={updateNodes} nodesBehavior={nodesBehavior.switchOptions}/>}    
       {isMobile ? <VFBoxMobile {...VFScoreProps}/>
       : <VFBox {...VFScoreProps}/>}
       <PianoKeyBoards {...pianoKeyboardProps} />

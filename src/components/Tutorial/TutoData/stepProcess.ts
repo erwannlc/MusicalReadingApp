@@ -1,9 +1,9 @@
 import type { CSSPropertiesWithVars } from "../../../types/CSSPropertiesWithVars";
 import type { Disabling, Nodes } from "./nodesToHighLight";
-import type { ChangeButton, ChangeTutoData, TutoData } from "../../../types/TutoTypes";
+import type { ChangeButton, ChangeTutoData, NodesBehavior } from "../../../types/TutoTypes";
 
-export const resetClass = (resetTutoData: () => void, changeButton: ChangeButton) => {
-  resetTutoData();
+export const resetClass = (resetNodesBehavior: () => void, changeButton: ChangeButton) => {
+  resetNodesBehavior();
   changeButton = {
     isNextDisabled: false,
     nextButton: true,
@@ -15,28 +15,28 @@ export const resetClass = (resetTutoData: () => void, changeButton: ChangeButton
 
 export  const stepStyling = (
   styling: CSSPropertiesWithVars, 
-  changeTutoData: ChangeTutoData,
+  changeNodeBehavior: ChangeTutoData,
   nodes: Nodes,
-  highlights: keyof TutoData | undefined,
+  highlights: keyof NodesBehavior | undefined,
   nodesToDisable: Disabling | undefined,
   above: boolean | undefined,
   ): CSSPropertiesWithVars => {
 
   if (!highlights && nodesToDisable) {
     for (let node of nodesToDisable) {
-      const value = {isTuto: false, disabled: true};
-        changeTutoData(node, value);
+      const value = {highlight: false, disable: true};
+        changeNodeBehavior(node, value);
     };
   };
   
   if (highlights) { // highlights and/or disable node
     if (nodesToDisable) {
       for (let node of nodesToDisable) {
-        const value = {isTuto: node === highlights ? true : false, disabled: true};
-        changeTutoData(node, value);
+        const value = {highlight: node === highlights ? true : false, disable: true};
+        changeNodeBehavior(node, value);
       };
-      if (nodesToDisable.indexOf(highlights) < 0) changeTutoData(highlights, {isTuto: true, disabled: false});
-    } else changeTutoData(highlights, {isTuto: true, disabled: false});
+      if (nodesToDisable.indexOf(highlights) < 0) changeNodeBehavior(highlights, {highlight: true, disable: false});
+    } else changeNodeBehavior(highlights, {highlight: true, disable: false});
     let styleAdded = {};
     if (highlights !== "bothOctavesNote") {    // place tuto Modal close to Node
       const offset = nodes[highlights].rect;

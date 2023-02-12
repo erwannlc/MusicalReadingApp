@@ -4,7 +4,7 @@ import type { StaveClef, BothClefs } from "../../types/Clefs";
 import type { Options } from "../../types/Options";
 import type { Nodes, NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
-import type { TutoData } from "../../types/TutoTypes";
+import type { NodesBehavior } from "../../types/TutoTypes";
 import { playGame, stopPlaying, createTutoGame } from "../../utils/handleGame";
 import PlayStopBtn from "./PlayStopBtn";
 
@@ -27,7 +27,7 @@ interface Props {
   changeProgressBarID: (id: string | null) => void
   nodes: Nodes
   appNode: HTMLElement | null
-  tutoData: TutoData
+  nodesBehavior: NodesBehavior
   enablePiano: () => void
   disablePiano: () => void
 };
@@ -51,7 +51,7 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
     updateNodes,
     changeProgressBarID,
     nodes,
-    tutoData,
+    nodesBehavior,
     enablePiano,
     disablePiano
 
@@ -93,7 +93,7 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
 
   return (
     <div className="playDiv"> 
-      <PlayStopBtn handlePlay={handlePlay} isPlaying={isPlaying} stopGame={stopGame} cancelStop={cancelStop} updateNodes={updateNodes} tutoData={tutoData}/>
+      <PlayStopBtn handlePlay={handlePlay} isPlaying={isPlaying} stopGame={stopGame} cancelStop={cancelStop} updateNodes={updateNodes} nodesBehavior={nodesBehavior}/>
     </div>
   )
 };

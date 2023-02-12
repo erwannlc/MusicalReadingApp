@@ -7,7 +7,7 @@ import type { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
 import type { Options } from "../../types/Options";
 import type { ClefSelected } from "../../types/Clefs";
-import type { TutoData } from "../../types/TutoTypes";
+import type { NodesBehavior } from "../../types/TutoTypes";
 import "./options.scss";
 
 interface Props {
@@ -20,18 +20,18 @@ interface Props {
   displayOptions: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   options: Options
-  tutoData: TutoData
+  nodesBehavior: NodesBehavior
 };
 
 const OptionsPanel: FunctionComponent <Props>= (props) => {
-  const { changeTimer, changeLevel, changeClef, switchPiano, displayPiano, displayOptions, updateNodes, options, tutoData} = props
+  const { changeTimer, changeLevel, changeClef, switchPiano, displayPiano, displayOptions, updateNodes, options, nodesBehavior} = props
   let className = displayOptions ? "options panel animate fade" : "options panel";
   return (
     <div className={className}>
       <Tempo changeTimer={changeTimer} tempoNum={options.tempoNum}/>
       <Levels changeLevel={changeLevel}/>
-      <Clef changeClef={changeClef} updateNodes={updateNodes} clefSelected={options.clefSelected} highlight={tutoData.clefs.isTuto}/>
-      <SwitchPiano switchPiano={switchPiano} isPiano={displayPiano}  updateNodes={updateNodes} tutoData={tutoData.switchPiano}/>
+      <Clef changeClef={changeClef} updateNodes={updateNodes} clefSelected={options.clefSelected} highlight={nodesBehavior.clefs.highlight}/>
+      <SwitchPiano switchPiano={switchPiano} isPiano={displayPiano}  updateNodes={updateNodes} nodesBehavior={nodesBehavior.switchPiano}/>
     </div>
   )
 };

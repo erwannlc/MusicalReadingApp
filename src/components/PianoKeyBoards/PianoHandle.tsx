@@ -7,7 +7,7 @@ import type { MessageObj } from "../../types/MessageObj";
 import type { Args } from "../../types/HandleAnswersArgs";
 import type { NodesKeys, Nodes } from "../Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
-import type { TutoData } from "../../types/TutoTypes";
+import type { NodesBehavior } from "../../types/TutoTypes";
 import { handleAnswers, handleError } from "../../utils/handleAnswers";
 
 
@@ -24,12 +24,12 @@ interface Props {
   isMobile: boolean
   gameLength: number
   displayScoreCircle: (score: number) => void
-  isTuto: boolean
+  isTutoOn: boolean
   tutoPlay: {isActive: boolean, answer: string}
   stopTutoPlay: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   nodes: Nodes
-  tutoData: TutoData
+  nodesBehavior: NodesBehavior
   activateCorrection: () => void,
   isPianoActive: boolean
 };
@@ -42,7 +42,7 @@ const NOGAME = 3;
 const PianoHandle: FC<Props> = (props) => {
   const {isPlaying, scaleA, clefSelected, trebleData, bassData, bothClefsData, 
     handleMessage, displayPiano, isGameStopped, isMobile, 
-    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, tutoData, activateCorrection, isPianoActive} = props;
+    gameLength, displayScoreCircle, isTutoOn, tutoPlay, stopTutoPlay, updateNodes, nodes, nodesBehavior, activateCorrection, isPianoActive} = props;
 
   const isTutoActive = tutoPlay.isActive;
   const actualGameLength = isTutoActive ? 5 : gameLength;
@@ -139,8 +139,8 @@ const PianoHandle: FC<Props> = (props) => {
   };
   return (
     <>
-      {displayPiano ? <Piano onPlay={onPlay} isMobile={isMobile} scaleA={scaleA} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes}  isTutoNotes={tutoData.bothOctavesNote.isTuto} isPianoActive={isPianoActive}/> 
-      : <Pads onPlay={onPlay} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes} tutoData={tutoData} isPianoActive={isPianoActive}/> }
+      {displayPiano ? <Piano onPlay={onPlay} isMobile={isMobile} scaleA={scaleA} isTutoOn={isTutoOn} isTutoPlay={isTutoActive} updateNodes={updateNodes}  isTutoNotes={nodesBehavior.bothOctavesNote.highlight} isPianoActive={isPianoActive}/> 
+      : <Pads onPlay={onPlay} isTutoOn={isTutoOn} isTutoPlay={isTutoActive} updateNodes={updateNodes} nodesBehavior={nodesBehavior} isPianoActive={isPianoActive}/> }
     </>
   );
 };
