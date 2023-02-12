@@ -64,6 +64,9 @@
 
   //tuto vars 
   $tutoTouchColor2: #D1E7E0;
+  &.disable {
+    pointer-events: none;
+  }
 
   li:first-child {
     border-radius: 5px 0 5px 5px;

@@ -10,9 +10,10 @@ type Props = {
   isTutoPlay: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   tutoData: TutoData
+  isPianoActive: boolean
 };
 
-const Pads: FC<Props> = ({onPlay, isTuto, isTutoPlay, updateNodes, tutoData}) => {
+const Pads: FC<Props> = ({onPlay, isTuto, isTutoPlay, updateNodes, tutoData, isPianoActive}) => {
 
   const [nodeObj, padsRef] = useClientRect();
   useEffect(() => {
@@ -63,8 +64,7 @@ const Pads: FC<Props> = ({onPlay, isTuto, isTutoPlay, updateNodes, tutoData}) =>
   document.addEventListener("touchend", () => {
     stopKey(clickedKey);
   });
-
-  let classN = tutoData.padsDiv.isTuto ? "note-buttons tuto" : "note-buttons";
+  const classN = `note-buttons ${tutoData.padGNote.isTuto ? " tuto" : ""} ${isPianoActive ? "" : "disable"}`
   let padGClassN = tutoData.padGNote.isTuto ? "tuto" : "";
 
   return (

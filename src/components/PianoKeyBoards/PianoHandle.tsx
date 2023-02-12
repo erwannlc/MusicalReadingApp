@@ -32,6 +32,7 @@ interface Props {
   appNode: HTMLElement | null
   tutoData: TutoData
   activateCorrection: () => void,
+  isPianoActive: boolean
 };
 
 //state machine
@@ -42,7 +43,7 @@ const NOGAME = 3;
 const PianoHandle: FC<Props> = (props) => {
   const {isPlaying, scaleA, clefSelected, trebleData, bassData, bothClefsData, 
     handleMessage, displayPiano, isGameStopped, isMobile, 
-    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, appNode, tutoData, activateCorrection} = props;
+    gameLength, displayScoreCircle, isTuto, tutoPlay, stopTutoPlay, updateNodes, nodes, appNode, tutoData, activateCorrection, isPianoActive} = props;
 
   const isTutoActive = tutoPlay.isActive;
   const actualGameLength = isTutoActive ? 5 : gameLength;
@@ -140,8 +141,8 @@ const PianoHandle: FC<Props> = (props) => {
   };
   return (
     <>
-      {displayPiano ? <Piano onPlay={onPlay} isMobile={isMobile} scaleA={scaleA} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes}  isTutoNotes={tutoData.bothOctavesNote.isTuto}/> 
-      : <Pads onPlay={onPlay} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes} tutoData={tutoData}/> }
+      {displayPiano ? <Piano onPlay={onPlay} isMobile={isMobile} scaleA={scaleA} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes}  isTutoNotes={tutoData.bothOctavesNote.isTuto} isPianoActive={isPianoActive}/> 
+      : <Pads onPlay={onPlay} isTuto={isTuto} isTutoPlay={isTutoActive} updateNodes={updateNodes} tutoData={tutoData} isPianoActive={isPianoActive}/> }
     </>
   );
 };

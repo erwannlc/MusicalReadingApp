@@ -13,9 +13,10 @@ type Props = {
   isTutoPlay: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   isTutoNotes: boolean
+  isPianoActive: boolean
 };
 
-const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, isTutoNotes}) => {
+const Piano: FC<Props> = ({onPlay, isMobile, isTuto, isTutoPlay, updateNodes, isTutoNotes, isPianoActive}) => {
   // Thx to Bret Cameron :
   // https://css-tricks.com/how-to-code-a-playable-synth-keyboard/
   // https://codepen.io/BretCameron/pen/MWmyWeo
@@ -309,7 +310,7 @@ classN.K += `${isTutoNotes ? " tuto" : ""}`;
 
   return (
     <div id="pianoKeyboard">
-      <ul ref={pianoRef} id="keyboard">        
+      <ul ref={pianoRef} id="keyboard" className={isPianoActive ? "" : "disable"}>        
         {isMobile ? 
         <>
           <li data-note="C" ref={note1Ref} className={classN.C} onMouseDown={pressKey} onTouchStart={touchKey}>C</li>

@@ -104,6 +104,8 @@ export const playGame = (
   appNode: HTMLElement | null,
   displayScoreCircle: (score: number) => void,
   outputNode: HTMLElement | null,
+  enablePiano: () => void,
+  disablePiano: () => void
   ): void => {
     displayScoreCircle(-1);
     
@@ -122,7 +124,7 @@ export const playGame = (
         isOnPlay = false;
         end();
       };
-      padsDiv.classList.remove("disable");
+      enablePiano();
       const callFunc = async () => {
         isMobile ? playMobile(current, clefSelected, trebleData, bassData, bothClefsData, levelNum, gameLength, outputNode) 
         : displayNote(current, clefSelected, outputNode, bothClefsData);
@@ -148,7 +150,7 @@ export const playGame = (
         play();
         return;
       }
-      padsDiv.classList.add("disable");
+      disablePiano();
       handleMessage({content: <h3>{time.toString()}</h3>, className:"countdown"});
       time--;
       const interval = intervalTime > 1500 ? 1500 : intervalTime;

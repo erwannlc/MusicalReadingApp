@@ -70,7 +70,9 @@ const Main: FunctionComponent = () => {
     if (isPlaying === true && isCorrection === true) setIsCorrection(false);
   }, [isCorrection, isPlaying]);
   const mainClassN = isCorrection ? "while-correction" : "";
-  console.log("isCorrection", isCorrection)
+  const [isPianoActive, setIsPianoActive] = useState(true);
+const enablePiano = () => setIsPianoActive(true);
+const disablePiano = () => setIsPianoActive(false);
 
 
   // Tutorial data
@@ -83,7 +85,6 @@ const Main: FunctionComponent = () => {
     setTutoData(tutoData => ({...tutoData, [component]: value}));
   };
   const resetTutoData = () => setTutoData(defaultTutoData);
-
   const [isTutoOn, setIsTutoOn] = useState(false);
   const activeTuto = (bool: boolean) => setIsTutoOn(bool);
   const [tutoPlay, setTutoPlay] = useState({
@@ -97,7 +98,7 @@ const Main: FunctionComponent = () => {
 
   useEffect(() => {
     if (isMobile) {
-      window.scrollTo(0, -10); // allow display entire screen 
+      window.scrollTo(0, -10); // displays entire screen 
       document.body.classList.add("avoid-scroll--on-touch");
     } else document.body.classList.remove("avoid-scroll--on-touch");
   }, [isMobile]);
@@ -123,7 +124,9 @@ const Main: FunctionComponent = () => {
     nodes,
     appNode,
     tutoData,
-    isCorrection
+    isCorrection,
+    disablePiano,
+    enablePiano
   };
   const pianoKeyboardProps = {
     isPlaying,
@@ -145,7 +148,8 @@ const Main: FunctionComponent = () => {
     nodes,
     appNode,
     tutoData,
-    activateCorrection
+    activateCorrection,
+    isPianoActive
   };
   const VFScoreProps = {
     level: options.level,

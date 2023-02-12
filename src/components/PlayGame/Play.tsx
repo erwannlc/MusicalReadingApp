@@ -28,6 +28,8 @@ type Props = {
   nodes: Nodes
   appNode: HTMLElement | null
   tutoData: TutoData
+  enablePiano: () => void
+  disablePiano: () => void
 };
 
 const PlayBtn: FunctionComponent<Props> = (props) => {
@@ -50,7 +52,10 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
     changeProgressBarID,
     nodes,
     appNode,
-    tutoData
+    tutoData,
+    enablePiano,
+    disablePiano
+
   } = props;
 
   const handlePlay = () => {
@@ -85,7 +90,9 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
         changeProgressBarID, 
         padsNode, vexbox, appNode, 
         displayScoreCircle,
-        outputNode
+        outputNode,
+        enablePiano,
+        disablePiano
         );
     }
   }
