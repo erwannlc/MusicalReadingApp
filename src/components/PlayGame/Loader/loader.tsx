@@ -1,7 +1,7 @@
 import { FC } from "react";
 import "./loader.css";
 
-type Props = {
+interface Props {
   loaderClassName?: string;
 }
 

@@ -10,7 +10,7 @@ import type { ClefSelected } from "../../types/Clefs";
 import type { TutoData } from "../../types/TutoTypes";
 import "./options.scss";
 
-type Props = {
+interface Props {
   changeTimer: (interval: number, tempoNum: number) => void
   changeLevel: (level: string, levelNum: number) => void
   changeClef: (clef: ClefSelected) => void

@@ -4,7 +4,7 @@ import useClientRect from "../../../utils/Hooks/useClientRect";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
 import { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
 
-type Props = {
+interface Props {
   options: Options
   showOptions: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void

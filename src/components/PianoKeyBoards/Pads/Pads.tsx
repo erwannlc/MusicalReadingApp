@@ -4,7 +4,7 @@ import type { TutoData } from "../../../types/TutoTypes";
 import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
 import "./pads.scss";
 
-type Props = {
+interface Props {
   onPlay: (keyValue: string) => void
   isTuto: boolean
   isTutoPlay: boolean

@@ -7,7 +7,7 @@ import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
 import type { TutoData } from "../../../types/TutoTypes";
 // Thx to HeadOnKeyboard https://codepen.io/headonkeyboard/pen/VwYdjRd
 
-type Props = {
+interface Props {
   handlePlay: () => void
   isPlaying: boolean
   stopGame: () => void

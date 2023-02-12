@@ -4,7 +4,7 @@ import ErrorModalContent from "./Contents/ErrorModalContent";
 
 export type AlertContentType = "answersIncomplete" | "";
 
-type Props = {
+interface Props {
   contentType: AlertContentType
   cancelConfirm: () => void
   isAlertOpen: boolean

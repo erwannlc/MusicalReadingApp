@@ -17,7 +17,7 @@ import { playTuto, stopPlaying } from "../../utils/handleGame";
 import "./TutoDialog/tuto-dialog.scss";
 import "./tuto-anims.scss";
 
-type Props = {
+interface Props {
   options: Options
   activeTuto: (bool: boolean) => void
   isTutoOn: boolean

@@ -5,7 +5,7 @@ import { scaleA } from "../../../data/data";
 import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
 import "./piano.scss";
 
-type Props = {
+interface Props {
   onPlay: (keyValue: string) => void
   isMobile: boolean
   scaleA: {[key: string]: string}

@@ -3,7 +3,7 @@ import "./game-score.scss";
 // Thx to Javier Delgado https://github.com/javiluli
 // https://codepen.io/alvarotrigo/pen/VwMvydQ
 
-type Props = {
+interface Props {
   isModal: boolean
   scoreNumber: number
   gameLength: number

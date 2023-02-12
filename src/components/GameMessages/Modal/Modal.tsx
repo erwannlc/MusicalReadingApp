@@ -3,7 +3,7 @@ import Dialog from "./Dialog";
 import type { MessageObj } from "../../../types/MessageObj";
 import "./modal.scss"
 
-type Props = {
+interface Props {
   children: React.ReactNode
   handleMessage: (message: MessageObj) => void
   message: MessageObj

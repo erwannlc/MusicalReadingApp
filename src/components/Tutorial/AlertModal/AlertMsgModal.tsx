@@ -4,7 +4,7 @@ import ConfirmQuit from "./Contents/ConfirmQuit";
 
 export type AlertContentType = "confirmQuitPlay" | "confirmSimpleQuit" | "";
 
-type Props = {
+interface Props {
   cancelConfirm: () => void
   confirmQuitPlay: () => void
   quitTuto: () => void

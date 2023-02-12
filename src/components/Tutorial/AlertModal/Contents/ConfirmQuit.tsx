@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-type Props = {
+interface Props {
   handleClose: () => void,
   closeTuto: () => void
 };

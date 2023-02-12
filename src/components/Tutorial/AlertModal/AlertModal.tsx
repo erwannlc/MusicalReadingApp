@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Modal from "./Modal";
 
-type Props = {
+interface Props {
   children: React.ReactNode
   classN: string
   cancelConfirm: () => void

@@ -4,7 +4,7 @@ import PianoIcon from "./PianoIcon";
 import { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
 import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
 
-type Props = {
+interface Props {
   switchPiano: () => void
   isPiano: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj) => void

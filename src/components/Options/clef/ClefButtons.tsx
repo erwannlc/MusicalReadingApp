@@ -5,7 +5,7 @@ import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
 import type { ClefSelected, ClefsClassName } from "../../../types/Clefs";
 import "./clefButtons.scss";
 
-type Props = {
+interface Props {
   chooseClef:(clef: ClefSelected) => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   clefSelected: string

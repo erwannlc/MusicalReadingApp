@@ -1,7 +1,7 @@
 import { FC, useRef } from "react";
 import "./answers-msg.scss";
 
-type Props = {
+interface Props {
   answers: string[],
   lastValue: string
 };

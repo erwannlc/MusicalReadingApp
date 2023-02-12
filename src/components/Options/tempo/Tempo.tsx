@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import KnobButton from "./tempoKnob";
 
-type Props = {
+interface Props {
   changeTimer: (interval: number, tempoNum: number) => void
   tempoNum: number
 };

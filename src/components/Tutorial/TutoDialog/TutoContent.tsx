@@ -3,7 +3,7 @@ import CloseBtn from "./ui/btn_close";
 import type { ChangeButton } from "../../../types/TutoTypes";
 
 
-type Props = {
+interface Props {
   handleClose: () => void
   steps: {title: string, content: string}[]
   goNext: () => void

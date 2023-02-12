@@ -2,7 +2,7 @@ import { useRef, useEffect, FC, MouseEvent, TouchEvent } from "react";
 import "./confirm-modal.scss"
 
 // thx to https://souporserious.com/build-a-dialog-component-in-react/
-type Props = {
+interface Props {
   children: React.ReactNode
   isOpen: boolean
   onRequestClose: () => void

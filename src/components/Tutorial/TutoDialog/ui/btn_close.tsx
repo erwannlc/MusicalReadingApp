@@ -2,7 +2,7 @@ import { FC } from "react";
 import "./close-button.scss";
 
 
-type Props = {
+interface Props {
   handleClose: () => void
   closeBtnClassName: string
 };

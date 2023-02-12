@@ -4,7 +4,7 @@ import type { NodeObj } from "../../../utils/Hooks/useClientRect";
 import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
 import type { ClefSelected } from "../../../types/Clefs";
 
-type Props = {
+interface Props {
   changeClef: (clef: ClefSelected) => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   clefSelected: string

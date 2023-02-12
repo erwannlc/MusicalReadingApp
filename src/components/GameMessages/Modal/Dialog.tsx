@@ -4,7 +4,7 @@ import "./close-button.scss";
 import "./modal.scss";
 
 // thx to https://codesandbox.io/u/souporserious
-type Props = {
+interface Props {
   children: React.ReactNode
   isOpen: boolean
   onRequestClose: () => void

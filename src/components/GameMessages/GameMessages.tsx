@@ -9,7 +9,7 @@ import type { TutoData } from "../../types/TutoTypes";
 import useClientRect, { NodeObj } from "../../utils/Hooks/useClientRect";
 import "./game-messages.scss";
 
-type Props = {
+interface Props {
  message: MessageObj
  isPlaying: boolean
  options: Options
@@ -24,7 +24,7 @@ type Props = {
  tutoData: TutoData
 };
 
-type MessageDivProps = {
+interface MessageDivProps {
   message: MessageObj
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   highlight: boolean

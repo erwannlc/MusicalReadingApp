@@ -4,7 +4,7 @@ import { createStaves } from "../../utils/createStaves";
 import useClientRect, { NodeObj } from "../../utils/Hooks/useClientRect";
 import { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 
-type Props = {
+interface Props {
  level: string
  levelNum: number
  clefSelected: string

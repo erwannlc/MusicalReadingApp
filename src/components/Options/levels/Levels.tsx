@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import KnobButton from "./levelsKnob";
 
-type Props = {
+interface Props {
   changeLevel: (level: string, levelNum: number) => void
 };
 

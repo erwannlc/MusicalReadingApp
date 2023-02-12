@@ -2,7 +2,7 @@ import {FC, useEffect, useState} from "react";
 import Knob from "../ui/Knob/Knob";
 import "./style.scss"
 
-type Props = {
+interface Props {
   handleFunc: (value: number) => void,
   numTicks: number,
   max: number, 

@@ -3,7 +3,7 @@ import { NodeObj } from "../../utils/Hooks/useClientRect";
 import { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 import SwitchBtn from "./SwitchBtn";
 
-type Props = {
+interface Props {
   showOptions: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   displayOptions: boolean

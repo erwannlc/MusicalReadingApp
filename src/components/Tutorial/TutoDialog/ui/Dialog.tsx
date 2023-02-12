@@ -4,7 +4,7 @@ import "../tuto-dialog.scss";
 
 
 // thx to https://codesandbox.io/u/souporserious
-type Props = {
+interface Props {
   children: React.ReactNode
   isOpen: boolean
   modalClassName: string

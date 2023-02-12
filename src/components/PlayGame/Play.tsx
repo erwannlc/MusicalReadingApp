@@ -8,7 +8,7 @@ import type { TutoData } from "../../types/TutoTypes";
 import { playGame, stopPlaying, createTutoGame } from "../../utils/handleGame";
 import PlayStopBtn from "./PlayStopBtn";
 
-type Props = {
+interface Props {
   options: Options
   trebleData: StaveClef 
   bassData: StaveClef 

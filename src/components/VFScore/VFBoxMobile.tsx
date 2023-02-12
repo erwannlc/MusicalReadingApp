@@ -6,7 +6,7 @@ import { renderVFEmptyStave } from "../../utils/renderVFScoreMobile";
 import { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 
 
-type Props = {
+interface Props {
  level: string
  clefSelected: string
  trebleData: StaveClef
