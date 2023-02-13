@@ -193,7 +193,8 @@ const disablePiano = () => setIsPianoActive(false);
     tempoTime: options.intervalTime,
     progressBarId,
     isTutoOn,
-    nodesBehavior
+    nodesBehavior,
+    restoreDefault: () => restoreDefault(handleMessage, options.clefSelected, isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node, 5, resetStavesData, displayScoreCircle, isMobile, deactivateCorrection),
   };
   const tutoProps = {
     options,

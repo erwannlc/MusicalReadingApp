@@ -259,6 +259,31 @@ div.messages div#message {
     }
     @media screen and (orientation: landscape) {
       top: 55vh;
+      left: 0;
+    }  
+  }
+  button.back-to-default {
+    position: absolute;
+    top: 130%;
+    height: 3rem;
+    font-size: 0.9rem;
+    background: none;
+    border: 2px solid goldenrod;
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+    color: white;
+    @media screen and (max-width: 850px) and (orientation: portrait) { // large mobile phone
+      top: 110%;
+      width: 85%;
+      left: 50%;
+      transform: translateX(-50%);
+      @media screen and (max-height: 670px) and (orientation: portrait) {
+        top: 180%;
+      }
+    }
+    @media screen and (orientation: landscape) {
+      top: 55vh;
+      right: 0;
     }  
   }
 }

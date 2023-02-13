@@ -38,7 +38,6 @@ const VFBoxMobile: FunctionComponent<Props> = ({level, clefSelected, trebleData,
   
   return (     // change id s ==> add "mobile"
     <div ref={ref} id="vexboxMobile" className={classN}> 
-
       <div ref={outputMobileRef} id="outputMobile"></div>
     </div>
   )

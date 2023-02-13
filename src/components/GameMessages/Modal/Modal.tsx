@@ -9,6 +9,7 @@ interface Props {
   message: MessageObj
   score: number
   gameLength: number
+  restoreDefault: () => void
 };
 
 const Modal: FC<Props> = ({
@@ -16,7 +17,8 @@ const Modal: FC<Props> = ({
   handleMessage,
   message,
   score,
-  gameLength
+  gameLength,
+  restoreDefault
 }) => {
 
   const [modalOpen, setModalOpen] = useState(true);
@@ -24,6 +26,7 @@ const Modal: FC<Props> = ({
     setModalOpen((bool) => !bool);
     handleMessage({...message, isModal: true});
   };
+  const backToDefault = () => restoreDefault();
 
   const SavedScore: FC = () => {
     const scorePercent: number = Math.round(score * 100 / gameLength);
@@ -41,6 +44,9 @@ const Modal: FC<Props> = ({
         }        
         <button onClick={openModal} className="open-modal">
           Cliquez ici pour afficher la correction.
+        </button>
+        <button onClick={backToDefault} className="back-to-default">
+          Home
         </button>
       </>
     )

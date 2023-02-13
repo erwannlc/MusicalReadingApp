@@ -1,6 +1,6 @@
 import type { CSSPropertiesWithVars } from "../../../types/CSSPropertiesWithVars";
 import type { Disabling, Nodes } from "./nodesToHighLight";
-import type { ChangeButton, ChangeTutoData, NodesBehavior } from "../../../types/TutoTypes";
+import type { ChangeButton, ChangeNodeBehavior, NodesBehavior } from "../../../types/TutoTypes";
 
 export const resetClass = (resetNodesBehavior: () => void, changeButton: ChangeButton) => {
   resetNodesBehavior();
@@ -15,7 +15,7 @@ export const resetClass = (resetNodesBehavior: () => void, changeButton: ChangeB
 
 export  const stepStyling = (
   styling: CSSPropertiesWithVars, 
-  changeNodeBehavior: ChangeTutoData,
+  changeNodeBehavior: ChangeNodeBehavior,
   nodes: Nodes,
   highlights: keyof NodesBehavior | undefined,
   nodesToDisable: Disabling | undefined,

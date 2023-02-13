@@ -56,5 +56,5 @@ interface ChangeNodesBehaviorObj {
   disable?: boolean
 } 
 
-export type ChangeTutoData = (component: NodesBehaviorKeys, value: ChangeNodesBehaviorObj) => void
+export type ChangeNodeBehavior = (component: NodesBehaviorKeys, value: ChangeNodesBehaviorObj) => void
 

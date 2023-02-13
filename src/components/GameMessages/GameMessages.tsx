@@ -22,6 +22,7 @@ interface Props {
  progressBarId: string | null
  isTutoOn: boolean
  nodesBehavior: NodesBehavior
+ restoreDefault: () => void
 };
 
 interface MessageDivProps {
@@ -46,13 +47,13 @@ const MessageDiv: FC<MessageDivProps> = ({message, updateNodes, highlight}) => {
   )
 };
 
-const GameMessages: FC<Props> = ({message, isPlaying, options, handleMessage, scoreNumber, gameLength, showOptions, updateNodes, tempoTime, progressBarId, isTutoOn, nodesBehavior}) => {
+const GameMessages: FC<Props> = ({message, isPlaying, options, handleMessage, scoreNumber, gameLength, showOptions, updateNodes, tempoTime, progressBarId, isTutoOn, nodesBehavior, restoreDefault}) => {
   const isModal = message.isModal ? message.isModal : false;
   
   if (isModal) {
     return ( 
       <>
-        <Modal handleMessage={handleMessage} message={message} score={scoreNumber} gameLength={gameLength}>
+        <Modal handleMessage={handleMessage} message={message} score={scoreNumber} gameLength={gameLength} restoreDefault={restoreDefault}>
           <MessageDiv message={message} updateNodes={updateNodes} highlight={nodesBehavior.messageDiv.highlight}/>
         </Modal>
         <div className="messages">
