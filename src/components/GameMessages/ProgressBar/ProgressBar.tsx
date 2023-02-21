@@ -12,7 +12,7 @@ const ProgressBar: FC<{tempoTime: number, id:string, gameLength: number, isTutoO
     "--tempo-time": `${duration/1000}s`
   };
   return (
-    <div className="play-progressbar" id={id}>
+    <div className="play-progressbar" key={id}>
       <span className="progress" style={styling}></span>
     </div>
   );
