@@ -5,7 +5,7 @@ import type { Options } from "../../types/Options";
 import type { Nodes, NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
 import type { NodesBehavior } from "../../types/TutoTypes";
-import { playGame, stopPlaying, createTutoGame } from "../../utils/handleGame";
+import { stopPlaying, playGame } from "../../utils/handleGame";
 import PlayStopBtn from "./PlayStopBtn";
 
 interface Props {
@@ -30,6 +30,7 @@ interface Props {
   nodesBehavior: NodesBehavior
   enablePiano: () => void
   disablePiano: () => void
+  activateCorrection: () => void
 };
 
 const PlayBtn: FunctionComponent<Props> = (props) => {
@@ -53,26 +54,17 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
     nodes,
     nodesBehavior,
     enablePiano,
-    disablePiano
-
+    disablePiano,
+    activateCorrection
   } = props;
 
   const handlePlay = () => {
     const outputNode = isMobile ? nodes.vexScoreMobileOutput?.node : nodes.vexScoreOutput?.node;
-    
+    // console.log("isPlaying in Play", isPlaying)
     if (isPlaying) {
       stopPlaying(setIsPlaying, handleMessage, resetStavesData, changeProgressBarID, options.clefSelected, outputNode, isTutoOn ? 5 : gameLength, isMobile);
-    } else {
-      isTutoOn ? createTutoGame(
-        options.clefSelected, 
-        trebleData, bassData, bothClefsData, 
-        isMobile, 
-        setIsPlaying, 
-        handleMessage,
-        displayScoreCircle,
-        nodes.vexScoreOutput.node
-        )
-      : playGame(
+    } else if (!isTutoOn) { 
+       playGame(
         gameLength, 
         options.intervalTime, 
         options.level, 
@@ -86,9 +78,10 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
         displayScoreCircle,
         outputNode,
         enablePiano,
-        disablePiano
-        );
-    }
+        disablePiano,
+        activateCorrection
+      );
+    } else if (isTutoOn) setIsPlaying(true);
   }
 
   return (

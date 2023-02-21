@@ -38,11 +38,13 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
   }, [isPlaying]);
 
   useEffect(() => {
-    const className = `play${isPlay ?" is-play":""}${playBtn.disable ? " disable" : ""}${playBtn.highlight ? " tuto" :""}`;
+    // const className = `play${isPlay ?" is-play":""}${playBtn.disable ? " disable" : ""}${playBtn.highlight ? " tuto" :""}`;
+    const className = `play${isPlay ?" is-play":""}${playBtn.highlight ? " tuto" :""}`;
     setPlayClassN(className);
   }, [isPlay, playBtn.disable, playBtn.highlight]);
   useEffect(() => {
-    const className = `stop${stopBtn.disable ? " disable" : ""}${stopBtn.highlight ? " tuto" :""}${playBtn.highlight ? " tuto-play" : ""}`;
+    // const className = `stop${stopBtn.disable ? " disable" : ""}${stopBtn.highlight ? " tuto" :""}${playBtn.highlight ? " tuto-play" : ""}`;
+    const className = `stop${stopBtn.highlight ? " tuto" :""}${playBtn.highlight ? " tuto-play" : ""}`;
     setStopClassN(className);
   }, [isPlay, playBtn.highlight, stopBtn.disable, stopBtn.highlight]);
 
@@ -52,21 +54,21 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
       setIsPlay(true);
       handlePlay();
     } else if (type === "stop" && isPlaying) {
-      stopGame();
       setIsPlay(false);
+      stopGame();
       handlePlay();
     }
   };
 
-  const playTooltip = "Lancer une nouvelle partie";
+  const playTooltip = playBtn.disable ? "Quitter la partie ou le tutoriel pour pouvoir relancer une nouvelle partie" : "Lancer une nouvelle partie";
   const stopTooltip = "Stopper la partie en cours";
 
   return (
     <div className="btn-group">
-      <button ref={playRef} onClick={() => handleClick("play")} className={playClassN} title={playTooltip}>
+      <button ref={playRef} onClick={() => handleClick("play")} className={playClassN} title={playTooltip} disabled={playBtn.disable}>
         <PlayIcon />
       </button>
-      <button ref={stopRef} onClick={() => handleClick("stop")} className={stopClassN} title={stopTooltip}>
+      <button ref={stopRef} onClick={() => handleClick("stop")} className={stopClassN} title={stopTooltip} disabled={stopBtn.disable}>
         <StopIcon />
       </button>
     </div>

@@ -1,6 +1,4 @@
 export interface StaveClef {
-  clef: string
-  levels: ClefLevels
   notesArray: string[]
   notes: string
   solution: string[]
@@ -8,9 +6,16 @@ export interface StaveClef {
 
 export interface BothClefs {
   solution: string[]
-  notesIndex: number[]
-  mobileNotesArray?: [[string, string]]
+  solutionClefs: ("treble" | "bass")[]
+  trebleNotes: string // à transmettre à RenderVFScore et displayNotes (afficher les deux en même temps)
+  bassNotes: string
+  mobileNotesArray: [string, string][]
 };
+
+export interface ReadOnlyStaveClef {
+  readonly clef: string
+  readonly levels: ClefLevels
+}
 
 export interface ClefLevels {
   [index: string]: string[]

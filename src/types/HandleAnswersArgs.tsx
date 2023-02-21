@@ -9,7 +9,6 @@ export type Args = [
   isMobile: boolean,
   gameLength: number,
   displayScoreCircle: (score: number) => void,
-  outputNode: HTMLElement,
   clefSelected: ClefSelected,
   activateCorrection: () => void
 ];

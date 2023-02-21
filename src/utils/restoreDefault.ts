@@ -19,7 +19,6 @@ const restoreDefault = (
     resetStavesData();
     displayScoreCircle(-1);
     handleMessage(defaultMessage);
-
 };
 
 export default restoreDefault;

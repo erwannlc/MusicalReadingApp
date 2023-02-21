@@ -1,0 +1,15 @@
+div#pianoKeyboard { 
+  & button.quit-correction {
+    display: flex;
+    margin: 1rem 0 0 0;
+    padding: 1rem 4rem;
+    font: inherit;
+    background-color: hsla(0, 0%, 0%, 0.136);
+    color: whitesmoke;
+    &:hover {
+      color: var(--gold);
+      background-color: hsla(0, 0%, 0%, 0.452);
+      transition: all 0.2s ease-in-out;
+    }
+  }
+}

@@ -5,15 +5,15 @@ import TutoDialog from "./TutoDialog";
 import AlertModal from "./AlertModal";
 import { steps } from "./TutoData/steps";
 import { scaleA } from "../../data/data";
+import { stepStyling } from "./TutoData/stepProcess";
+import { playTutoGame, stopPlaying } from "../../utils/handleGame";
 import type { CSSPropertiesWithVars } from "../../types/CSSPropertiesWithVars";
 import type { Nodes } from "./TutoData/nodesToHighLight";
 import type { Options } from "../../types/Options";
 import type { ChangeButton, ChangeNodeBehavior } from "../../types/TutoTypes";
-import type { StaveClef, ClefSelected } from "../../types/Clefs";
+import type { ClefSelected } from "../../types/Clefs";
 import type { MessageObj } from "../../types/MessageObj";
 import type { AlertContentType } from "./AlertModal/AlertMsgModal";
-import { stepStyling } from "./TutoData/stepProcess";
-import { playTuto, stopPlaying } from "../../utils/handleGame";
 import "./TutoDialog/tuto-dialog.scss";
 import "./tuto-anims.scss";
 
@@ -24,7 +24,6 @@ interface Props {
   activeTutoPlay: (option: string, value: string | boolean) => void
   tutoPlay: {isActive: boolean, answer: string}
   restoreDefault: () => void
-  trebleData: StaveClef
   isMobile: boolean
   isPlaying: boolean
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
@@ -40,7 +39,7 @@ interface Props {
   resetNodesBehavior: () => void
   changeNodeBehavior: ChangeNodeBehavior
   isCorrection: boolean
-
+  activateCorrection: () => void
 };
 
 //state machine
@@ -57,8 +56,7 @@ const Tutorial: FC<Props> =  (props) => {
     isTutoOn, 
     activeTutoPlay, 
     tutoPlay, 
-    restoreDefault, 
-    trebleData, 
+    restoreDefault,
     isMobile, 
     isPlaying, 
     setIsPlaying, 
@@ -73,7 +71,9 @@ const Tutorial: FC<Props> =  (props) => {
     changeProgressBarID, 
     resetNodesBehavior, 
     changeNodeBehavior,
-    isCorrection} = props;
+    isCorrection,
+    activateCorrection
+  } = props;
 
   const { playBtn, stopBtn, switchOptions, optionsIndicator, switchPiano, padsDiv, note1, note2 } = nodes;
 
@@ -111,7 +111,8 @@ const Tutorial: FC<Props> =  (props) => {
   const closeTuto = async (pause?: boolean) => {
     changeButton.current = defaultChangeButton;
     if (!pause) {
-      isCorrection && restoreDefault();
+      restoreDefault();
+      // isCorrection && restoreDefault();
       if (options.clefSelected !== "treble") changeClef("treble");
       if (isAlertOpen) setIsAlertOpen(false);
       activeTuto(false);
@@ -146,7 +147,12 @@ const Tutorial: FC<Props> =  (props) => {
   let changeButton = useRef(defaultChangeButton as ChangeButton);
 
 
-  useEffect(() => { // listeners
+
+
+
+  //////// useEffect to refactor ///////////////////////////////////////////////////////////////////////////////
+
+  useEffect(() => { // listeners // 1
     let funcName = "";
     const goToNextStep = () => {
       closeTuto(true);
@@ -226,7 +232,7 @@ const Tutorial: FC<Props> =  (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, stepIndex, isDialog]);
 
-  useEffect(() => { // stateMachine
+  useEffect(() => { // stateMachine // 2
     if (isTutoOn) {
       if (tutoPlay.isActive) setStatus(LAUNCHGAME);
       if (status === LAUNCHGAME) {
@@ -246,6 +252,23 @@ const Tutorial: FC<Props> =  (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTutoOn, tutoPlay.isActive]);
 
+  
+  useEffect(() => { // styles with current step // 3
+    if (isDialog) {
+      window.scrollTo(0, 0); // cancels previous unexpected scroll
+      resetNodesBehavior();
+      changeButton.current = defaultChangeButton;
+      styling.current = stepStyling(step.styling || {}, changeNodeBehavior, nodes, step.highlights, step.disable, step.above);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDialog, nodes, step]);
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
   useEffect(() => { // prevent unwilling behavior if user had selected unexpected options
     if (isDialog) {
       if (step.beginPlayStep || step.beginAdvancedOptions) {
@@ -259,26 +282,15 @@ const Tutorial: FC<Props> =  (props) => {
   useEffect(() => { // delete correction when expected
     if (isTutoOn && (stepIndex === 0 || step.beginAdvancedOptions) && isCorrection) restoreDefault();
   }, [isCorrection, isTutoOn, restoreDefault, step.beginAdvancedOptions, stepIndex]);
-
-  useEffect(() => { // styles with current step
-    if (isDialog) {
-      window.scrollTo(0, 0); // cancels previous unexpected scroll
-      resetNodesBehavior();
-      changeButton.current = defaultChangeButton;
-      styling.current = stepStyling(step.styling || {}, changeNodeBehavior, nodes, step.highlights, step.disable, step.above);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDialog, nodes, step]);
   
   if (isDialog) {
 
     if (step.func) step.func(changeButton.current, options, nodes);
 
-    if (step.startTutoAutoPlay) { // play Tuto Game
-      const outputNode = isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node;
+    if (step.startTutoAutoPlay) { // launch automatically Tuto Game with current = 3
       closeTuto(true)
       .then(() => changeNodeBehavior("stopBtn", {highlight: false, disable: true}))
-      .then(() => playTuto(trebleData, isMobile, setIsPlaying, changeProgressBarID, outputNode));
+      .then(() => playTutoGame(handleMessage, setIsPlaying, changeProgressBarID, activateCorrection));
     };
 
     const handleClose = () => 

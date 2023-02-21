@@ -1,8 +1,8 @@
 import { Vex } from "vexflow";
 
-import { StaveClef } from "../types/Clefs";
+import { BothClefs, StaveClef } from "../types/Clefs";
 
-const renderVFSCore = (clefSelected: string, trebleData: StaveClef, bassData:StaveClef, level: number, gameLength: number) => {
+const renderVFScore = async (clefSelected: string, trebleData: StaveClef, bassData:StaveClef, level: number, gameLength: number, bothData: BothClefs) => {
   const containerWidth = 575;
   const containerHeight = clefSelected === "bothClefs" ? (level > 3 ? level > 4 ? level > 5 ? 380 : 350 : 320 : 300) : 250;
   const staveWidth = 500;
@@ -11,6 +11,7 @@ const renderVFSCore = (clefSelected: string, trebleData: StaveClef, bassData:Sta
   (level > 5 ? 75 : level > 4 ? 60 : level > 3 ? 40 : 30);
 
   document.documentElement.style.setProperty("--vexflow_height", `${containerHeight}px`);
+  // console.log("in renderVFScore, trebleData : ", trebleData)
 
 
   const VF = Vex.Flow;
@@ -21,27 +22,43 @@ const renderVFSCore = (clefSelected: string, trebleData: StaveClef, bassData:Sta
 
   const system = vf.System({width: staveWidth, x: stave_x, y: stave_y} );
 
-  if (clefSelected === "treble" || clefSelected === "bothClefs") {
-    const scoreG = vf.EasyScore();
-    system.addStave({
-      voices: [
-        scoreG.voice(scoreG.notes(trebleData.notes), 
-        {time: `${gameLength.toString()}/4`}),
-      ]
-    }).addClef("treble")
+  switch(clefSelected) {
+    case("treble") :
+      const scoreG = vf.EasyScore();
+      system.addStave({
+        voices: [
+          scoreG.voice(scoreG.notes(trebleData.notes), 
+          {time: `${gameLength.toString()}/4`}),
+        ]
+      }).addClef("treble");
+      break;
+    case("bass") :
+      const scoreF = vf.EasyScore();
+      system.addStave({
+        voices: [
+          scoreF.voice(scoreF.notes(bassData.notes, {clef: "bass"}), 
+          {time: `${gameLength.toString()}/4`}),
+        ]
+      }).addClef("bass");
+      break;
+    case("bothClefs") :
+      const scoreBoth = vf.EasyScore();
+      system.addStave({
+        voices: [
+          scoreBoth.voice(scoreBoth.notes(bothData.trebleNotes || ""), 
+          {time: `${gameLength.toString()}/4`}),
+        ]
+      }).addClef("treble");
+      system.addStave({
+        voices: [
+          scoreBoth.voice(scoreBoth.notes(bothData?.bassNotes || "", {clef: "bass"}), 
+          {time: `${gameLength.toString()}/4`}),
+        ]
+      }).addClef("bass");
+      system.addConnector();
+      break;
   };
-
-  if (clefSelected === "bass" || clefSelected === "bothClefs") {
-    const scoreF = vf.EasyScore();
-    system.addStave({
-      voices: [
-        scoreF.voice(scoreF.notes(bassData.notes, {clef: "bass"}), 
-        {time: `${gameLength.toString()}/4`}),
-      ]
-    }).addClef("bass")
-  };
-  system.addConnector();
   vf.draw();
 };
 
-export default renderVFSCore;
+export default renderVFScore;

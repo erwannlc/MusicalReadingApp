@@ -1,7 +1,6 @@
 div.levels {
   $knob-color1: hsl(37, 81%, 63%);
   $knob-color2: hsl(37, 50%, 40%);
-  --gold: hsl(37, 100%, 61%);
   &:hover{
     transform: scale(1.5) translate(0, -1rem);
     transition: all 0.2s ease-in-out;

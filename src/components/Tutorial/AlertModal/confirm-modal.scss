@@ -5,7 +5,8 @@ dialog.confirm-modal[open] {
   margin: 10vh auto;
   display: flex;
   background-color: rgb(29, 29, 29);
-  border: 1px solid gold;
+  border: 1px solid var(--gold);
+  // border: 1px solid gold;
   border-radius: 5px;
   color: white;
   overflow: hidden;

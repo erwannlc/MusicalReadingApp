@@ -1,11 +1,10 @@
 import { FunctionComponent, useEffect } from "react";
 import type { BothClefs, StaveClef } from "../../types/Clefs";
-import { createStaves } from "../../utils/createStaves";
 import useClientRect, { NodeObj } from "../../utils/Hooks/useClientRect";
 import { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
+import renderVFScore from "../../utils/renderVFScore";
 
 interface Props {
- level: string
  levelNum: number
  clefSelected: string
  trebleData: StaveClef
@@ -14,9 +13,27 @@ interface Props {
  gameLength: number
  updateNodes: (key: NodesKeys, obj: NodeObj) => void
  highlight: boolean
+ isStaveDataCreated: boolean
+ isTutoOn: boolean
+ isTutoPlay: boolean
+ isTutoStaveDataCreated: boolean
 };
 
-const VFBox: FunctionComponent<Props> = ({level, levelNum, clefSelected, trebleData, bassData, bothClefsData, gameLength, updateNodes, highlight}) => {
+const VFBox: FunctionComponent<Props> = ({
+  levelNum, 
+  clefSelected, 
+  trebleData, 
+  bassData, 
+  bothClefsData, 
+  gameLength, 
+  updateNodes, 
+  highlight, 
+  isStaveDataCreated, 
+  isTutoOn,
+  // isTutoPlay,
+  isTutoStaveDataCreated
+}) => {
+
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
     updateNodes("vexScore", nodeObj);
@@ -27,11 +44,19 @@ const VFBox: FunctionComponent<Props> = ({level, levelNum, clefSelected, trebleD
   }, [outputNode, updateNodes]);
 
   useEffect(() => {
-    if (outputNode.node) {
-      createStaves(level, levelNum, clefSelected, trebleData, bassData, bothClefsData, gameLength, outputNode.node);
+    
+    // console.log("isStaveDataCreated", isStaveDataCreated);
+    // console.log("isTutoOn", isTutoOn);
+
+    if (outputNode.node && isStaveDataCreated && !isTutoOn) {
+      outputNode.node.innerHTML = "";
+      renderVFScore(clefSelected, trebleData, bassData, levelNum, gameLength, bothClefsData);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [outputNode.node]);
+    if (isTutoStaveDataCreated) {
+      outputNode.node.innerHTML = "";
+      renderVFScore(clefSelected, trebleData, bassData, levelNum, 5, bothClefsData);
+    };
+  }, [bassData, bothClefsData, clefSelected, gameLength, isStaveDataCreated, isTutoOn, isTutoStaveDataCreated, levelNum, outputNode.node, trebleData]);
 
   const classN = highlight ? "tuto" : "";
 
@@ -39,7 +64,7 @@ const VFBox: FunctionComponent<Props> = ({level, levelNum, clefSelected, trebleD
     <div ref={ref} id="vexbox" className={classN}>
       <div ref={outputRef} id="output"></div>
     </div>
-  )
+  );
 };
 
 

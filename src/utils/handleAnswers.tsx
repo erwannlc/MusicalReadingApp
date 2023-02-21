@@ -13,10 +13,9 @@ export const handleAnswers = async (
   isMobile: boolean,
   gameLength: number,
   displayScoreCircle: (score: number) => void,
-  outputNode: HTMLElement,
   clefSelected: ClefSelected,
   activateCorrection: () => void,
-  notesIndex?: number[],
+  solutionClefs?: ("treble" | "bass")[]
   ) => {
     let answersTD: CorrectionTD = [];
     let solutionTD: CorrectionTD = [];
@@ -34,8 +33,7 @@ export const handleAnswers = async (
           isModal: isMobile ? true : false,
           modal: {content: <CorrectionTable {...props}/>,  className: "answers"}
       };
-
-      activateCorrection();
+      // activateCorrection();
       handleMessage(correctionMsg);
     };
     
@@ -46,15 +44,13 @@ export const handleAnswers = async (
         if (answer === solutionNote) scoreNumber++;
         if (!isMobile && answer !== solutionNote) {
           switch (clefSelected) {
-            case "treble": 
-            case "bass": outputNode?.firstElementChild?.children[(i + 1)].classList.add("wrongNote");
+            case "treble":  
+            case "bass":
+              document.getElementById(`vf-${clefSelected}-n${i +1}`)?.classList.add("wrongNote");
               break;
             case "bothClefs": 
-              if (notesIndex) {
-                const noteIndex = notesIndex[i]
-                outputNode?.firstElementChild?.children[noteIndex].classList.add("wrongNote");
-              }
-             break;
+              solutionClefs && document.getElementById(`vf-${solutionClefs[i]}-n${i +1}`)?.classList.add("wrongNote");
+              break;
           };
         };
         let className: string = answer === solutionNote ? "correct" : "wrong";

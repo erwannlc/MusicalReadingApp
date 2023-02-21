@@ -309,7 +309,7 @@ classN.Q += `${isTutoNotes ? " tuto" : ""}`; // highligts bothClefsData C touche
 classN.K += `${isTutoNotes ? " tuto" : ""}`;
 
   return (
-    <div id="pianoKeyboard">
+    // <div id="pianoKeyboard">
       <ul ref={pianoRef} id="keyboard" className={isPianoActive ? "" : "disable"}>        
         {isMobile ? 
         <>
@@ -348,7 +348,7 @@ classN.K += `${isTutoNotes ? " tuto" : ""}`;
         </>
         }
       </ul>
-    </div>
+    // </div>
   );
 };
 

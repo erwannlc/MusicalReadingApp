@@ -2,6 +2,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import Pads from "./Pads";
 import Piano from "./Piano";
 import AnswersMsg from "../GameMessages/AnswersMsg";
+import { defaultMessage } from "../../data/data";
 import type { StaveClef, BothClefs, ClefSelected } from "../../types/Clefs";
 import type { MessageObj } from "../../types/MessageObj";
 import type { Args } from "../../types/HandleAnswersArgs";
@@ -9,6 +10,7 @@ import type { NodesKeys, Nodes } from "../Tutorial/TutoData/nodesToHighLight";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
 import type { NodesBehavior } from "../../types/TutoTypes";
 import { handleAnswers, handleError } from "../../utils/handleAnswers";
+import "./piano-handle.scss";
 
 
 interface Props {
@@ -30,8 +32,10 @@ interface Props {
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   nodes: Nodes
   nodesBehavior: NodesBehavior
-  activateCorrection: () => void,
+  activateCorrection: () => void
+  deactivateCorrection: () => void
   isPianoActive: boolean
+  isCorrection: boolean
 };
 
 //state machine
@@ -42,7 +46,7 @@ const NOGAME = 3;
 const PianoHandle: FC<Props> = (props) => {
   const {isPlaying, scaleA, clefSelected, trebleData, bassData, bothClefsData, 
     handleMessage, displayPiano, isGameStopped, isMobile, 
-    gameLength, displayScoreCircle, isTutoOn, tutoPlay, stopTutoPlay, updateNodes, nodes, nodesBehavior, activateCorrection, isPianoActive} = props;
+    gameLength, displayScoreCircle, isTutoOn, tutoPlay, stopTutoPlay, updateNodes, nodesBehavior, activateCorrection, deactivateCorrection, isPianoActive, isCorrection} = props;
 
   const isTutoActive = tutoPlay.isActive;
   const actualGameLength = isTutoActive ? 5 : gameLength;
@@ -66,7 +70,7 @@ const PianoHandle: FC<Props> = (props) => {
       1000);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTutoActive, tutoAnswers])
+  }, [isTutoActive, tutoAnswers]);
 
   useEffect(() => { // state machine
     if (!isPlaying) {
@@ -107,15 +111,14 @@ const PianoHandle: FC<Props> = (props) => {
         handleAnswers(bassData.solution, ...args);
         break;
       case "bothClefs" :
-        handleAnswers(bothClefsData.solution, ...args, bothClefsData.notesIndex);
+        handleAnswers(bothClefsData.solution, ...args, bothClefsData.solutionClefs);
         break;
     };
   };
 
   if (status === QUITGAME) {
     const userAnswers = tutoPlay.isActive ? tutoAnswers : answers;
-    const outputNode = isMobile ? nodes.vexScoreMobileOutput.node : nodes.vexScoreOutput.node;
-    const args = [userAnswers, scaleA, resetAnswer, handleMessage, isMobile, actualGameLength, displayScoreCircle, outputNode, clefSelected, activateCorrection] as Args;
+    const args = [userAnswers, scaleA, resetAnswer, handleMessage, isMobile, actualGameLength, displayScoreCircle, clefSelected, activateCorrection] as Args;
     if (userAnswers.length === actualGameLength) {
       if(isTutoActive) setTimeout(() => stopTutoPlay());
       handleAnswersByClef(args, clefSelected);
@@ -137,11 +140,17 @@ const PianoHandle: FC<Props> = (props) => {
       
     setStatus(NOGAME);
   };
-  return (
-    <>
-      {displayPiano ? <Piano onPlay={onPlay} isMobile={isMobile} scaleA={scaleA} isTutoOn={isTutoOn} isTutoPlay={isTutoActive} updateNodes={updateNodes}  isTutoNotes={nodesBehavior.bothOctavesNote.highlight} isPianoActive={isPianoActive}/> 
+  const quitCorrection = () => {
+    deactivateCorrection();
+    displayScoreCircle(-1);
+    handleMessage(defaultMessage);
+  };
+ return (
+    <div id="pianoKeyboard">
+      {isCorrection && status === NOGAME ?  <button className="quit-correction" onClick={quitCorrection}>Quitter la partie</button>
+      : displayPiano ? <Piano onPlay={onPlay} isMobile={isMobile} scaleA={scaleA} isTutoOn={isTutoOn} isTutoPlay={isTutoActive} updateNodes={updateNodes}  isTutoNotes={nodesBehavior.bothOctavesNote.highlight} isPianoActive={isPianoActive}/> 
       : <Pads onPlay={onPlay} isTutoOn={isTutoOn} isTutoPlay={isTutoActive} updateNodes={updateNodes} nodesBehavior={nodesBehavior} isPianoActive={isPianoActive}/> }
-    </>
+    </div>
   );
 };
 

@@ -21,6 +21,8 @@ html {
 :root {
   --vexflow_height: 250px;
   --piano_height: 250px;
+  --gold: hsl(37, 100%, 61%);
+  --notes-visibility: hidden;
 }
 body {
   background-image: url("../../public/assets/large_leather4.png");
@@ -166,8 +168,14 @@ div.tuto-btn-wrapper {
 .visible {
   visibility: visible;
 }
-
-g.vf-stavenote.wrongNote g.vf-note {
+// g.vf-stavenote.wrongNote g.vf-note {
+g.vf-stavenote {
+  visibility: var(--notes-visibility);
+  &.visible {
+    visibility: visible;
+  }
+}
+g.vf-stavenote.wrongNote {
   --wrong-note-color: rgb(198, 7, 7);
   --wrong-note-color: hsl(129, 83%, 43%);
   --wrong-note-color: hsl(279, 100%, 65%);
@@ -220,6 +228,7 @@ div#pianoKeyboard {
       }
     }
   }
+
   div.playDiv {
     margin: 0 0 4vh 0;
     grid-column: 2 / 3;

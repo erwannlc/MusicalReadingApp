@@ -67,7 +67,7 @@ const Pads: FC<Props> = ({onPlay, isTutoOn, isTutoPlay, updateNodes, nodesBehavi
   const classN = `note-buttons ${nodesBehavior.padsDiv.highlight ? "tuto" : ""} ${isPianoActive ? "" : "disable"}`;
   let padGClassN = nodesBehavior.padGNote.highlight ? "tuto" : "";
   return (
-    <div id="pianoKeyboard">
+    // <div id="pianoKeyboard">
       <div ref={padsRef} className={classN}>
         <button data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>Do</button>
         <button data-note="D" onMouseDown={pressNote} onTouchStart={touchNote}>Ré</button>
@@ -77,7 +77,7 @@ const Pads: FC<Props> = ({onPlay, isTutoOn, isTutoPlay, updateNodes, nodesBehavi
         <button data-note="A" onMouseDown={pressNote} onTouchStart={touchNote}>La</button>
         <button data-note="B" onMouseDown={pressNote} onTouchStart={touchNote}>Si</button>
       </div>
-    </div>
+    // </div>
   )
 };
 

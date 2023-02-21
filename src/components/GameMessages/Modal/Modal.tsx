@@ -46,7 +46,7 @@ const Modal: FC<Props> = ({
           Cliquez ici pour afficher la correction.
         </button>
         <button onClick={backToDefault} className="back-to-default">
-          Home
+          Quiiter la partie
         </button>
       </>
     )

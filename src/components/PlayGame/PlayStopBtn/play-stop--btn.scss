@@ -7,7 +7,8 @@ $color1: hsl(105, 30%, 40%);
 $color1-active: hsl(105, 50%, 80%);
 $color2: hsla(0, 3%, 41%, 0.894);
 $color2-active: hsl(37, 100%, 61%);
-$gold: hsl(37, 100%, 61%);
+$color-disabled: hsl(0, 0%, 21%);
+$gold: var(--gold);
 
 
 .btn-group {
@@ -35,7 +36,22 @@ $gold: hsl(37, 100%, 61%);
     background-image: radial-gradient(ellipse 100% 70%, #666 6%, #333 90%);
     background-image: radial-gradient(ellipse 100% 70%, hsl(0, 0%, 40%) 6%, hsl(0, 0%, 20%) 90%);
     cursor: pointer;
-
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.7rem;
+    border: 0;
+    border-bottom: $borderWidth solid $borderColor;
+    outline: none;
+    position: relative;
+    top: 0;
+    padding: 12px 16px;
+    padding: 0.3rem 0.8rem;
+    margin: 0 -1px 0 -1px;   
+    z-index: 10;    
+    // transition: top 140ms linear;
+    transition: top 0.3s ease-in-out;
+    &:disabled {
+      filter: grayscale(1);
+    }
     &.play {
       &.disable {
         pointer-events: none;
@@ -64,20 +80,7 @@ $gold: hsl(37, 100%, 61%);
       & svg path {
         fill: $color1-active;
       }      
-    }
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.7rem;
-    border: 0;
-    border-bottom: $borderWidth solid $borderColor;
-    outline: none;
-    position: relative;
-    top: 0;
-    padding: 12px 16px;
-    padding: 0.3rem 0.8rem;
-    margin: 0 -1px 0 -1px;   
-    z-index: 10;    
-    transition: top 140ms linear;
-    
+    }    
     &:first-child {
       border-radius: $borderRadius 0 0 $borderRadius;
       margin: 0;
@@ -108,22 +111,34 @@ $gold: hsl(37, 100%, 61%);
     }    
     &.stop:hover {
       top: 4px;
+      & svg path {
+        fill: $color2-active;
+      }  
       @media screen and (max-width: 850px) {
         top: 0px;
-        }        
+      }        
       &:before {
         bottom: -($buttonOffset - 4px);
       }
     }
     &.play:hover:not(.is-play) {
       top: 4px;
+      & svg path {
+        fill: $color1-active;
+      }  
       @media screen and (max-width: 850px) {
       top: 0px;
       }      
       &:before {
         bottom: -($buttonOffset - 4px);
       }
-    }    
+    } 
+    &.play[disabled]:hover, stop[disabled]:hover {
+      top: 0;
+      & svg path {
+        fill: $color-disabled;
+      } 
+    }  
     &:active, &:hover:active {
       top: $buttonOffset;
       &.stop svg path {

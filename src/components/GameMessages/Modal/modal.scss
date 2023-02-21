@@ -6,7 +6,8 @@ dialog#message--dialog[open] { // only if isMobile
   margin-top: 0;
   display: flex;
   background-color: rgb(29, 29, 29);
-  border: 1px solid gold;
+  border: 1px solid var(--gold);
+  // border: 1px solid gold;
   border-radius: 5px;
   color: white;
   overflow: hidden;

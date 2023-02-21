@@ -138,7 +138,6 @@ export const steps: Steps = [
       "--pointer-left": "5%"
     },
     listener: "play",
-
     disable: ["switchOptions"],
     func: (changeButton) => {
       changeButton.nextButton = false;
@@ -156,11 +155,11 @@ export const steps: Steps = [
     },
     above: true,
     highlights:"vexScore",
-
     disable: ["stopBtn", "switchOptions"],
     func: (changeButton, options, nodes) => {
       changeButton.prevButton = false;
-      nodes.vexScoreOutput.node.firstElementChild?.children[1]?.classList.remove("hidden");
+      document.getElementById(`vf-treble-n1`)?.classList.add("visible");;
+      // nodes.vexScoreOutput.node.firstElementChild?.children[1]?.classList.remove("hidden");
     }
   },
   {
@@ -211,12 +210,12 @@ export const steps: Steps = [
     },
     above: true,
     listener: "pads",
-
     disable: ["stopBtn", "switchOptions", "padsDiv"],
     func: (changeButton, options, nodes) => { 
       changeButton.prevButton = false;
       changeButton.nextButton = false;
-      nodes.vexScoreOutput.node.firstElementChild?.children[2]?.classList.remove("hidden");
+      document.getElementById(`vf-treble-n2`)?.classList.add("visible");
+      // nodes.vexScoreOutput.node.firstElementChild?.children[2]?.classList.remove("hidden");
     }
   },
   {
@@ -249,7 +248,6 @@ export const steps: Steps = [
       height: "15rem",
       top: "5px"
     },
-
     disable: ["playBtn", "switchOptions"],
     func: (changeButton) => {
       changeButton.prevButton = false;
@@ -265,8 +263,7 @@ export const steps: Steps = [
       marginTop: "12rem",
       "--pointer-left": "50%"
     },
-    highlights: "messageDiv",
-    
+    highlights: "messageDiv",    
     disable: ["playBtn", "switchOptions"],
   },
   {
@@ -277,7 +274,6 @@ export const steps: Steps = [
       height: "12rem",
       top: "8rem"
     },
-
     disable: ["playBtn", "switchOptions"],
     func: (changeButton) => { 
       changeButton.quitButton = true;
@@ -312,7 +308,6 @@ export const steps: Steps = [
     },
     highlights:"clefs",
     isOptionsOpen: true,
-
     disable: ["switchOptions", "switchPiano"],
     func: (changeButton, options) => {
       changeButton.isNextDisabled = true;
@@ -334,8 +329,7 @@ export const steps: Steps = [
     },
     highlights: "switchPiano",
     listener: "switchPiano",
-    isOptionsOpen: true,
-    
+    isOptionsOpen: true,    
     disable: ["switchOptions"],
     func: (changeButton) => {
       changeButton.nextButton = false;
@@ -352,7 +346,6 @@ export const steps: Steps = [
       height: "20rem",
       "--pointer-left": "50%"
     },
-
     disable: ["switchOptions", "playBtn"],
     func: (changeButton) => { 
       changeButton.prevButton = false;
@@ -367,8 +360,7 @@ export const steps: Steps = [
     pointer: "toUp-left",
     styling: {
       "--pointer-left": "5%"
-    }, 
-
+    },
     disable: ["switchOptions"],
     func: (changeButton) => {
       changeButton.nextButton = false;
@@ -392,14 +384,18 @@ export const steps: Steps = [
     func: (changeButton, options, nodes) => {
       changeButton.nextButton = false;
       changeButton.prevButton = false;
-      const children = nodes.vexScoreOutput.node.firstElementChild?.children;
-      if (options.clefSelected === "treble" || options.clefSelected === "bass") {
-        children && children[1]?.classList.remove("hidden");
-        children && children[2]?.classList.remove("hidden");
-      } else {
-        children && children[2]?.classList.remove("hidden"); // vf-treble-n1
-        children && children[8]?.classList.remove("hidden"); // vf-bass-n2
-      };
+      document.getElementById("vf-treble-n1")?.classList.add("visible");
+      document.getElementById("vf-bass-n1")?.classList.add("visible");
+      document.getElementById("vf-treble-n2")?.classList.add("visible");
+      document.getElementById("vf-bass-n2")?.classList.add("visible");
+      // const children = nodes.vexScoreOutput.node.firstElementChild?.children;
+      // if (options.clefSelected === "treble" || options.clefSelected === "bass") {
+      //   children && children[1]?.classList.remove("hidden");
+      //   children && children[2]?.classList.remove("hidden");
+      // } else {
+      //   children && children[2]?.classList.remove("hidden"); // vf-treble-n1
+      //   children && children[8]?.classList.remove("hidden"); // vf-bass-n2
+      // };
     }
   },
   {
@@ -464,7 +460,6 @@ export const steps: Steps = [
       height: "14rem",
       top: "5px"
     },
-
     disable: ["switchOptions", "playBtn"],
     func: (changeButton) => { 
       changeButton.changeNextToQuit = true;
