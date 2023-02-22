@@ -1,9 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import "./play-stop--btn.scss";
 import PlayIcon from "./icons/play-icon";
 import StopIcon from "./icons/stop-icon";
-import { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
-import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
+import { type NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import useClientRect from "../../../utils/Hooks/useClientRect";
+import type { NodeObj } from "../../../utils/Hooks/useClientRect";
 import type { NodesBehavior } from "../../../types/TutoTypes";
 // Thx to HeadOnKeyboard https://codepen.io/headonkeyboard/pen/VwYdjRd
 
@@ -16,8 +17,14 @@ interface Props {
   nodesBehavior: NodesBehavior
 };
 
-const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, updateNodes, nodesBehavior}) => {
-  
+const PlayStopBtn: FC<Props> = ({
+  handlePlay,
+  isPlaying,
+  stopGame,
+  cancelStop,
+  updateNodes,
+  nodesBehavior
+}) => {
   const [isPlay, setIsPlay] = useState(false); // className handling
   const [playClassN, setPlayClassN] = useState("play");
   const [stopClassN, setStopClassN] = useState("stop");
@@ -25,12 +32,12 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
 
   const [playNodeObj, playRef] = useClientRect();
   useEffect(() => {
-    updateNodes("playBtn", playNodeObj);
+    playNodeObj && updateNodes("playBtn", playNodeObj);
   }, [playNodeObj, updateNodes]);
 
   const [stopNodeObj, stopRef] = useClientRect();
   useEffect(() => {
-    updateNodes("stopBtn", stopNodeObj);
+    stopNodeObj && updateNodes("stopBtn", stopNodeObj);
   }, [stopNodeObj, updateNodes]);
 
   useEffect(() => {
@@ -38,13 +45,19 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
   }, [isPlaying]);
 
   useEffect(() => {
-    // const className = `play${isPlay ?" is-play":""}${playBtn.disable ? " disable" : ""}${playBtn.highlight ? " tuto" :""}`;
-    const className = `play${isPlay ?" is-play":""}${playBtn.highlight ? " tuto" :""}`;
+    const className = `play${isPlay
+      ? " is-play"
+      : ""}${playBtn.highlight
+        ? " tuto"
+        : ""}`;
     setPlayClassN(className);
   }, [isPlay, playBtn.disable, playBtn.highlight]);
   useEffect(() => {
-    // const className = `stop${stopBtn.disable ? " disable" : ""}${stopBtn.highlight ? " tuto" :""}${playBtn.highlight ? " tuto-play" : ""}`;
-    const className = `stop${stopBtn.highlight ? " tuto" :""}${playBtn.highlight ? " tuto-play" : ""}`;
+    const className = `stop${stopBtn.highlight
+    ? " tuto"
+    : ""}${playBtn.highlight
+      ? " tuto-play"
+      : ""}`;
     setStopClassN(className);
   }, [isPlay, playBtn.highlight, stopBtn.disable, stopBtn.highlight]);
 
@@ -60,20 +73,32 @@ const PlayStopBtn:FC<Props> = ({handlePlay, isPlaying, stopGame, cancelStop, upd
     }
   };
 
-  const playTooltip = playBtn.disable ? "Quitter la partie ou le tutoriel pour pouvoir relancer une nouvelle partie" : "Lancer une nouvelle partie";
+  const playTooltip = playBtn.disable
+    ? `Quitter la partie ou le tutoriel 
+    pour pouvoir relancer une nouvelle partie`
+    : "Lancer une nouvelle partie";
   const stopTooltip = "Stopper la partie en cours";
 
   return (
     <div className="btn-group">
-      <button ref={playRef} onClick={() => handleClick("play")} className={playClassN} title={playTooltip} disabled={playBtn.disable}>
+      <button
+      ref={playRef}
+       onClick={() => { handleClick("play"); }}
+      className={playClassN}
+      title={playTooltip}
+      disabled={playBtn.disable}>
         <PlayIcon />
       </button>
-      <button ref={stopRef} onClick={() => handleClick("stop")} className={stopClassN} title={stopTooltip} disabled={stopBtn.disable}>
+      <button
+      ref={stopRef}
+      onClick={() => { handleClick("stop"); }}
+      className={stopClassN}
+      title={stopTooltip}
+      disabled={stopBtn.disable}>
         <StopIcon />
       </button>
     </div>
-  )
+  );
 };
 
 export default PlayStopBtn;
-

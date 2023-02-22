@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import useMediaQuery from "./useMediaQuery";
 // https://codesandbox.io/s/elastic-tdd-c85hr?from-embed=&file=/src/App.tsx:109-952
 
@@ -30,4 +30,3 @@ export const Example: FC = () => {
     </div>
   );
 };
-

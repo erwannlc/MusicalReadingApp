@@ -1,9 +1,9 @@
 import type { MessageObj } from "./MessageObj";
-import { ClefSelected } from "./Clefs";
+import { type ClefSelected } from "./Clefs";
 
 export type Args = [
-  answers: string[], 
-  scaleA: {[key: string]: string}, 
+  answers: string[],
+  scaleA: Record<string, string>,
   resetAnswer: () => void,
   handleMessage: (message: MessageObj) => void,
   isMobile: boolean,

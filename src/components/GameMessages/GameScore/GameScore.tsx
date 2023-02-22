@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import "./game-score.scss";
 // Thx to Javier Delgado https://github.com/javiluli
 // https://codepen.io/alvarotrigo/pen/VwMvydQ
@@ -16,25 +16,24 @@ const getScoreColor = (score: number): string => {
     B: "#daff33",
     C: "#ffe433",
     D: "#ff7e33",
-    E: "#ff3333",
+    E: "#ff3333"
   };
-  return score > 80 ? colors.A : score > 60 ? colors.B  : score > 40 ? colors.C  : score > 20 ? colors.D : colors.E ;
+  return score > 80 ? colors.A : score > 60 ? colors.B : score > 40 ? colors.C : score > 20 ? colors.D : colors.E;
 };
 
-const GameScore: FC<Props> = ({isModal, scoreNumber, gameLength, isMobile}) => {
-
+const GameScore: FC<Props> = ({ isModal, scoreNumber, gameLength, isMobile }) => {
   let scoreTxt = "Score";
-  let className = {
+  const className = {
     gameScore: "hide",
     scoreCircle: "progressbar__svg-circle shadow-node",
     scoreTxt: "progressbar__text shadow-node"
   };
 
   if (scoreNumber >= 0) {
-    const scoreDashOffset = scoreNumber === gameLength ? 0 : 320 * +((gameLength-scoreNumber)/gameLength).toFixed(1);
+    const scoreDashOffset = scoreNumber === gameLength ? 0 : 320 * +((gameLength - scoreNumber) / gameLength).toFixed(1);
     document.documentElement.style.setProperty("--score-dashoffset", scoreDashOffset.toString());
     className.scoreCircle = "progressbar__svg-circle shadow-node  circle-node";
-    const scorePercent: string = (scoreNumber*100/gameLength).toFixed(0);
+    const scorePercent: string = (scoreNumber * 100 / gameLength).toFixed(0);
     scoreTxt = `${scorePercent} %`;
     const scoreColor = getScoreColor(+scorePercent);
     document.documentElement.style.setProperty("--score-color", scoreColor);
@@ -42,8 +41,6 @@ const GameScore: FC<Props> = ({isModal, scoreNumber, gameLength, isMobile}) => {
     className.gameScore = "";
     if (isMobile && !isModal) className.gameScore = "hide";
   };
-
-
 
   return (
     <div id="game-score" className={className.gameScore}>
@@ -59,7 +56,7 @@ const GameScore: FC<Props> = ({isModal, scoreNumber, gameLength, isMobile}) => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default GameScore;

@@ -1,7 +1,6 @@
-import { FC } from "react";
+import { type FC } from "react";
 
-const PianoIcon: FC = () => {
-  return (
+const PianoIcon: FC = () => (
     <svg
       width="24"
       height="24"
@@ -16,7 +15,6 @@ const PianoIcon: FC = () => {
         fill="black"
       />
     </svg>
-  )
-};
+);
 
 export default PianoIcon;

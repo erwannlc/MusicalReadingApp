@@ -1,7 +1,6 @@
-import { useRef, useEffect, FC } from "react";
+import { useRef, useEffect, type FC } from "react";
 import type { CSSPropertiesWithVars } from "../../../../types/CSSPropertiesWithVars";
 import "../tuto-dialog.scss";
-
 
 // thx to https://codesandbox.io/u/souporserious
 interface Props {
@@ -11,9 +10,9 @@ interface Props {
   styling: CSSPropertiesWithVars
 };
 
-const Dialog: FC<Props> = ({ children, isOpen, modalClassName, styling}) => {
+const Dialog: FC<Props> = ({ children, isOpen, modalClassName, styling }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
- 
+
   useEffect(() => {
     const dialogNode = dialogRef.current;
     if (dialogNode) {
@@ -30,4 +29,3 @@ const Dialog: FC<Props> = ({ children, isOpen, modalClassName, styling}) => {
 };
 
 export default Dialog;
-

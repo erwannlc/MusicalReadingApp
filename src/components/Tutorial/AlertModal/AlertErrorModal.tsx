@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 import AlertModal from "./AlertModal";
 import ErrorModalContent from "./Contents/ErrorModalContent";
 
@@ -10,18 +10,18 @@ interface Props {
   isAlertOpen: boolean
 };
 
-const AlertErrorModal: FC<Props> = ({contentType, cancelConfirm, isAlertOpen}) => {
-
+const AlertErrorModal: FC<Props> = ({ contentType, cancelConfirm, isAlertOpen }) => {
   const [open, setOpen] = useState(true);
 
-      return (
-       open ?  <AlertModal classN="error-modal" cancelConfirm={cancelConfirm} isAlertOpen={isAlertOpen}>
-          {contentType === "answersIncomplete" ? <ErrorModalContent handleClose={() => setOpen(false)} />
-          : null }
+  return (
+    open
+      ? <AlertModal classN="error-modal" cancelConfirm={cancelConfirm} isAlertOpen={isAlertOpen}>
+          {contentType === "answersIncomplete"
+            ? <ErrorModalContent handleClose={() => { setOpen(false); }} />
+            : null }
         </AlertModal>
-        : null
-      )
+      : null
+  );
 };
 
 export default AlertErrorModal;
-

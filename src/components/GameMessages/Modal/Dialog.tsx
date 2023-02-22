@@ -1,4 +1,4 @@
-import { useRef, useEffect, FC, MouseEvent, TouchEvent } from "react";
+import { useRef, useEffect, type FC, type MouseEvent, type TouchEvent } from "react";
 import CloseBtn from "./btn_close";
 import "./close-button.scss";
 import "./modal.scss";
@@ -17,11 +17,11 @@ const Modal: FC<Props> = ({
   isOpen,
   onRequestClose,
   id,
-  closeOnOutsideClick,
+  closeOnOutsideClick
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  //returning focus to the element that opened the Dialog, suggested from WAI-ARIA
+  // returning focus to the element that opened the Dialog, suggested from WAI-ARIA
   // const lastActiveElement = useRef(null);
   // lastActiveElement.current = document.activeElement;
 
@@ -37,7 +37,7 @@ const Modal: FC<Props> = ({
     };
   }, [isOpen]);
 
-  //*****************  WHITH optionnal handleOutsideClick : (only if showModal() is called)
+  //* ****************  WHITH optionnal handleOutsideClick : (only if showModal() is called)
   // handleCancel listen to other ways of closing a dialog (like pressing escape)
   useEffect(() => {
     const dialogNode = dialogRef.current;
@@ -53,7 +53,7 @@ const Modal: FC<Props> = ({
     };
   }, [onRequestClose]);
 
-  function handleOutsideClick(event: MouseEvent | TouchEvent) {
+  function handleOutsideClick (event: MouseEvent | TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
     const dialogNode = dialogRef.current;

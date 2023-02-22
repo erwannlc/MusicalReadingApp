@@ -5,17 +5,17 @@ import type { ChangeButton } from "../../../types/TutoTypes";
 
 type Pointer = "none" | "toUp-left" | "toUp-right" | "toLeft" | "toRight" | "toDown";
 
-export type Steps = {
+export type Steps = Array<{
   id: string
   title: string
-  content: string 
-  contentMobile?: string 
-  pointer?: Pointer 
-  styling?: CSSPropertiesWithVars 
+  content: string
+  contentMobile?: string
+  pointer?: Pointer
+  styling?: CSSPropertiesWithVars
   highlights?: HighLights
-  above?: boolean 
+  above?: boolean
   listener?: string
-  func?: (changeButton: ChangeButton, options: Options, nodes: Nodes, ) => void
+  func?: (changeButton: ChangeButton, options: Options, nodes: Nodes,) => void
   isOptionsOpen?: boolean
   isTableContents?: boolean
   beginPlayStep?: boolean
@@ -23,7 +23,7 @@ export type Steps = {
   startTutoAutoPlay?: boolean
   backToZero?: boolean
   disable?: Disabling
-}[];
+}>;
 
 export const steps: Steps = [
   {
@@ -60,13 +60,13 @@ export const steps: Steps = [
       "--pointer-left": "40%"
     },
     highlights: "optionsIndicator",
-    disable: ["playBtn", "switchOptions", "optionsIndicator"],
+    disable: ["playBtn", "switchOptions", "optionsIndicator"]
   },
   {
     id: "step03",
     title: "Ouvrir le panneau options",
     content: "Pour accéder aux options, cliquez sur le bouton de réglages.",
-    pointer:"toUp-right",
+    pointer: "toUp-right",
     styling: {
       height: "11rem",
       "--pointer-right": "9%"
@@ -74,9 +74,9 @@ export const steps: Steps = [
     highlights: "switchOptions",
     listener: "toggleOptions",
     disable: ["playBtn"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.nextButton = false;
-    }, 
+    }
   },
   {
     id: "step04",
@@ -90,27 +90,27 @@ export const steps: Steps = [
     },
     isOptionsOpen: true,
     disable: ["switchOptions"],
-    func: (changeButton, options) => { 
+    func: (changeButton, options) => {
       changeButton.prevButton = false;
       changeButton.isNextDisabled = true;
       if (options.intervalTime > 4400 && options.levelNum < 2) {
         changeButton.isNextDisabled = false;
       };
-    }, 
+    }
   },
   {
     id: "step05",
     title: "Fermer le panneau options",
     content: `Cliquez sur le boutons "réglages" pour fermer le panneau des options.`,
     highlights: "switchOptions",
-    pointer:"toUp-right",
+    pointer: "toUp-right",
     styling: {
       height: "12rem",
       "--pointer-right": "9%"
     },
     listener: "toggleOptions",
     isOptionsOpen: true,
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.nextButton = false;
     }
   },
@@ -122,9 +122,9 @@ export const steps: Steps = [
     styling: {
       "--pointer-left": "40%"
     },
-    highlights:"optionsIndicator",
+    highlights: "optionsIndicator",
     disable: ["playBtn", "switchOptions", "optionsIndicator"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.prevButton = false;
     }
   },
@@ -132,7 +132,7 @@ export const steps: Steps = [
     id: "step07",
     title: "Bouton Play",
     content: "Appuyez sur Play pour lancer la partie.",
-    highlights:"playBtn",
+    highlights: "playBtn",
     pointer: "toUp-left",
     styling: {
       "--pointer-left": "5%"
@@ -154,11 +154,11 @@ export const steps: Steps = [
       "--pointer-left": "12%"
     },
     above: true,
-    highlights:"vexScore",
+    highlights: "vexScore",
     disable: ["stopBtn", "switchOptions"],
     func: (changeButton, options, nodes) => {
       changeButton.prevButton = false;
-      document.getElementById(`vf-treble-n1`)?.classList.add("visible");;
+      document.getElementById(`vf-treble-n1`)?.classList.add("visible"); ;
       // nodes.vexScoreOutput.node.firstElementChild?.children[1]?.classList.remove("hidden");
     }
   },
@@ -166,10 +166,10 @@ export const steps: Steps = [
     id: "step09",
     title: `Touche "Note"`,
     content: `Appuyez sur la touche qui correspond à la note affichée sur la partition.`,
-    pointer:"toDown",
+    pointer: "toDown",
     styling: {
       marginTop: "-13rem",
-      "--pointer-left": "56%",
+      "--pointer-left": "56%"
     },
     above: true,
     highlights: "padGNote",
@@ -184,16 +184,16 @@ export const steps: Steps = [
     id: "step10",
     title: `Affichage de la note jouée`,
     content: `La note que vous avez jouée, s'affiche ici !`,
-    pointer:"toUp-left",
+    pointer: "toUp-left",
     styling: {
       top: "10rem",
       height: "10rem",
       "--pointer-left": "47%"
     },
-    highlights:"messageDiv",
+    highlights: "messageDiv",
 
     disable: ["stopBtn", "switchOptions"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.prevButton = false;
     }
   },
@@ -202,16 +202,16 @@ export const steps: Steps = [
     title: "Identifiez la deuxième note",
     content: "La note suivante s'affiche.\n\nAppuyez sur la touche qui correspond à la dernière note affichée !",
     pointer: "toDown",
-    highlights:"padsDiv",
+    highlights: "padsDiv",
     styling: {
       "--pointer-left": "26%",
-      marginTop: "-15rem",
+      marginTop: "-15rem"
 
     },
     above: true,
     listener: "pads",
     disable: ["stopBtn", "switchOptions", "padsDiv"],
-    func: (changeButton, options, nodes) => { 
+    func: (changeButton, options, nodes) => {
       changeButton.prevButton = false;
       changeButton.nextButton = false;
       document.getElementById(`vf-treble-n2`)?.classList.add("visible");
@@ -228,7 +228,7 @@ export const steps: Steps = [
       top: "5px"
     },
     disable: ["stopBtn", "switchOptions"],
-    func: (changeButton, nodes) => { 
+    func: (changeButton, nodes) => {
       changeButton.prevButton = false;
     }
   },
@@ -242,7 +242,7 @@ export const steps: Steps = [
     id: "step14",
     title: "Fin de la partie ! Score",
     content: "Observez votre score.\n\nSi vous avez plus de 80%, augmentez le tempo pour progresser, puis le niveau. Attention, une vraie partie dure plus longtemps ;)",
-    pointer:"toRight",
+    pointer: "toRight",
     styling: {
       "--pointer-top": "34%",
       height: "15rem",
@@ -257,14 +257,14 @@ export const steps: Steps = [
     id: "step15",
     title: "Fin de la partie",
     content: "Comparez vos réponses et la solution, pour identifier les erreurs. \nS'il y a des erreurs, les notes concernées apparaissent en couleur sur la partition.",
-    pointer:"toUp-left",
+    pointer: "toUp-left",
     styling: {
       height: "13rem",
       marginTop: "12rem",
       "--pointer-left": "50%"
     },
-    highlights: "messageDiv",    
-    disable: ["playBtn", "switchOptions"],
+    highlights: "messageDiv",
+    disable: ["playBtn", "switchOptions"]
   },
   {
     id: "step16",
@@ -275,7 +275,7 @@ export const steps: Steps = [
       top: "8rem"
     },
     disable: ["playBtn", "switchOptions"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.quitButton = true;
     },
     beginAdvancedOptions: true,
@@ -289,10 +289,10 @@ export const steps: Steps = [
     styling: {
       "--pointer-right": "46%"
     },
-    highlights:"optionsIndicator",
+    highlights: "optionsIndicator",
     listener: "optionsIndicator",
     disable: ["playBtn"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.nextButton = false;
     }
   },
@@ -306,7 +306,7 @@ export const steps: Steps = [
       height: "18rem",
       "--pointer-right": "14rem"
     },
-    highlights:"clefs",
+    highlights: "clefs",
     isOptionsOpen: true,
     disable: ["switchOptions", "switchPiano"],
     func: (changeButton, options) => {
@@ -329,7 +329,7 @@ export const steps: Steps = [
     },
     highlights: "switchPiano",
     listener: "switchPiano",
-    isOptionsOpen: true,    
+    isOptionsOpen: true,
     disable: ["switchOptions"],
     func: (changeButton) => {
       changeButton.nextButton = false;
@@ -340,14 +340,14 @@ export const steps: Steps = [
     title: "Jouer au Piano",
     content: "Vous pouvez jouer au piano en cliquant sur les touches.\n\nEssayez aussi de jouer avec le clavier de votre ordinateur (en appuyant sur les lettres indiquées sur chaque touche du piano).\n\nActiver ou monter le son si besoin, pour entendre les notes jouées.",
     contentMobile: "Vous pouvez jouer au piano en appuyant sur les touches, même en dehors d'une partie. Activez le son si besoin.",
-    pointer:"toDown",
+    pointer: "toDown",
     styling: {
       top: "10rem",
       height: "20rem",
       "--pointer-left": "50%"
     },
     disable: ["switchOptions", "playBtn"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.prevButton = false;
     }
   },
@@ -355,7 +355,7 @@ export const steps: Steps = [
     id: "step21",
     title: "Jouer une partie au piano - bouton Play",
     content: "Lancez un début de partie en appuyant sur le bouton Play.",
-    highlights:"playBtn",
+    highlights: "playBtn",
     listener: "play",
     pointer: "toUp-left",
     styling: {
@@ -403,15 +403,15 @@ export const steps: Steps = [
     title: "Quitter une partie",
     content: `Ok ! Maintenant nous allons voir comment quitter une partie en cours.\n\nAppuyez sur le bouton "stop"\n pour interrompre et quitter la partie en cours.`,
     listener: "stop",
-    pointer:"toUp-left",
-    highlights:"stopBtn",
+    pointer: "toUp-left",
+    highlights: "stopBtn",
     styling: {
       "--pointer-left": "12%",
       height: "15rem",
       marginTop: "2rem"
     },
     disable: ["switchOptions"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.nextButton = false;
       changeButton.prevButton = false;
     }
@@ -429,7 +429,7 @@ export const steps: Steps = [
     highlights: "switchOptions",
     listener: "toggleOptions",
     disable: ["playBtn"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.nextButton = false;
       changeButton.prevButton = false;
     }
@@ -447,10 +447,10 @@ export const steps: Steps = [
     listener: "switchPiano",
     isOptionsOpen: true,
     disable: ["switchOptions"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.nextButton = false;
       changeButton.prevButton = false;
-    },
+    }
   },
   {
     id: "step26",
@@ -461,11 +461,11 @@ export const steps: Steps = [
       top: "5px"
     },
     disable: ["switchOptions", "playBtn"],
-    func: (changeButton) => { 
+    func: (changeButton) => {
       changeButton.changeNextToQuit = true;
       changeButton.nextButton = false;
       changeButton.prevButton = false;
     },
     backToZero: true
-  },
+  }
 ];

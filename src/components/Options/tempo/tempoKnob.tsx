@@ -1,31 +1,30 @@
-import {FC, useEffect, useState} from "react";
+import { type FC, useEffect, useState } from "react";
 import Knob from "../ui/Knob/Knob";
 import "./style.scss";
 
-
 interface Props {
   handleFunc: (value: number) => void
-  tempoNum: number,
-  numTicks: number,
-  max: number, 
-  degrees: number,
+  tempoNum: number
+  numTicks: number
+  max: number
+  degrees: number
   hslBaseColor: number
 };
 
-const KnobButton: FC<Props> = ({handleFunc, tempoNum, numTicks, max, degrees, hslBaseColor}) => {
+const KnobButton: FC<Props> = ({ handleFunc, tempoNum, numTicks, max, degrees, hslBaseColor }) => {
   const [value, setValue] = useState(tempoNum);
   const [forceCurrentDegrees, setForceDeg] = useState(false as false | number);
-  
+
   useEffect(() => {
     setValue(tempoNum);
     if (tempoNum === 1) setForceDeg(95);
   }, [tempoNum]);
 
   useEffect(() => {
-    handleFunc(value);  
+    handleFunc(value);
   }, [handleFunc, value]);
 
-    return (
+  return (
       <div className="knob-dial">
         <Knob
           size={50}
@@ -40,8 +39,7 @@ const KnobButton: FC<Props> = ({handleFunc, tempoNum, numTicks, max, degrees, hs
           forceCurrentDegrees = {forceCurrentDegrees}
         />
       </div>
-    );
-}
+  );
+};
 
 export default KnobButton;
-

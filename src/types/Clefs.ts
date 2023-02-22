@@ -6,10 +6,10 @@ export interface StaveClef {
 
 export interface BothClefs {
   solution: string[]
-  solutionClefs: ("treble" | "bass")[]
+  solutionClefs: Array<"treble" | "bass">
   trebleNotes: string // à transmettre à RenderVFScore et displayNotes (afficher les deux en même temps)
   bassNotes: string
-  mobileNotesArray: [string, string][]
+  mobileNotesArray: Array<[string, string]>
 };
 
 export interface ReadOnlyStaveClef {
@@ -17,9 +17,7 @@ export interface ReadOnlyStaveClef {
   readonly levels: ClefLevels
 }
 
-export interface ClefLevels {
-  [index: string]: string[]
-};
+export type ClefLevels = Record<string, string[]>; ;
 
 export type ClefSelected = "treble" | "bass" | "bothClefs";
 

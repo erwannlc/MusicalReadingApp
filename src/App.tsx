@@ -1,10 +1,8 @@
 import "./scss/app.scss";
 import Main from "./components/Main";
 
-const App = () => {
-  return (
+const App = () => (
       <Main />
-  );
-}
+);
 
 export default App;

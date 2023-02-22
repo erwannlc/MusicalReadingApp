@@ -1,20 +1,29 @@
-import { FC, MouseEvent, TouchEvent, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import type { FC, MouseEvent, TouchEvent } from "react";
 import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
 import type { NodesBehavior } from "../../../types/TutoTypes";
-import useClientRect, { NodeObj } from "../../../utils/Hooks/useClientRect";
+import type { NodeObj } from "../../../utils/Hooks/useClientRect";
+import useClientRect from "../../../utils/Hooks/useClientRect";
 import "./pads.scss";
 
 interface Props {
   onPlay: (keyValue: string) => void
   isTutoOn: boolean
   isTutoPlay: boolean
-  updateNodes: (key: NodesKeys, obj: NodeObj) => void
+  updateNodes: (key: NodesKeys, obj: NodeObj | undefined) => void
   nodesBehavior: NodesBehavior
   isPianoActive: boolean
 };
 
-const Pads: FC<Props> = ({onPlay, isTutoOn, isTutoPlay, updateNodes, nodesBehavior, isPianoActive}) => {
-
+const Pads: FC<Props> = (
+  {
+    onPlay,
+    isTutoOn,
+    isTutoPlay,
+    updateNodes,
+    nodesBehavior,
+    isPianoActive
+  }) => {
   const [nodeObj, padsRef] = useClientRect();
   useEffect(() => {
     updateNodes("padsDiv", nodeObj);
@@ -23,14 +32,14 @@ const Pads: FC<Props> = ({onPlay, isTutoOn, isTutoPlay, updateNodes, nodesBehavi
   useEffect(() => {
     updateNodes("padGNote", padGNote);
   }, [padGNote, updateNodes]);
-  
 
-  let clickedKey:HTMLButtonElement;
-  const prevent = useRef(false); // prevent onmousedown to trigger after touchstart
-  
+  let clickedKey: HTMLButtonElement;
+  // prevent onmousedown to trigger after touchstart
+  const prevent = useRef(false);
+
   const handlePress = () => {
     clickedKey.classList.add("pressed");
-    const keyValue = clickedKey.dataset.note as string; 
+    const keyValue = clickedKey.dataset.note as string;
     if (!(isTutoOn && !isTutoPlay)) {
       onPlay(keyValue);
     };
@@ -38,7 +47,7 @@ const Pads: FC<Props> = ({onPlay, isTutoOn, isTutoPlay, updateNodes, nodesBehavi
 
   const pressNote = (e: MouseEvent) => {
     if (prevent.current) {
-      return prevent.current = false;
+      prevent.current = false;
     } else {
       clickedKey = e.currentTarget as HTMLButtonElement;
       handlePress();
@@ -49,7 +58,7 @@ const Pads: FC<Props> = ({onPlay, isTutoOn, isTutoPlay, updateNodes, nodesBehavi
     clickedKey = e.currentTarget as HTMLButtonElement;
     handlePress();
   };
-  const stopKey = (pad: HTMLButtonElement | null ) => {
+  const stopKey = (pad: HTMLButtonElement | null) => {
     if (pad) pad.classList.remove("pressed");
     document.removeEventListener("mouseup", () => {
       stopKey(clickedKey);
@@ -64,21 +73,35 @@ const Pads: FC<Props> = ({onPlay, isTutoOn, isTutoPlay, updateNodes, nodesBehavi
   document.addEventListener("touchend", () => {
     stopKey(clickedKey);
   });
-  const classN = `note-buttons ${nodesBehavior.padsDiv.highlight ? "tuto" : ""} ${isPianoActive ? "" : "disable"}`;
-  let padGClassN = nodesBehavior.padGNote.highlight ? "tuto" : "";
+  const classN = `note-buttons ${
+    nodesBehavior.padsDiv.highlight ? "tuto" : ""
+  } ${isPianoActive ? "" : "disable"}`;
+  const padGClassN = nodesBehavior.padGNote.highlight ? "tuto" : "";
   return (
-    // <div id="pianoKeyboard">
-      <div ref={padsRef} className={classN}>
-        <button data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>Do</button>
-        <button data-note="D" onMouseDown={pressNote} onTouchStart={touchNote}>Ré</button>
-        <button data-note="E" onMouseDown={pressNote} onTouchStart={touchNote}>Mi</button>
-        <button data-note="F" onMouseDown={pressNote} onTouchStart={touchNote}>Fa</button>
-        <button ref={padGRef} className={padGClassN} data-note="G" onMouseDown={pressNote} onTouchStart={touchNote}>Sol</button>
-        <button data-note="A" onMouseDown={pressNote} onTouchStart={touchNote}>La</button>
-        <button data-note="B" onMouseDown={pressNote} onTouchStart={touchNote}>Si</button>
-      </div>
-    // </div>
-  )
+  // <div id="pianoKeyboard">
+    <div ref={padsRef} className={classN}>
+      <button data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>
+        Do</button>
+      <button data-note="D" onMouseDown={pressNote} onTouchStart={touchNote}>
+        Ré</button>
+      <button data-note="E" onMouseDown={pressNote} onTouchStart={touchNote}>
+        Mi</button>
+      <button data-note="F" onMouseDown={pressNote} onTouchStart={touchNote}>
+        Fa</button>
+      <button
+        ref={padGRef}
+        className={padGClassN}
+        data-note="G"
+        onMouseDown={pressNote}
+        onTouchStart={touchNote}>
+        Sol</button>
+      <button data-note="A" onMouseDown={pressNote} onTouchStart={touchNote}>
+        La</button>
+      <button data-note="B" onMouseDown={pressNote} onTouchStart={touchNote}>
+        Si</button>
+    </div>
+  // </div>
+  );
 };
 
 export default Pads;

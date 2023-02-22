@@ -1,15 +1,15 @@
 
-import { NodesBehavior } from "../../../types/TutoTypes";
+import { type NodesBehavior } from "../../../types/TutoTypes";
 
 const defaultNodesBehavior: NodesBehavior = {
   playBtn: {
     disable: false,
     highlight: false
   },
-  stopBtn:  { // ("tuto" only)  stopBtn: (remove "tuto-play" & "tuto"),
+  stopBtn: { // ("tuto" only)  stopBtn: (remove "tuto-play" & "tuto"),
     disable: false,
-    highlight: false 
-  }, 
+    highlight: false
+  },
   messageDiv: {
     highlight: false
   },

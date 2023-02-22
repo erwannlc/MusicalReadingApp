@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import Modal from "./Modal";
 
 interface Props {
@@ -8,14 +8,14 @@ interface Props {
   isAlertOpen: boolean
 };
 
-const AlertModal:FC<Props> = ({children, classN, cancelConfirm, isAlertOpen}) => { 
-  return (
-    <Modal 
-    children={children}
-    classN={classN}
-    isOpen={isAlertOpen}
-    onRequestClose={cancelConfirm}
-    closeOnOutsideClick/>
-  )
-};
+const AlertModal: FC<Props> = (
+  { children, classN, cancelConfirm, isAlertOpen }) => (
+    <Modal
+      classN={classN}
+      isOpen={isAlertOpen}
+      onRequestClose={cancelConfirm}
+      closeOnOutsideClick>
+      {children}
+    </Modal>
+);
 export default AlertModal;

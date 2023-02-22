@@ -1,13 +1,13 @@
-import { FC } from "react";
+import { type FC } from "react";
 
 interface Props {
-  handleClose: () => void,
+  handleClose: () => void
   closeTuto: () => void
 };
 
-const ConfirmQuitPlay: FC<Props> = ({handleClose, closeTuto}) => {
-  const confirmQuit = () => closeTuto();
-  const cancelConfirm = () => handleClose();
+const ConfirmQuitPlay: FC<Props> = ({ handleClose, closeTuto }) => {
+  const confirmQuit = () => { closeTuto(); };
+  const cancelConfirm = () => { handleClose(); };
   return (
     <div id="confirm-content">
       <p>Ëtes-vous sûr.e de vouloir quitter le Tutoriel en cours ?</p>

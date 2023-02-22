@@ -1,5 +1,5 @@
-import { useRef, useEffect, FC, MouseEvent, TouchEvent } from "react";
-import "./confirm-modal.scss"
+import { useRef, useEffect, type FC, type MouseEvent, type TouchEvent } from "react";
+import "./confirm-modal.scss";
 
 // thx to https://souporserious.com/build-a-dialog-component-in-react/
 interface Props {
@@ -15,11 +15,11 @@ const Dialog: FC<Props> = ({
   isOpen,
   onRequestClose,
   classN,
-  closeOnOutsideClick,
+  closeOnOutsideClick
 }) => {
   const confirmModalRef = useRef<HTMLDialogElement>(null);
 
-  //returning focus to the element that opened the Dialog, suggested from WAI-ARIA
+  // returning focus to the element that opened the Dialog, suggested from WAI-ARIA
   // const lastActiveElement = useRef(null);
   // lastActiveElement.current = document.activeElement;
 
@@ -35,7 +35,7 @@ const Dialog: FC<Props> = ({
     };
   }, [isOpen]);
 
-  //*****************  WHITH optionnal handleOutsideClick : (only if showModal() is called)
+  //* ****************  WHITH optionnal handleOutsideClick : (only if showModal() is called)
   // handleCancel listen to other ways of closing a dialog (like pressing escape)
   useEffect(() => {
     const dialogNode = confirmModalRef.current;
@@ -51,7 +51,7 @@ const Dialog: FC<Props> = ({
     };
   }, [onRequestClose]);
 
-  function handleOutsideClick(event: MouseEvent | TouchEvent) {
+  function handleOutsideClick (event: MouseEvent | TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
     const dialogNode = confirmModalRef.current;
@@ -68,7 +68,6 @@ const Dialog: FC<Props> = ({
 };
 
 export default Dialog;
-
 
 /*
 //*****************  WHITHOUT optionnal handleOutsideClick :

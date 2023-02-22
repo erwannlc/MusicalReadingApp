@@ -1,4 +1,4 @@
-import { FunctionComponent} from "react";
+import { type FunctionComponent } from "react";
 import Tempo from "./tempo";
 import Levels from "./levels";
 import Clef from "./clef";
@@ -23,17 +23,17 @@ interface Props {
   nodesBehavior: NodesBehavior
 };
 
-const OptionsPanel: FunctionComponent <Props>= (props) => {
-  const { changeTimer, changeLevel, changeClef, switchPiano, displayPiano, displayOptions, updateNodes, options, nodesBehavior} = props
-  let className = displayOptions ? "options panel animate fade" : "options panel";
+const OptionsPanel: FunctionComponent <Props> = (props) => {
+  const { changeTimer, changeLevel, changeClef, switchPiano, displayPiano, displayOptions, updateNodes, options, nodesBehavior } = props;
+  const className = displayOptions ? "options panel animate fade" : "options panel";
   return (
     <div className={className}>
       <Tempo changeTimer={changeTimer} tempoNum={options.tempoNum}/>
       <Levels changeLevel={changeLevel}/>
       <Clef changeClef={changeClef} updateNodes={updateNodes} clefSelected={options.clefSelected} highlight={nodesBehavior.clefs.highlight}/>
-      <SwitchPiano switchPiano={switchPiano} isPiano={displayPiano}  updateNodes={updateNodes} nodesBehavior={nodesBehavior.switchPiano}/>
+      <SwitchPiano switchPiano={switchPiano} isPiano={displayPiano} updateNodes={updateNodes} nodesBehavior={nodesBehavior.switchPiano}/>
     </div>
-  )
+  );
 };
 
 export default OptionsPanel;

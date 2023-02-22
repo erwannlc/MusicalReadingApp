@@ -1,20 +1,20 @@
-import {FC, useEffect, useState} from "react";
+import { type FC, useEffect, useState } from "react";
 import Knob from "../ui/Knob/Knob";
-import "./style.scss"
+import "./style.scss";
 
 interface Props {
-  handleFunc: (value: number) => void,
-  numTicks: number,
-  max: number, 
-  degrees: number,
+  handleFunc: (value: number) => void
+  numTicks: number
+  max: number
+  degrees: number
   hslBaseColor: number
 };
 
-const KnobButton: FC<Props> = ({handleFunc, numTicks, max, degrees, hslBaseColor }) => {
-const [value, setValue] = useState(2);
+const KnobButton: FC<Props> = ({ handleFunc, numTicks, max, degrees, hslBaseColor }) => {
+  const [value, setValue] = useState(2);
 
   useEffect(() => {
-    handleFunc(value)
+    handleFunc(value);
   }, [handleFunc, value]);
 
   return (
@@ -33,7 +33,6 @@ const [value, setValue] = useState(2);
       />
     </div>
   );
-}
+};
 
 export default KnobButton;
-

@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { type FunctionComponent } from "react";
 import type { MessageObj } from "../../types/MessageObj";
 import type { StaveClef, BothClefs } from "../../types/Clefs";
 import type { Options } from "../../types/Options";
@@ -10,8 +10,8 @@ import PlayStopBtn from "./PlayStopBtn";
 
 interface Props {
   options: Options
-  trebleData: StaveClef 
-  bassData: StaveClef 
+  trebleData: StaveClef
+  bassData: StaveClef
   bothClefsData: BothClefs
   handleMessage: (message: MessageObj) => void
   isPlaying: boolean
@@ -36,14 +36,14 @@ interface Props {
 const PlayBtn: FunctionComponent<Props> = (props) => {
   const {
     options,
-    trebleData, 
-    bassData, 
-    bothClefsData, 
+    trebleData,
+    bassData,
+    bothClefsData,
     handleMessage,
     isPlaying,
     setIsPlaying,
     resetStavesData,
-    stopGame, 
+    stopGame,
     cancelStop,
     isMobile,
     gameLength,
@@ -63,17 +63,17 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
     // console.log("isPlaying in Play", isPlaying)
     if (isPlaying) {
       stopPlaying(setIsPlaying, handleMessage, resetStavesData, changeProgressBarID, options.clefSelected, outputNode, isTutoOn ? 5 : gameLength, isMobile);
-    } else if (!isTutoOn) { 
-       playGame(
-        gameLength, 
-        options.intervalTime, 
-        options.level, 
-        options.levelNum, 
-        options.clefSelected, 
-        trebleData, bassData, bothClefsData, 
-        isMobile, 
-        handleMessage, 
-        setIsPlaying, 
+    } else if (!isTutoOn) {
+      playGame(
+        gameLength,
+        options.intervalTime,
+        options.level,
+        options.levelNum,
+        options.clefSelected,
+        trebleData, bassData, bothClefsData,
+        isMobile,
+        handleMessage,
+        setIsPlaying,
         changeProgressBarID,
         displayScoreCircle,
         outputNode,
@@ -82,13 +82,13 @@ const PlayBtn: FunctionComponent<Props> = (props) => {
         activateCorrection
       );
     } else if (isTutoOn) setIsPlaying(true);
-  }
+  };
 
   return (
-    <div className="playDiv"> 
+    <div className="playDiv">
       <PlayStopBtn handlePlay={handlePlay} isPlaying={isPlaying} stopGame={stopGame} cancelStop={cancelStop} updateNodes={updateNodes} nodesBehavior={nodesBehavior}/>
     </div>
-  )
+  );
 };
 
 export default PlayBtn;

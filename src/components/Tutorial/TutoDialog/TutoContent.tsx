@@ -1,27 +1,24 @@
-import { FC } from "react";
+import { type FC } from "react";
 import CloseBtn from "./ui/btn_close";
 import type { ChangeButton } from "../../../types/TutoTypes";
 
-
 interface Props {
   handleClose: () => void
-  steps: {title: string, content: string}[]
+  steps: Array<{ title: string, content: string }>
   goNext: () => void
   goPrev: () => void
   goToStep: (newStep: number) => void
   stepIndex: number
   changeButton: ChangeButton
   isTableContents: boolean
-  backToZero: boolean 
+  backToZero: boolean
 };
 
-
-const TutoContent: FC<Props> = ({handleClose, steps, goNext, goPrev, goToStep, stepIndex, changeButton, isTableContents, backToZero}) => {
-
-  const  {isNextDisabled, nextButton, prevButton, quitButton, changeNextToQuit } = changeButton;
+const TutoContent: FC<Props> = ({ handleClose, steps, goNext, goPrev, goToStep, stepIndex, changeButton, isTableContents, backToZero }) => {
+  const { isNextDisabled, nextButton, prevButton, quitButton, changeNextToQuit } = changeButton;
 
   const Message: FC = () => {
-    const actualMsg = steps[stepIndex]
+    const actualMsg = steps[stepIndex];
     return (
       <div className="tuto-msg">
         <header>
@@ -30,7 +27,7 @@ const TutoContent: FC<Props> = ({handleClose, steps, goNext, goPrev, goToStep, s
         </header>
         <p>{actualMsg.content}</p>
       </div>
-    )
+    );
   };
 
   const TableOfContents: FC = () => {
@@ -58,36 +55,36 @@ const TutoContent: FC<Props> = ({handleClose, steps, goNext, goPrev, goToStep, s
             {title2}
           </h4>
         <ul className="ul-table">
-          <li className="chapter" onClick={() => goToStep(1)}>{chapter[1]}</li>
-          <li className="chapter" onClick={() => goToStep(7)}>{chapter[2]}</li>
-          <li className="chapter" onClick={() => goToStep(16)}>{chapter[3]}</li>
+          <li className="chapter" onClick={() => { goToStep(1); }}>{chapter[1]}</li>
+          <li className="chapter" onClick={() => { goToStep(7); }}>{chapter[2]}</li>
+          <li className="chapter" onClick={() => { goToStep(16); }}>{chapter[3]}</li>
         </ul>
       </main>
     </div>
-    )
+    );
   };
 
-  const NextOrQuitButton: FC = () => {
-    return (
-      nextButton ? <button className="nav next" onClick={goNext} disabled={isNextDisabled}>Suivant</button> 
-      : changeNextToQuit ? <button className="nav next" onClick={handleClose} disabled={isNextDisabled}>Quitter</button> 
-      : null
-    )
-  };
-  const QuitButton: FC = () => {
-    return (
-      quitButton ? <button className="nav quit" onClick={handleClose} disabled={isNextDisabled}>Quitter</button> : null
-    )
-  };
+  const NextOrQuitButton: FC = () => (
+    nextButton
+      ? <button className="nav next" onClick={goNext} disabled={isNextDisabled}>Suivant</button>
+      : changeNextToQuit
+        ? <button className="nav next" onClick={handleClose} disabled={isNextDisabled}>Quitter</button>
+        : null
+  );
+  const QuitButton: FC = () => (
+    quitButton ? <button className="nav quit" onClick={handleClose} disabled={isNextDisabled}>Quitter</button> : null
+  );
   const PreviousButton: FC = () => {
-    const backToZeroText= "Revenir au sommaire"
+    const backToZeroText = "Revenir au sommaire";
     if (backToZero) {
       return (
-        <button className="nav prev" onClick={() => goToStep(0)}>{backToZeroText}</button>
-      )
-    } else return (
-      prevButton ? <button className="nav prev" onClick={goPrev}>Précédent</button> : null
-    )
+        <button className="nav prev" onClick={() => { goToStep(0); }}>{backToZeroText}</button>
+      );
+    } else {
+      return (
+        prevButton ? <button className="nav prev" onClick={goPrev}>Précédent</button> : null
+      );
+    }
   };
 
   if (isTableContents) {
@@ -96,8 +93,9 @@ const TutoContent: FC<Props> = ({handleClose, steps, goNext, goPrev, goToStep, s
         <TableOfContents />
         <CloseBtn closeBtnClassName="close" handleClose={handleClose}/>
       </>
-    )
-  } else return (
+    );
+  } else {
+    return (
     <>
       <Message />
       <PreviousButton />
@@ -105,7 +103,8 @@ const TutoContent: FC<Props> = ({handleClose, steps, goNext, goPrev, goToStep, s
       <NextOrQuitButton />
       <CloseBtn closeBtnClassName="close" handleClose={handleClose}/>
     </>
-  )
+    );
+  }
 };
 
 export default TutoContent;
