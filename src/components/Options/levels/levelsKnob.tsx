@@ -1,24 +1,33 @@
-import { type FC, useEffect, useState } from "react";
+import { type FC, useState } from "react";
 import Knob from "../ui/Knob/Knob";
 import "./style.scss";
 
 interface Props {
-  handleFunc: (value: number) => void
-  numTicks: number
-  max: number
-  degrees: number
-  hslBaseColor: number
+  changeLevel: (level: string, levelNum: number) => void
 };
 
-const KnobButton: FC<Props> = ({ handleFunc, numTicks, max, degrees, hslBaseColor }) => {
+const LevelKnob: FC<Props> = ({
+  changeLevel
+}) => {
   const [value, setValue] = useState(2);
 
-  useEffect(() => {
-    handleFunc(value);
-  }, [handleFunc, value]);
+  const numTicks = 5;
+  const max = 6;
+  const degrees = 120;
+  const hslBaseColor = 37;
+
+  const onChange = (newValue: number) => {
+    setValue(newValue);
+  };
+
+  const onKnobRelease = (newvalue: number) => {
+    const notZeroValue = newvalue === 0 ? 1 : newvalue;
+    const level: string = `level${notZeroValue}`;
+    changeLevel(level, newvalue);
+  };
 
   return (
-    <div className="knob-dial">
+    <div key="levelKnob" className="knob-dial">
       <Knob
         size={50}
         numTicks={numTicks}
@@ -28,11 +37,12 @@ const KnobButton: FC<Props> = ({ handleFunc, numTicks, max, degrees, hslBaseColo
         value={value}
         color={true}
         hslBaseColor={hslBaseColor}
-        setValue={setValue}
+        onChange={onChange}
         forceCurrentDegrees = {false}
+        onKnobRelease={onKnobRelease}
       />
     </div>
   );
 };
 
-export default KnobButton;
+export default LevelKnob;

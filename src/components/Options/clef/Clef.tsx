@@ -1,8 +1,8 @@
-import { type FunctionComponent, useCallback } from "react";
-import ClefsButtons from "./ClefButtons";
+import { type FunctionComponent } from "react";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
-import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import type { NodesKeys } from "../../../types/Nodes";
 import type { ClefSelected } from "../../../types/Clefs";
+import ClefsButtons from "./ClefButtons";
 
 interface Props {
   changeClef: (clef: ClefSelected) => void
@@ -11,17 +11,20 @@ interface Props {
   highlight: boolean
 };
 
-const Clef: FunctionComponent<Props> = ({ changeClef, updateNodes, clefSelected, highlight }) => {
-  const chooseClef = useCallback((clef: ClefSelected) => {
-    changeClef(clef);
-  }, [changeClef]);
-
-  return (
+const Clef: FunctionComponent<Props> = ({
+  changeClef,
+  updateNodes,
+  clefSelected,
+  highlight
+}) => (
     <div className="clef-option">
       <p className="clef-option-title">Clef</p>
-      <ClefsButtons chooseClef={chooseClef} updateNodes={updateNodes} clefSelected={clefSelected} highlight={highlight}/>
+      <ClefsButtons
+        chooseClef={changeClef}
+        updateNodes={updateNodes}
+        clefSelected={clefSelected}
+        highlight={highlight}/>
     </div>
-  );
-};
+);
 
 export default Clef;

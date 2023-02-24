@@ -1,7 +1,7 @@
 import { type FunctionComponent, useEffect } from "react";
 import type { BothClefs, StaveClef } from "../../types/Clefs";
+import type { NodesKeys } from "../../types/Nodes";
 import useClientRect, { type NodeObj } from "../../utils/Hooks/useClientRect";
-import { type NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
 import renderVFScore from "../../utils/renderVFScore";
 
 interface Props {
@@ -12,10 +12,6 @@ interface Props {
   bothClefsData: BothClefs
   gameLength: number
   updateNodes: (key: NodesKeys, obj: NodeObj | undefined) => void
-  highlight: boolean
-  isStaveDataCreated: boolean
-  isTutoOn: boolean
-  isTutoStaveDataCreated: boolean
 };
 
 const VFBox: FunctionComponent<Props> = ({
@@ -25,11 +21,7 @@ const VFBox: FunctionComponent<Props> = ({
   bassData,
   bothClefsData,
   gameLength,
-  updateNodes,
-  highlight,
-  isStaveDataCreated,
-  isTutoOn,
-  isTutoStaveDataCreated
+  updateNodes
 }) => {
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
@@ -41,10 +33,7 @@ const VFBox: FunctionComponent<Props> = ({
   }, [outputNode, updateNodes]);
 
   useEffect(() => {
-    // console.log("isStaveDataCreated", isStaveDataCreated);
-    // console.log("isTutoOn", isTutoOn);
-
-    if (outputNode?.node && isStaveDataCreated && !isTutoOn) {
+    if (outputNode?.node && trebleData.notesArray.length === gameLength) {
       outputNode.node.innerHTML = "";
       renderVFScore(
         clefSelected,
@@ -55,30 +44,17 @@ const VFBox: FunctionComponent<Props> = ({
         bothClefsData
       );
     };
-    if (isTutoStaveDataCreated && outputNode?.node) {
-      outputNode.node.innerHTML = "";
-      renderVFScore(
-        clefSelected,
-        trebleData,
-        bassData,
-        levelNum,
-        5,
-        bothClefsData
-      );
-    };
   }, [
     bassData,
     bothClefsData,
     clefSelected,
     gameLength,
-    isStaveDataCreated,
-    isTutoOn,
-    isTutoStaveDataCreated,
     levelNum,
     outputNode?.node,
-    trebleData]);
+    trebleData
+  ]);
 
-  const classN = highlight ? "tuto" : "";
+  const classN = "";
 
   return (
     <div ref={ref} id="vexbox" className={classN}>

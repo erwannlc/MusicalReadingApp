@@ -1,4 +1,4 @@
-import React, { type FC, useEffect, useState } from "react";
+import React, { type FC, useState, useRef } from "react";
 
 interface KnobProps {
   size: number
@@ -9,8 +9,9 @@ interface KnobProps {
   value: number
   color: boolean
   hslBaseColor: number
-  setValue: React.Dispatch<React.SetStateAction<number>>
+  onChange: (newValue: number) => void
   forceCurrentDegrees: false | number
+  onKnobRelease: (newValue: number) => void
 }
 
 const Knob: FC<KnobProps> = (props) => {
@@ -23,8 +24,9 @@ const Knob: FC<KnobProps> = (props) => {
     max,
     color,
     hslBaseColor,
-    setValue,
-    forceCurrentDegrees
+    onChange,
+    forceCurrentDegrees,
+    onKnobRelease
   } = props;
 
   const fullAngle = degrees;
@@ -41,13 +43,12 @@ const Knob: FC<KnobProps> = (props) => {
   ): number =>
     (oldValue - oldMin) * (newMax - newMin) / (oldMax - oldMin) + newMin;
 
-  let currentDeg: number =
+  let currentDeg: number = forceCurrentDegrees ||
     Math.floor(convertRange(min, max, startAngle, endAngle, value));
 
   const [deg, setDeg] = useState(currentDeg);
-  useEffect(() => {
-    if (forceCurrentDegrees) setDeg(forceCurrentDegrees);
-  }, [forceCurrentDegrees]);
+
+  const newValue = useRef<number>(value);
 
   const getDeg = (cX: number, cY: number, pts: { x: number, y: number }) => {
     const x = cX - pts.x;
@@ -90,7 +91,7 @@ const Knob: FC<KnobProps> = (props) => {
     currentDeg = getDeg(clientX, clientY, pts);
     if (currentDeg === startAngle) currentDeg--;
 
-    let newValue: number = Math.floor(
+    let calcValue: number = Math.floor(
       convertRange(
         startAngle,
         endAngle,
@@ -99,44 +100,62 @@ const Knob: FC<KnobProps> = (props) => {
         currentDeg
       )
     );
-    if (newValue === 0) newValue = 1;
+    if (calcValue === 0) calcValue = 1;
+    if (calcValue !== value) onChange(calcValue);
+    newValue.current = calcValue;
     setDeg(currentDeg);
-    setValue(newValue);
+  };
+  // prevent onMouseDown to trigger after touchstart
+  const prevent = useRef(false);
+  const ptsRef = useRef<{
+    x: number
+    y: number
+  }>({ x: 0, y: 0 });
+
+  const touchGrapHandler = (e: TouchEvent) => {
+    moveHandler(e.touches[0].clientX, e.touches[0].clientY, ptsRef.current);
+  };
+  const mouseGrapHandler = (e: MouseEvent) => {
+    moveHandler(e.clientX, e.clientY, ptsRef.current);
   };
 
   const startDragTouch = (e: React.TouchEvent) => {
+    prevent.current = true;
     const knob = e.currentTarget.getBoundingClientRect();
-    const pts = {
+    ptsRef.current = {
       x: knob.left + knob.width / 2,
       y: knob.top + knob.height / 2
     };
-    const grapHandler = (e: TouchEvent) => {
-      moveHandler(e.touches[0].clientX, e.touches[0].clientY, pts);
-    };
-    document.addEventListener("touchmove", grapHandler);
-    document.addEventListener("touchend", e => {
-      document.removeEventListener("touchmove", grapHandler);
-    });
+    document.addEventListener("touchmove", touchGrapHandler);
+    document.addEventListener("touchend", stopDrag);
   };
   const startDrag = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const knob = e.currentTarget.getBoundingClientRect();
-    const pts = {
-      x: knob.left + knob.width / 2,
-      y: knob.top + knob.height / 2
+    if (prevent.current) {
+      prevent.current = false;
+    } else {
+      e.preventDefault();
+      const knob = e.currentTarget.getBoundingClientRect();
+      ptsRef.current = {
+        x: knob.left + knob.width / 2,
+        y: knob.top + knob.height / 2
+      };
+      document.addEventListener("mousemove", mouseGrapHandler);
+      document.addEventListener("mouseup", stopDrag);
     };
-    const grapHandler =
-    (e: MouseEvent) => { moveHandler(e.clientX, e.clientY, pts); };
-    document.addEventListener("mousemove", grapHandler);
-    document.addEventListener("mouseup", e => {
-      document.removeEventListener("mousemove", grapHandler);
-    });
+  };
+
+  const stopDrag = () => {
+    document.removeEventListener("touchmove", touchGrapHandler);
+    document.removeEventListener("mousemove", mouseGrapHandler);
+    document.removeEventListener("mouseup", stopDrag);
+    document.removeEventListener("touchend", stopDrag);
+    onKnobRelease(newValue.current);
   };
 
   interface KStyle {
     width: number
     height: number
-  }
+  };
 
   const dcpy = (o: KStyle) => JSON.parse(JSON.stringify(o));
 
@@ -154,15 +173,6 @@ const Knob: FC<KnobProps> = (props) => {
         ${currentDeg / 5}%),
         hsl(${Math.random() * 100},
         20%,${currentDeg / 36}%))`;
-    // `radial-gradient(100% 70%,hsl(${hslBaseColor}, ` +
-    // currentDeg +
-    // "%, " +
-    // currentDeg / 5 +
-    // "%),hsl(" +
-    // Math.random() * 100 +
-    // ",20%," +
-    // currentDeg / 36 +
-    // "%))";
   };
   iStyle.transform = `rotate(${deg}deg)`;
 

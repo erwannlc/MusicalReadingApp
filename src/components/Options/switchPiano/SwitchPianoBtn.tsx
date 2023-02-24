@@ -1,7 +1,7 @@
 import { type FC, useEffect } from "react";
 import "./switch-piano.scss";
 import PianoIcon from "./PianoIcon";
-import { type NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import type { NodesKeys } from "../../../types/Nodes";
 import useClientRect from "../../../utils/Hooks/useClientRect";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
 

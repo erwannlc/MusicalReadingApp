@@ -7,7 +7,6 @@ dialog#message--dialog[open] { // only if isMobile
   display: flex;
   background-color: rgb(29, 29, 29);
   border: 1px solid var(--gold);
-  // border: 1px solid gold;
   border-radius: 5px;
   color: white;
   overflow: hidden;
@@ -17,14 +16,14 @@ dialog#message--dialog[open] { // only if isMobile
   }    
   & #message {
     height: 100%;
+    width: 100%;
     padding: 0;
     margin: 8vh 0 0 0;
-    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
       & table.correction,
-      table.answersMsg { // inside in "correction.scss"
+      table.answersMsg { // inside "correction.scss"
         font-size: 1rem;
         margin: 0 0 0 2rem;
         border-collapse: collapse;
@@ -51,7 +50,7 @@ dialog#message--dialog[open] { // only if isMobile
       margin-top: 0;
       margin-left: -6vw;
       & table.correction,
-      table.answersMsg { // inside in "correction.scss"
+      table.answersMsg { // inside "correction.scss"
         font-size: 0.9rem;
         margin: 2rem 0 0 2rem;
       }
@@ -64,7 +63,7 @@ dialog#message--dialog[open] { // only if isMobile
         margin-top: 3vh;
         margin-left: -8vw;
         & table.correction,
-        table.answersMsg { // inside in "correction.scss"
+        table.answersMsg { // inside "correction.scss"
           font-size: 0.9rem;
           margin: 2rem 0 0 2rem;
         }
@@ -72,12 +71,12 @@ dialog#message--dialog[open] { // only if isMobile
     }
   
 
-  animation: 0.3s ease-in-out CorrectionFadeIn ;
+  animation: 0.2s ease-in-out CorrectionFadeIn ;
 }
 @keyframes CorrectionFadeIn {
   from {
-    opacity: 0;
-    transform: scale(0.4);
+    opacity: 20%;
+    transform: scale(0.3);
   }
   to {
     opacity: 1;

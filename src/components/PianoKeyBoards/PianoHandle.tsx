@@ -1,14 +1,12 @@
-import { type FC, useCallback, useEffect, useState } from "react";
+import { type FC, useCallback, useEffect, useState, useRef } from "react";
 import Pads from "./Pads";
 import Piano from "./Piano";
 import AnswersMsg from "../GameMessages/AnswersMsg";
-import { defaultMessage } from "../../data/data";
 import type { StaveClef, BothClefs, ClefSelected } from "../../types/Clefs";
 import type { MessageObj } from "../../types/MessageObj";
 import type { Args } from "../../types/HandleAnswersArgs";
-import type { NodesKeys, Nodes } from "../Tutorial/TutoData/nodesToHighLight";
+import type { NodesKeys } from "../../types/Nodes";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
-import type { NodesBehavior } from "../../types/TutoTypes";
 import { handleAnswers, handleError } from "../../utils/handleAnswers";
 import "./piano-handle.scss";
 
@@ -25,14 +23,8 @@ interface Props {
   isMobile: boolean
   gameLength: number
   displayScoreCircle: (score: number) => void
-  isTutoOn: boolean
-  tutoPlay: { isActive: boolean, answer: string }
-  stopTutoPlay: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj | undefined) => void
-  nodes: Nodes
-  nodesBehavior: NodesBehavior
-  activateCorrection: () => void
-  deactivateCorrection: () => void
+  quitGame: () => void
   isPianoActive: boolean
   isCorrection: boolean
 };
@@ -56,64 +48,27 @@ const PianoHandle: FC<Props> = (props) => {
     isMobile,
     gameLength,
     displayScoreCircle,
-    isTutoOn,
-    tutoPlay,
-    stopTutoPlay,
     updateNodes,
-    nodesBehavior,
-    activateCorrection,
-    deactivateCorrection,
+    quitGame,
     isPianoActive,
     isCorrection
   } = props;
 
-  const isTutoActive = tutoPlay.isActive;
-  const actualGameLength = isTutoActive ? 5 : gameLength;
+  const actualGameLength = gameLength;
 
   const [status, setStatus] = useState(isPlaying ? ENTERING : NOGAME);
 
   const [answers, setAnswers] = useState([] as string[]);
-  const [tutoAnswers, setTutoAnswers] = useState(["G"] as string[]);
-  if (tutoAnswers.length === 1 && tutoPlay.answer) {
-    setTutoAnswers([...tutoAnswers, tutoPlay.answer]);
-  }
+
+  const isErrorAnswer = useRef(false);
+
   const pushAnswer = (answer: string) => {
-    isTutoActive
-      ? setTutoAnswers([...tutoAnswers, answer])
-      : setAnswers([...answers, answer]);
+    setAnswers([...answers, answer]);
   };
   const resetAnswer = useCallback(
     () => {
-      isTutoActive ? setTutoAnswers(["G"]) : setAnswers([]);
-    }, [isTutoActive]
-  );
-
-  // display the 2 previous answers when tuto Play really begins
-  useEffect(() => {
-    if (isTutoActive && tutoAnswers.length === 2) {
-      const prevAnswers = tutoAnswers.map(answer => scaleA[answer]);
-      handleMessage(
-        {
-          content: <AnswersMsg
-            answers={prevAnswers}
-            lastValue={scaleA[tutoPlay.answer]}></AnswersMsg>,
-          className: "answers"
-        }
-      );
-      setTimeout(() => {
-        handleMessage(
-          {
-            content: <AnswersMsg
-              answers={prevAnswers}
-              lastValue={"?"}></AnswersMsg>,
-            className: "answers"
-          }
-        );
-      },
-      1000);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTutoActive, tutoAnswers]);
+      setAnswers([]);
+    }, []);
 
   useEffect(() => { // state machine
     if (!isPlaying) {
@@ -128,7 +83,7 @@ const PianoHandle: FC<Props> = (props) => {
   }, [isPlaying, isGameStopped, resetAnswer]);
 
   const onPlay = (keyValue: string) => {
-    const actualAnswers = isTutoActive ? tutoAnswers : answers;
+    const actualAnswers = answers;
     const prevAnswers = actualAnswers.map(answer => scaleA[answer]);
     const msg = {
       content: <AnswersMsg
@@ -139,14 +94,6 @@ const PianoHandle: FC<Props> = (props) => {
     if (isPlaying && (actualAnswers.length < actualGameLength)) {
       pushAnswer(keyValue);
       handleMessage(msg);
-    };
-  };
-
-  const completeTutoAnswers = async (userAnswers: string[]) => {
-    const diff = actualGameLength - userAnswers.length + 1;
-    const arr = isTutoActive ? tutoAnswers : answers;
-    for (let i = 1; i < diff; i++) {
-      arr.push("?");
     };
   };
 
@@ -169,7 +116,7 @@ const PianoHandle: FC<Props> = (props) => {
   };
 
   if (status === QUITGAME) {
-    const userAnswers = tutoPlay.isActive ? tutoAnswers : answers;
+    const userAnswers = answers;
     const args = [
       userAnswers,
       scaleA,
@@ -178,44 +125,42 @@ const PianoHandle: FC<Props> = (props) => {
       isMobile,
       actualGameLength,
       displayScoreCircle,
-      clefSelected,
-      activateCorrection
+      clefSelected
     ] as Args;
     if (userAnswers.length === actualGameLength) {
-      if (isTutoActive) setTimeout(() => { stopTutoPlay(); });
+      isErrorAnswer.current = false;
       handleAnswersByClef(args, clefSelected);
     };
 
     if (userAnswers.length > 0 && (userAnswers.length < actualGameLength)) {
-      if (isTutoActive) {
-        completeTutoAnswers(userAnswers)
-          .then(() => handleAnswers(trebleData.solution, ...args))
-          .then(() => setTimeout(() => { stopTutoPlay(); }, 0));
-      } else {
-        handleError(
-          resetAnswer,
-          handleMessage,
-          activateCorrection,
-          "incompleteAnswer"
-        );
-      };
+      isErrorAnswer.current = true;
+      handleError(
+        resetAnswer,
+        handleMessage,
+        "incompleteAnswer"
+      );
     };
 
     if (userAnswers.length === 0) {
-      handleError(resetAnswer, handleMessage, activateCorrection, "noAnswer");
+      isErrorAnswer.current = true;
+      handleError(
+        resetAnswer,
+        handleMessage,
+        "noAnswer"
+      );
     };
 
     setStatus(NOGAME);
   };
-  const quitCorrection = () => {
-    deactivateCorrection();
-    displayScoreCircle(-1);
-    handleMessage(defaultMessage);
-  };
+
+  const quitBtnClassN = !isErrorAnswer.current && isCorrection && isMobile
+    ? "quit-correction hidden"
+    : "quit-correction";
+
   return (
     <div id="pianoKeyboard">
       {isCorrection && status === NOGAME
-        ? <button className="quit-correction" onClick={quitCorrection}>
+        ? <button className={quitBtnClassN} onClick={quitGame}>
           Quitter la partie
           </button>
         : displayPiano
@@ -223,17 +168,11 @@ const PianoHandle: FC<Props> = (props) => {
           onPlay={onPlay}
           isMobile={isMobile}
           scaleA={scaleA}
-          isTutoOn={isTutoOn}
-          isTutoPlay={isTutoActive}
-           updateNodes={updateNodes}
-          isTutoNotes={nodesBehavior.bothOctavesNote.highlight}
+          updateNodes={updateNodes}
           isPianoActive={isPianoActive}/>
           : <Pads
            onPlay={onPlay}
-          isTutoOn={isTutoOn}
-          isTutoPlay={isTutoActive}
           updateNodes={updateNodes}
-          nodesBehavior={nodesBehavior}
           isPianoActive={isPianoActive}/> }
     </div>
   );

@@ -14,7 +14,6 @@ export const handleAnswers = async (
   gameLength: number,
   displayScoreCircle: (score: number) => void,
   clefSelected: ClefSelected,
-  activateCorrection: () => void,
   solutionClefs?: Array<"treble" | "bass">
 ) => {
   const answersTD: CorrectionTD = [];
@@ -30,10 +29,9 @@ export const handleAnswers = async (
     const correctionMsg: MessageObj = {
       className: "answers",
       content: <CorrectionTable {...props}/>,
-      isModal: !!isMobile,
+      isModal: isMobile,
       modal: { content: <CorrectionTable {...props}/>, className: "answers" }
     };
-      // activateCorrection();
     handleMessage(correctionMsg);
   };
 
@@ -82,12 +80,10 @@ export const handleAnswers = async (
 export const handleError = async (
   resetAnswer: () => void,
   handleMessage: (message: MessageObj) => void,
-  activateCorrection: () => void,
   errorType: "noAnswer" | "incompleteAnswer"
 ) => {
   let errorMsg: MessageObj;
   const writeErrorMsg = async () => {
-    activateCorrection();
     if (errorType === "noAnswer") {
       errorMsg = {
         content: <>

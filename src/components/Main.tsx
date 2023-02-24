@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { FunctionComponent } from "react";
 import Options from "./Options/Options";
 import PlayBtn from "./PlayGame/Play";
@@ -8,19 +8,15 @@ import VFBoxMobile from "./VFScore/VFBoxMobile";
 import PianoKeyBoards from "./PianoKeyBoards";
 import GameMessages from "./GameMessages/GameMessages";
 import GameScore from "./GameMessages/GameScore";
-import Tutorial from "./Tutorial"; // tutoCode
-import defaultNodesBehavior
-  from "./Tutorial/TutoData/defaultNodesBehavior"; // tutoCode
-import { createNotes, createTutoNotes }
-  from "../utils/createStavesData"; // partial tutoCode
-import type { NodesBehaviorKeys } from "../types/TutoTypes"; // tutoCode
+import { createNotes } from "../utils/createStavesData";
+import { defaultNodesBehavior }
+  from "../types/NodesBehavior"; // tutoCode Nodes
 import type { Nodes, NodesKeys }
-  from "./Tutorial/TutoData/nodesToHighLight"; // tutoCode Nodes
+  from "../types/Nodes"; // tutoCode Nodes
 import type { ClefSelected } from "../types/Clefs";
 import type { MessageObj } from "../types/MessageObj";
 import type { NodeObj } from "../utils/Hooks/useClientRect";
 import useMediaQuery from "../utils/Hooks/useMediaQuery/useMediaQuery";
-import { useClientNode } from "../utils/Hooks/useClientNode";
 import {
   emptyStave,
   trebleReadOnly,
@@ -31,11 +27,9 @@ import {
   scaleA
 } from "../data/data";
 
-const Main: FunctionComponent = () => {
-  const [appNode, ref] = useClientNode();
-  const firstMainRender = useRef(true);
+let firstMainRender = true;
 
-  // Media queries
+const Main: FunctionComponent = () => {
   const [isMobile] = useMediaQuery(
     `screen and (max-width: 850px), 
     screen and (max-height: 420px) and (orientation: landscape)`
@@ -69,32 +63,33 @@ const Main: FunctionComponent = () => {
   const [scoreNumber, setScoreNumber] = useState(-1);
   const displayScoreCircle = async (
     scoreNumber: number
-  ) => { setScoreNumber(scoreNumber); };
+  ) => {
+    setScoreNumber(scoreNumber);
+  };
   const [progressBarId, setProgressBarID] = useState(null as string | null);
   const changeProgressBarID = (id: string | null) => { setProgressBarID(id); };
   const [isCorrection, setIsCorrection] = useState(false);
   const activateCorrection = () => { setIsCorrection(true); };
-  const deactivateCorrection = () => { setIsCorrection(false); };
-
   const mainClassN = isCorrection ? "while-correction" : "";
   const [isPianoActive, setIsPianoActive] = useState(true);
   const enablePiano = () => { setIsPianoActive(true); };
   const disablePiano = () => { setIsPianoActive(false); };
+  const quitGame = () => {
+    createNotes(options.level, trebleReadOnly, bassReadOnly, gameLength)
+      .then(newData => {
+        setTreble(newData.treble);
+        setBass(newData.bass);
+        setBoth(newData.both);
+      });
+    if (isCorrection) setIsCorrection(false);
+    displayScoreCircle(-1);
+    handleMessage(defaultMessage);
+  };
 
   // Musical data
   const [trebleData, setTreble] = useState(emptyStave);
   const [bassData, setBass] = useState(emptyStave);
   const [bothClefsData, setBoth] = useState(bothClefs);
-  const [isStaveDataCreated, setIsDataCreated] = useState(false);
-  const [isTutoStaveDataCreated, setIsTutoDataCreated] = useState(false);
-  const resetStavesData = async () => {
-    // console.log("resetingStavesData...")
-    setTreble(emptyStave);
-    setBass(emptyStave);
-    setBoth(bothClefs);
-    setIsDataCreated(false);
-    setIsTutoDataCreated(false);
-  };
 
   // Nodes Behaviors
   const [nodes, setNodes] = useState<Nodes>({});
@@ -105,93 +100,30 @@ const Main: FunctionComponent = () => {
     ) => {
       setNodes(nodes => ({ ...nodes, [key]: obj }));
     }, []);
-  const [nodesBehavior, setNodesBehavior] = useState(defaultNodesBehavior);
-  const changeNodeBehavior = (
-    component: NodesBehaviorKeys,
-    value: { highlight?: boolean, disable?: boolean }
-  ) => {
-    setNodesBehavior(nodesBehavior => (
-      { ...nodesBehavior, [component]: value }));
-  };
-  const resetNodesBehavior = () => { setNodesBehavior(defaultNodesBehavior); };
-
-  // Tutorial data
-  const [isTutoOn, setIsTutoOn] = useState(false);
-  const activeTuto = (bool: boolean) => { setIsTutoOn(bool); };
-  const [tutoPlay, setTutoPlay] = useState({
-    isActive: false,
-    answer: ""
-  });
-  const stopTutoPlay = () => { setTutoPlay({ isActive: false, answer: "" }); };
-  const activeTutoPlay = (option: string, value: string | boolean) => {
-    setTutoPlay(tutoPlay => ({ ...tutoPlay, [option]: value }));
-  };
-  const restoreDefault = () => {
-    console.log("restoringDefault");
-    deactivateCorrection();
-    resetStavesData();
-    displayScoreCircle(-1);
-    handleMessage(defaultMessage);
-  };
+  // const [nodesBehavior, setNodesBehavior] = useState(defaultNodesBehavior);
+  const nodesBehavior = defaultNodesBehavior;
 
   // console.log("Main isCorrection : ", isCorrection)
-  // /////////////////////// useEffect ////////////////////////
 
-  useEffect(() => {
-    if (firstMainRender.current) {
-      console.log("First Main render");
-      createNotes(options.level, trebleReadOnly, bassReadOnly, gameLength)
-        .then(newData => {
-          setTreble(newData.treble);
-          setBass(newData.bass);
-          setBoth(newData.both);
-        });
-      setIsDataCreated(true);
-      firstMainRender.current = false;
-    };
-    if (!isPlaying && !isCorrection) {
-      if (isTutoOn) { // tutoCode
-        resetStavesData().then(() => {
-          createTutoNotes()
-            .then(newData => {
-              setTreble(newData.treble);
-              setBass(newData.bass);
-              setBoth(newData.both);
-            })
-            .then(() => { setIsTutoDataCreated(true); });
-        });
-      } else if (!isTutoOn) {
-        resetStavesData().then(() => {
-          createNotes(options.level, trebleReadOnly, bassReadOnly, gameLength)
-            .then(newData => {
-              setTreble(newData.treble);
-              setBass(newData.bass);
-              setBoth(newData.both);
-            })
-            .then(() => { setIsDataCreated(true); });
-        });
-      };
-    };
-  }, [options.level, isPlaying, isCorrection, isTutoOn]);
+  if (firstMainRender) {
+    console.log("First Main render");
+    createNotes(options.level, trebleReadOnly, bassReadOnly, gameLength)
+      .then(newData => {
+        setTreble(newData.treble);
+        setBass(newData.bass);
+        setBoth(newData.both);
+      });
+    firstMainRender = false;
+  };
+  // console.warn("Main rendering : TrebleData = ", trebleData);
 
-  useEffect(() => {
-    if (isCorrection) {
-      changeNodeBehavior("playBtn", { disable: true });
-    };
-    if (!isCorrection) {
-      changeNodeBehavior("playBtn", { disable: false });
-    };
-  }, [isCorrection]);
-
+  // to make sure the screen is at the very top before preventing scrolling
   useEffect(() => {
     if (isMobile) {
-      // to make sure the screen is at the very top before preventing scrolling
       window.scrollTo(0, -10);
       document.body.classList.add("avoid-scroll--on-touch");
     } else document.body.classList.remove("avoid-scroll--on-touch");
   }, [isMobile]);
-
-  /// ////////////////////////////////////////////////////////////////
 
   // Props
   const playGameProps = {
@@ -202,17 +134,15 @@ const Main: FunctionComponent = () => {
     handleMessage,
     isPlaying,
     setIsPlaying,
-    resetStavesData,
+    quitGame,
     stopGame,
     cancelStop,
     isMobile,
     gameLength,
-    isTutoOn, // tutoCode
     displayScoreCircle,
     updateNodes,
     changeProgressBarID,
     nodes,
-    appNode,
     nodesBehavior,
     isCorrection,
     disablePiano,
@@ -232,14 +162,10 @@ const Main: FunctionComponent = () => {
     isMobile,
     gameLength,
     displayScoreCircle,
-    isTutoOn, // tutoCode
-    tutoPlay, // tutoCode
-    stopTutoPlay, // tutoCode
     updateNodes,
     nodes,
     nodesBehavior,
-    activateCorrection,
-    deactivateCorrection,
+    quitGame,
     isPianoActive,
     isCorrection
   };
@@ -254,22 +180,24 @@ const Main: FunctionComponent = () => {
     outputNode: nodes.vexScoreOutput?.node,
     highlight: nodesBehavior.vexScore.highlight,
     isCorrection,
-    isStaveDataCreated,
-    isTutoOn, // tutoCode
-    isTutoStaveDataCreated // tutoCode
+    isStaveDataCreated: trebleData.notesArray.length === gameLength
   };
   const optionsProps = {
-    changeTimer: useCallback((interval: number, tempoNum: number) => {
+    changeTimer: (interval: number, tempoNum: number) => {
       changeOption("intervalTime", interval);
       changeOption("tempoNum", tempoNum);
-    }, []),
-    changeLevel: useCallback((level: string, levelNum: number) => {
+    },
+    changeLevel: (level: string, levelNum: number) => {
       changeOption("level", level);
       changeOption("levelNum", levelNum);
-    }, []),
-    changeClef: useCallback(
-      (clef: ClefSelected) => { changeOption("clefSelected", clef); },
-      []),
+      createNotes(level, trebleReadOnly, bassReadOnly, gameLength)
+        .then(newData => {
+          setTreble(newData.treble);
+          setBass(newData.bass);
+          setBoth(newData.both);
+        });
+    },
+    changeClef: (clef: ClefSelected) => { changeOption("clefSelected", clef); },
     switchPiano,
     isMobile,
     displayPiano,
@@ -284,19 +212,18 @@ const Main: FunctionComponent = () => {
     options,
     handleMessage,
     scoreNumber,
-    gameLength: isTutoOn ? 5 : gameLength,
+    gameLength,
     showOptions,
     updateNodes,
     tempoTime: options.intervalTime,
     progressBarId,
-    isTutoOn,
     nodesBehavior,
-    restoreDefault
+    quitGame
   };
   const gameScoreProps = {
     isModal: !!message.isModal,
     scoreNumber,
-    gameLength: isTutoOn ? 5 : gameLength,
+    gameLength,
     isMobile
   };
   const shwoOptionsProps = {
@@ -306,42 +233,8 @@ const Main: FunctionComponent = () => {
     nodesBehavior: nodesBehavior.switchOptions
   };
 
-  const tutoProps = {
-    options,
-    activeTuto,
-    activeTutoPlay,
-    isTutoOn,
-    tutoPlay,
-    restoreDefault,
-    isMobile,
-    isPlaying,
-    setIsPlaying,
-    handleMessage: (message: MessageObj) => { handleMessage(message); },
-    changeClef: useCallback(
-      (clef: ClefSelected) => { changeOption("clefSelected", clef); },
-      []),
-    changeTempo: useCallback(
-      (time: number) => { changeOption("tempoNum", time); },
-      []),
-    resetStavesData,
-    stopGame,
-    displayPiano,
-    closePiano: () => { setDisplayPiano(false); },
-    nodes,
-    changeProgressBarID,
-    resetNodesBehavior,
-    changeNodeBehavior: useCallback(
-      (
-        component: NodesBehaviorKeys,
-        value: { highlight?: boolean, disable?: boolean }) => {
-        if (value) changeNodeBehavior(component, value);
-      }, []),
-    isCorrection,
-    activateCorrection
-  };
-
   return (
-    <main id="App" ref={ref} className={mainClassN}>
+    <main id="App" className={mainClassN}>
       <Options {...optionsProps}/>
       {!displayOptions && <GameMessages {...messageProps} />}
       {!displayOptions && <GameScore {...gameScoreProps}/>}
@@ -351,7 +244,6 @@ const Main: FunctionComponent = () => {
         ? <VFBoxMobile {...VFScoreProps}/>
         : <VFBox {...VFScoreProps}/>}
       <PianoKeyBoards {...pianoKeyboardProps} />
-      {!isMobile && <Tutorial {...tutoProps}/>}
     </main>
   );
 };

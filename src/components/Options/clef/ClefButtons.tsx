@@ -1,7 +1,7 @@
 import { type FC, type MouseEvent, useEffect, useState } from "react";
 import useClientRect from "../../../utils/Hooks/useClientRect";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
-import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import type { NodesKeys } from "../../../types/Nodes";
 import type { ClefSelected, ClefsClassName } from "../../../types/Clefs";
 import "./clefButtons.scss";
 
@@ -23,14 +23,7 @@ const SimpleMetalButton: FC<Props> = ({
     nodeObj && updateNodes("clefs", nodeObj);
   }, [nodeObj, updateNodes]);
 
-  useEffect(() => { // change clef via props external clefSelected
-    setClef(clefSelected);
-  }, [clefSelected]);
-
   const [clef, setClef] = useState(clefSelected);
-  useEffect(() => {
-    chooseClef(clef as ClefSelected);
-  }, [chooseClef, clef]);
 
   const classN: ClefsClassName = {
     treble: clef === "treble" ? "clef-indicator is-active" : "clef-indicator",
@@ -44,6 +37,7 @@ const SimpleMetalButton: FC<Props> = ({
     const target = e.currentTarget;
     const clefSelected = target.dataset.clef as string;
     setClef(clefSelected);
+    chooseClef(clefSelected as ClefSelected);
   };
 
   const clefsTooltips = {

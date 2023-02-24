@@ -56,9 +56,6 @@ main#App {
       }
       &.while-correction { // only if isMobile....
         grid-template-rows: 40vh var(--vexflow_height) auto auto; 
-        & div#pianoKeyboard {
-          display: none;
-        }
       }
   }
 }
@@ -150,11 +147,6 @@ div.tuto-btn-wrapper {
   @media screen and (max-width: 850px) and (orientation: portrait) {
     width: 140px;
     align-self: flex-start;
-    &.while-correction {
-      justify-self: flex-start;
-      margin: 10vh 0 0 5vw;
-      visibility: hidden;
-    }
   }
   &.while-correction {
     justify-self: flex-start;

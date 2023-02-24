@@ -1,6 +1,5 @@
 import type { StaveClef, BothClefs } from "../types/Clefs";
 import type { MessageObj } from "../types/MessageObj";
-import { defaultMessage } from "../data/data";
 import renderVFScoreMobile from "./renderVFScoreMobile";
 // import Loader from "../components/PlayGame/Loader";
 
@@ -12,40 +11,11 @@ let isOnPlay: boolean;
 
 let countDownTime = 3;
 
-export const hideNotes = (
-  staveType: string,
-  outputNode: HTMLElement | undefined,
-  gameLength: number,
-  isMobile: boolean) => {
-  // console.log("hidingNotes (w/ hideNotes in handleGame)")
-  const children = outputNode?.firstElementChild?.children;
-  console.log("children in hideNotes : ", children);
-  if (isMobile) {
-    children?.[4].classList.remove("visible");
-  } else {
-    if (staveType === "simple") {
-      for (let i = 4; i < (gameLength + 1); i++) {
-        console.log("child : ", children?.[i].classList);
-        children?.[i].classList.remove("visible");
-      };
-    } else {
-      for (let i = 6; i < ((gameLength * 2) + 2); i++) {
-        console.log("child : ", children?.[i].classList);
-        children?.[i].classList.remove("visible");
-      };
-    };
-  };
-};
-
 export const stopPlaying = (
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
   handleMessage: (message: MessageObj) => void,
-  resetStavesData: () => void,
-  changeProgressBar: (id: string | null) => void,
-  clefSelected: string,
-  outputNode: HTMLElement | undefined,
-  gameLength: number,
-  isMobile: boolean
+  quitGame: () => void,
+  changeProgressBar: (id: string | null) => void
 ) => {
   isOnPlay = false;
   setIsPlaying(false);
@@ -57,14 +27,10 @@ export const stopPlaying = (
     className: "stop_message",
     content: <h5>Partie stoppée</h5>
   };
-    // console.log("stopPlaying")
   countDownTime = 3;
   handleMessage(stopMsg);
-  const staveType = clefSelected === "bothClefs" ? "both" : "simple";
-  hideNotes(staveType, outputNode, gameLength, isMobile);
-  resetStavesData();
   setTimeout(() => {
-    handleMessage(defaultMessage);
+    quitGame();
   }, 1000);
 };
 
@@ -82,34 +48,36 @@ const playMobile = (
   if (clef === "bothClefs") {
     const staveClef = (bothClefsData.mobileNotesArray[current - 1][0]);
     const note = (bothClefsData.mobileNotesArray[current - 1][1]);
-    renderVFScoreMobile(note, staveClef, levelNum);
+    renderVFScoreMobile(note, staveClef, levelNum, true);
   } else {
     const notesArray =
       clef === "treble" ? trebleData.notesArray : bassData.notesArray;
     const note = notesArray[current - 1];
-    renderVFScoreMobile(note, clef, levelNum);
+    renderVFScoreMobile(note, clef, levelNum, true);
   };
 };
 
 async function displayNote (current: number, clef: string) {
+  function displayTrebleNote () {
+    document.getElementById(
+      `vf-treble-n${current}`
+    )?.classList.add("visible");
+  };
+  function displayBassNote () {
+    document.getElementById(
+      `vf-bass-n${current}`
+    )?.classList.add("visible");
+  };
   switch (clef) {
     case "treble":
-      document.getElementById(
-        `vf-treble-n${current}`
-      )?.classList.add("visible");
+      displayTrebleNote();
       break;
     case "bass":
-      document.getElementById(
-        `vf-bass-n${current}`
-      )?.classList.add("visible");
+      displayBassNote();
       break;
     case "bothClefs":
-      document.getElementById(
-        `vf-treble-n${current}`
-      )?.classList.add("visible");
-      document.getElementById(
-        `vf-bass-n${current}`
-      )?.classList.add("visible");
+      displayTrebleNote();
+      displayBassNote();
       break;
   };
 };
@@ -117,7 +85,6 @@ async function displayNote (current: number, clef: string) {
 export const playGame = (
   gameLength: number,
   intervalTime: number,
-  level: string,
   levelNum: number,
   clefSelected: string,
   trebleData: StaveClef,
@@ -151,7 +118,6 @@ export const playGame = (
       clearInterval(timer);
       isOnPlay = false;
       activateCorrection();
-      if (isMobile && outputNode) outputNode.innerHTML = "";
       end();
     };
     enablePiano();
@@ -174,7 +140,7 @@ export const playGame = (
         .then(() => current++)
         .then(() => {
           timer =
-          current === gameLength
+          current > gameLength
             ? setTimeout(play, intervalTime * 2)
             : setTimeout(play, intervalTime);
         });
@@ -207,68 +173,66 @@ export const playGame = (
 //
 /// //// Tutorial handle game ----------------------------------------->
 
-export const playTutoGame = (
-  handleMessage: (message: MessageObj) => void,
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
-  changeProgressBarID: (id: string | null) => void,
-  activateCorrection: () => void
-  // displayScoreCircle: (score: number) => void,
-) => {
-  // displayScoreCircle(-1);
-  const gameLength = 5;
-  let current = 3;
+// export const playTutoGame = (
+//   handleMessage: (message: MessageObj) => void,
+//   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
+//   changeProgressBarID: (id: string | null) => void,
+//   activateCorrection: () => void
+// ) => {
+//   const gameLength = 5;
+//   let current = 3;
 
-  const endTutoGame = () => {
-    timerOut = setTimeout(() => {
-      setIsPlaying(false);
-    }, (0));
-  };
+//   const endTutoGame = () => {
+//     timerOut = setTimeout(() => {
+//       setIsPlaying(false);
+//     }, (0));
+//   };
 
-  const play = () => {
-    if (current > gameLength || !isOnPlay) {
-      console.log("end of game !");
-      clearInterval(timer);
-      isOnPlay = false;
-      changeProgressBarID(null);
-      endTutoGame();
-      activateCorrection();
-    };
-    const callFunc = async () => {
-      document.getElementById(
-        `vf-treble-n${current}`
-      )?.classList.add("visible");
-      changeProgressBarID(current.toString());
-    };
-    if (isOnPlay) {
-      if (current === 3) { // begins
-        new Promise(resolve => setTimeout(resolve, 800))
-          .then(() => callFunc())
-          .then(() => current++)
-          .then(() => {
-            timer = setTimeout(() => { play(); }, 4500);
-          });
-      } else {
-        callFunc()
-          .then(() => current++)
-          .then(() => {
-            timer = setTimeout(() => { play(); }, 4500);
-          });
-      }
-    };
-  };
+//   const play = () => {
+//     if (current > gameLength || !isOnPlay) {
+//       console.log("end of game !");
+//       clearInterval(timer);
+//       isOnPlay = false;
+//       changeProgressBarID(null);
+//       endTutoGame();
+//       activateCorrection();
+//     };
+//     const callFunc = async () => {
+//       document.getElementById(
+//         `vf-treble-n${current}`
+//       )?.classList.add("visible");
+//       changeProgressBarID(current.toString());
+//     };
+//     if (isOnPlay) {
+//       if (current === 3) { // begins
+//         new Promise(resolve => setTimeout(resolve, 800))
+//           .then(() => callFunc())
+//           .then(() => current++)
+//           .then(() => {
+//             timer = setTimeout(() => { play(); }, 4500);
+//           });
+//       } else {
+//         callFunc()
+//           .then(() => current++)
+//           .then(() => {
+//             timer = setTimeout(() => { play(); }, 4500);
+//           });
+//       }
+//     };
+//   };
 
-  isOnPlay = true;
-  setIsPlaying(true);
-  const msg = {
-    className: "default",
-    content:
-    <>
-      <h5>La partie Tutoriel est lancée !</h5>
-    </>
-  };
-  handleMessage(msg);
-  play();
-};
+//   isOnPlay = true;
+//   setIsPlaying(true);
+//   const msg = {
+//     className: "default",
+//     content:
+//     <>
+//       <h5>La partie Tutoriel est lancée !</h5>
+//     </>
+//   };
+//   handleMessage(msg);
+//   play();
+// };
 
 // export const createTutoGame = (
 //   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,

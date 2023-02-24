@@ -1,6 +1,5 @@
 import { randomizeInteger } from "./randomizeInteger";
 import type { ReadOnlyStaveClef } from "../types/Clefs";
-import { tutoPlayData } from "../data/data";
 
 export interface NewStavesData {
   treble: NewClef
@@ -109,7 +108,8 @@ export const createNotes = async (
   level: string,
   trebleData: ReadOnlyStaveClef,
   bassData: ReadOnlyStaveClef,
-  gameLength: number): Promise<NewStavesData> => {
+  gameLength: number
+): Promise<NewStavesData> => {
   const newTreble: NewClef = {
     notesArray: [],
     solution: [],
@@ -143,33 +143,4 @@ export const createNotes = async (
     newBass,
     newBothData)
     .then(() => newData);
-};
-
-// Create Tutorial's staves :
-export const createTutoNotes = async (): Promise<NewStavesData> => {
-  const newTreble: NewClef = {
-    notesArray: tutoPlayData.trebleNotesArray,
-    solution: tutoPlayData.solution,
-    notes: tutoPlayData.trebleNotesArray.toString()
-  };
-  const newBass: NewClef = {
-    notesArray: tutoPlayData.bassNotesArray,
-    solution: tutoPlayData.solution,
-    notes: tutoPlayData.bassNotesArray.toString()
-  };
-  const newBothData: NewBothData = {
-    solution: tutoPlayData.solution,
-    solutionClefs: [],
-    trebleNotesArr: tutoPlayData.bothTrebleArray,
-    bassNotesArr: tutoPlayData.bothBassArray,
-    trebleNotes: tutoPlayData.bothTrebleArray.toString(),
-    bassNotes: tutoPlayData.bothBassArray.toString(),
-    mobileNotesArray: tutoPlayData.mobileNotesArray
-  };
-  const newData: NewStavesData = {
-    treble: newTreble,
-    bass: newBass,
-    both: newBothData
-  };
-  return newData;
 };

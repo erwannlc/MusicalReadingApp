@@ -1,8 +1,8 @@
-import { type FC, useEffect, useState } from "react";
+import { type FC, useEffect } from "react";
 import type { Options } from "../../../types/Options";
 import useClientRect from "../../../utils/Hooks/useClientRect";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
-import { type NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import type { NodesKeys } from "../../../types/Nodes";
 
 interface Props {
   options: Options
@@ -17,8 +17,6 @@ const OptionsIndicator: FC<Props> = ({
   updateNodes,
   nodesBehavior
 }) => {
-  const [classN, setClassN] = useState("options-indicator");
-
   const [nodeObj, ref] = useClientRect();
   useEffect(() => {
     updateNodes("optionsIndicator", nodeObj);
@@ -91,26 +89,18 @@ const OptionsIndicator: FC<Props> = ({
      ${options.levelNum} sur 6 (${indicators.fr.levelTxt})`
   };
 
-  useEffect(() => { // className handling
-    const isIndicatorTooLarge: boolean = !!(
-      (options.clefSelected === "bothClefs") && (options.intervalTime < 1001));
-    let className = isIndicatorTooLarge
-      ? "options-indicator largest"
-      : "options-indicator";
-    className += nodesBehavior.highlight ? " tuto" : "";
-    className += nodesBehavior.disable ? " disable" : "";
-    setClassN(className);
-  }, [
-    options.clefSelected,
-    options.intervalTime,
-    nodesBehavior.disable,
-    nodesBehavior.highlight
-  ]);
+  const isIndicatorTooLarge: boolean = (
+    (options.clefSelected === "bothClefs") && (options.intervalTime < 1001));
+  let className = isIndicatorTooLarge
+    ? "options-indicator largest"
+    : "options-indicator";
+  className += nodesBehavior.highlight ? " tuto" : "";
+  className += nodesBehavior.disable ? " disable" : "";
 
   return (
     <div
      ref={ref}
-     className={classN}
+     className={className}
      onClick={showOptions}
      title={optionsTooltip.global}>
       <span title={optionsTooltip.tempo}>{tempo}</span>

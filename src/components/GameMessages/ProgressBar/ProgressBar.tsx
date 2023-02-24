@@ -1,11 +1,16 @@
 import { type FC } from "react";
-import type { CSSPropertiesWithVars } from "./../../../types/CSSPropertiesWithVars";
+import type { CSSPropertiesWithVars }
+  from "./../../../types/CSSPropertiesWithVars";
 import "./progressbar.scss";
 
-const ProgressBar: FC<{ tempoTime: number, id: string, gameLength: number, isTutoOn: boolean }> = ({ tempoTime, id, gameLength, isTutoOn }) => {
+const ProgressBar: FC<{
+  tempoTime: number
+  id: string
+  gameLength: number
+}> = ({ tempoTime, id, gameLength }) => {
   let duration = tempoTime;
   if (parseInt(id) === gameLength) {
-    duration = isTutoOn ? tempoTime : tempoTime * 2;
+    duration = tempoTime * 2;
   };
   const styling: CSSPropertiesWithVars = {
     "--tempo-time": `${duration / 1000}s`

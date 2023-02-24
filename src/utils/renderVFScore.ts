@@ -8,7 +8,8 @@ const renderVFScore = async (
   bassData: StaveClef,
   level: number,
   gameLength: number,
-  bothData: BothClefs) => {
+  bothData: BothClefs
+) => {
   const containerWidth = 575;
   const containerHeight = clefSelected === "bothClefs"
     ? (level > 3 ? level > 4 ? level > 5 ? 380 : 350 : 320 : 300)
@@ -21,7 +22,6 @@ const renderVFScore = async (
 
   document.documentElement.style.setProperty(
     "--vexflow_height", `${containerHeight}px`);
-  // console.log("in renderVFScore, trebleData : ", trebleData)
 
   const VF = Vex.Flow;
 

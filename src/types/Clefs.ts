@@ -7,7 +7,7 @@ export interface StaveClef {
 export interface BothClefs {
   solution: string[]
   solutionClefs: Array<"treble" | "bass">
-  trebleNotes: string // à transmettre à RenderVFScore et displayNotes (afficher les deux en même temps)
+  trebleNotes: string
   bassNotes: string
   mobileNotesArray: Array<[string, string]>
 };

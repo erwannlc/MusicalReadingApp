@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import type { StaveClef, BothClefs, ClefSelected, ReadOnlyStaveClef } from "../types/Clefs";
 import type { MessageObj } from "../types/MessageObj";
 

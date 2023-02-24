@@ -1,27 +1,20 @@
 import { useEffect, useRef } from "react";
 import type { FC, MouseEvent, TouchEvent } from "react";
-import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
-import type { NodesBehavior } from "../../../types/TutoTypes";
+import type { NodesKeys } from "../../../types/Nodes";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
 import useClientRect from "../../../utils/Hooks/useClientRect";
 import "./pads.scss";
 
 interface Props {
   onPlay: (keyValue: string) => void
-  isTutoOn: boolean
-  isTutoPlay: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj | undefined) => void
-  nodesBehavior: NodesBehavior
   isPianoActive: boolean
 };
 
 const Pads: FC<Props> = (
   {
     onPlay,
-    isTutoOn,
-    isTutoPlay,
     updateNodes,
-    nodesBehavior,
     isPianoActive
   }) => {
   const [nodeObj, padsRef] = useClientRect();
@@ -40,9 +33,7 @@ const Pads: FC<Props> = (
   const handlePress = () => {
     clickedKey.classList.add("pressed");
     const keyValue = clickedKey.dataset.note as string;
-    if (!(isTutoOn && !isTutoPlay)) {
-      onPlay(keyValue);
-    };
+    onPlay(keyValue);
   };
 
   const pressNote = (e: MouseEvent) => {
@@ -73,12 +64,9 @@ const Pads: FC<Props> = (
   document.addEventListener("touchend", () => {
     stopKey(clickedKey);
   });
-  const classN = `note-buttons ${
-    nodesBehavior.padsDiv.highlight ? "tuto" : ""
-  } ${isPianoActive ? "" : "disable"}`;
-  const padGClassN = nodesBehavior.padGNote.highlight ? "tuto" : "";
+  const classN = `note-buttons ${isPianoActive ? "" : "disable"}`;
+  const padGClassN = "";
   return (
-  // <div id="pianoKeyboard">
     <div ref={padsRef} className={classN}>
       <button data-note="C" onMouseDown={pressNote} onTouchStart={touchNote}>
         Do</button>
@@ -100,7 +88,6 @@ const Pads: FC<Props> = (
       <button data-note="B" onMouseDown={pressNote} onTouchStart={touchNote}>
         Si</button>
     </div>
-  // </div>
   );
 };
 

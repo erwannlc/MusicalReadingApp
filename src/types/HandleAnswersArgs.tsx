@@ -9,6 +9,5 @@ export type Args = [
   isMobile: boolean,
   gameLength: number,
   displayScoreCircle: (score: number) => void,
-  clefSelected: ClefSelected,
-  activateCorrection: () => void
+  clefSelected: ClefSelected
 ];

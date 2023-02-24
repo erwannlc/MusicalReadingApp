@@ -9,7 +9,7 @@ interface Props {
   message: MessageObj
   score: number
   gameLength: number
-  restoreDefault: () => void
+  quitGame: () => void
 };
 
 const Modal: FC<Props> = ({
@@ -18,14 +18,13 @@ const Modal: FC<Props> = ({
   message,
   score,
   gameLength,
-  restoreDefault
+  quitGame
 }) => {
   const [modalOpen, setModalOpen] = useState(true);
   const openModal = () => {
     setModalOpen((bool) => !bool);
     handleMessage({ ...message, isModal: true });
   };
-  const backToDefault = () => { restoreDefault(); };
 
   const SavedScore: FC = () => {
     const scorePercent: number = Math.round(score * 100 / gameLength);
@@ -57,7 +56,7 @@ const Modal: FC<Props> = ({
         <button onClick={openModal} className="open-modal">
           Cliquez ici pour afficher la correction.
         </button>
-        <button onClick={backToDefault} className="back-to-default">
+        <button onClick={quitGame} className="back-to-default">
           Quiiter la partie
         </button>
       </>
@@ -80,7 +79,8 @@ const Modal: FC<Props> = ({
       id="message--dialog"
       isOpen={modalOpen}
       onRequestClose={closeModal}
-      closeOnOutsideClick>
+      closeOnOutsideClick
+    >
       {children}
     </Dialog>
   );

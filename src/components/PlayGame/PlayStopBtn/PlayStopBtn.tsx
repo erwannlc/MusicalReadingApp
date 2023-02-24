@@ -1,11 +1,11 @@
-import { type FC, useEffect, useState } from "react";
+import { type FC, useEffect } from "react";
 import "./play-stop--btn.scss";
 import PlayIcon from "./icons/play-icon";
 import StopIcon from "./icons/stop-icon";
-import { type NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import type { NodesKeys } from "../../../types/Nodes";
 import useClientRect from "../../../utils/Hooks/useClientRect";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
-import type { NodesBehavior } from "../../../types/TutoTypes";
+import type { NodesBehavior } from "../../../types/NodesBehavior";
 // Thx to HeadOnKeyboard https://codepen.io/headonkeyboard/pen/VwYdjRd
 
 interface Props {
@@ -15,6 +15,7 @@ interface Props {
   cancelStop: () => void
   updateNodes: (key: NodesKeys, obj: NodeObj) => void
   nodesBehavior: NodesBehavior
+  isCorrection: boolean
 };
 
 const PlayStopBtn: FC<Props> = ({
@@ -23,59 +24,42 @@ const PlayStopBtn: FC<Props> = ({
   stopGame,
   cancelStop,
   updateNodes,
-  nodesBehavior
+  nodesBehavior,
+  isCorrection
 }) => {
-  const [isPlay, setIsPlay] = useState(false); // className handling
-  const [playClassN, setPlayClassN] = useState("play");
-  const [stopClassN, setStopClassN] = useState("stop");
-  const { playBtn, stopBtn } = nodesBehavior;
-
   const [playNodeObj, playRef] = useClientRect();
   useEffect(() => {
     playNodeObj && updateNodes("playBtn", playNodeObj);
   }, [playNodeObj, updateNodes]);
-
   const [stopNodeObj, stopRef] = useClientRect();
   useEffect(() => {
     stopNodeObj && updateNodes("stopBtn", stopNodeObj);
   }, [stopNodeObj, updateNodes]);
 
-  useEffect(() => {
-    setIsPlay(isPlaying);
-  }, [isPlaying]);
+  let isPlay = isPlaying; // className handling
 
-  useEffect(() => {
-    const className = `play${isPlay
-      ? " is-play"
-      : ""}${playBtn.highlight
-        ? " tuto"
-        : ""}`;
-    setPlayClassN(className);
-  }, [isPlay, playBtn.disable, playBtn.highlight]);
-  useEffect(() => {
-    const className = `stop${stopBtn.highlight
-    ? " tuto"
-    : ""}${playBtn.highlight
-      ? " tuto-play"
-      : ""}`;
-    setStopClassN(className);
-  }, [isPlay, playBtn.highlight, stopBtn.disable, stopBtn.highlight]);
+  const playClassN = `play${isPlay
+    ? " is-play"
+    : ""}`;
+  const stopClassN = "stop";
 
   const handleClick = (type: string) => {
     if (type === "play" && !isPlaying) {
       cancelStop();
-      setIsPlay(true);
+      isPlay = true;
       handlePlay();
     } else if (type === "stop" && isPlaying) {
-      setIsPlay(false);
+      isPlay = false;
       stopGame();
       handlePlay();
     }
   };
 
-  const playTooltip = playBtn.disable
-    ? `Quitter la partie ou le tutoriel 
-    pour pouvoir relancer une nouvelle partie`
+  const { playBtn, stopBtn } = nodesBehavior;
+  const isDisable = playBtn.disable || isCorrection;
+  const playTooltip = isDisable
+    ? "Quitter la partie ou le tutoriel" +
+    " pour pouvoir relancer une nouvelle partie"
     : "Lancer une nouvelle partie";
   const stopTooltip = "Stopper la partie en cours";
 
@@ -83,10 +67,10 @@ const PlayStopBtn: FC<Props> = ({
     <div className="btn-group">
       <button
       ref={playRef}
-       onClick={() => { handleClick("play"); }}
+      onClick={() => { handleClick("play"); }}
       className={playClassN}
       title={playTooltip}
-      disabled={playBtn.disable}>
+      disabled={isDisable}>
         <PlayIcon />
       </button>
       <button

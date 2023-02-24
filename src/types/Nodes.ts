@@ -1,12 +1,12 @@
-import { type NodeObj } from "../../../utils/Hooks/useClientRect";
-import type { NodesBehaviorKeys } from "../../../types/TutoTypes";
+import type { NodeObj } from "../utils/Hooks/useClientRect";
+import type { NodesBehaviorKeys } from "./NodesBehavior";
 
 export type HighLights = NodesBehaviorKeys;
 export type Disabling = NodesBehaviorKeys[];
 
 export type Nodes = {
   [key in NodesKeys]?: NodeObj;
-}; ;
+};
 
 export interface NodesType {
   playBtn: HTMLElement

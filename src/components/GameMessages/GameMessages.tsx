@@ -4,8 +4,8 @@ import Modal from "./Modal";
 import ProgressBar from "./ProgressBar";
 import type { MessageObj } from "../../types/MessageObj";
 import type { Options } from "../../types/Options";
-import type { NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
-import type { NodesBehavior } from "../../types/TutoTypes";
+import type { NodesKeys } from "../../types/Nodes";
+import type { NodesBehavior } from "../../types/NodesBehavior";
 import useClientRect, { type NodeObj } from "../../utils/Hooks/useClientRect";
 import "./game-messages.scss";
 
@@ -20,9 +20,8 @@ interface Props {
   updateNodes: (key: NodesKeys, obj: NodeObj | undefined) => void
   tempoTime: number
   progressBarId: string | null
-  isTutoOn: boolean
   nodesBehavior: NodesBehavior
-  restoreDefault: () => void
+  quitGame: () => void
 };
 
 interface MessageDivProps {
@@ -41,8 +40,7 @@ const MessageDiv: FC<MessageDivProps> = (
 
   const className =
     `${"shadow-node"} 
-    ${message.className ? message.className : ""} 
-    ${highlight ? " tuto" : ""}`;
+    ${message.className ? message.className : ""}`;
   return (
     <div ref={ref} id="message" className={className}>
       <>
@@ -63,9 +61,8 @@ const GameMessages: FC<Props> = ({
   updateNodes,
   tempoTime,
   progressBarId,
-  isTutoOn,
   nodesBehavior,
-  restoreDefault
+  quitGame
 }) => {
   const isModal = message.isModal ? message.isModal : false;
 
@@ -77,7 +74,7 @@ const GameMessages: FC<Props> = ({
         message={message}
         score={scoreNumber}
         gameLength={gameLength}
-        restoreDefault={restoreDefault}>
+        quitGame={quitGame}>
           <MessageDiv
           message={message}
           updateNodes={updateNodes}
@@ -103,8 +100,7 @@ const GameMessages: FC<Props> = ({
         {progressBarId && isPlaying && <ProgressBar
           tempoTime={tempoTime}
           id={progressBarId}
-          gameLength={gameLength}
-          isTutoOn={isTutoOn}/>
+          gameLength={gameLength}/>
         }
       </div>
     );

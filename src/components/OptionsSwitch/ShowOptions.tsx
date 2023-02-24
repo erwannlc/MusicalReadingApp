@@ -1,6 +1,6 @@
 import { type FC } from "react";
-import { type NodeObj } from "../../utils/Hooks/useClientRect";
-import { type NodesKeys } from "../Tutorial/TutoData/nodesToHighLight";
+import type { NodeObj } from "../../utils/Hooks/useClientRect";
+import type { NodesKeys } from "../../types/Nodes";
 import SwitchBtn from "./SwitchBtn";
 
 interface Props {
@@ -10,6 +10,6 @@ interface Props {
   nodesBehavior: { highlight: boolean, disable: boolean }
 }
 const ShowOptions: FC<Props> = (props) =>
-    <SwitchBtn {...props}/>;
+  <SwitchBtn {...props}/>;
 
 export default ShowOptions;

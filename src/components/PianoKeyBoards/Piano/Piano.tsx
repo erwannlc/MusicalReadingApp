@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useEffect, useRef, useState } from "react";
 import type { FC, MouseEvent, TouchEvent } from "react";
 import type { PianoKeys } from "../../../types/PianoKeys";
-import type { NodesKeys } from "../../Tutorial/TutoData/nodesToHighLight";
+import type { NodesKeys } from "../../../types/Nodes";
 import type { NodeObj } from "../../../utils/Hooks/useClientRect";
 import useClientRect from "../../../utils/Hooks/useClientRect";
 import { scaleA } from "../../../data/data";
@@ -17,10 +17,7 @@ interface Props {
   onPlay: (keyValue: string) => void
   isMobile: boolean
   scaleA: Record<string, string>
-  isTutoOn: boolean
-  isTutoPlay: boolean
   updateNodes: (key: NodesKeys, obj: NodeObj | undefined) => void
-  isTutoNotes: boolean
   isPianoActive: boolean
 };
 
@@ -28,10 +25,7 @@ const Piano: FC<Props> = (
   {
     onPlay,
     isMobile,
-    isTutoOn,
-    isTutoPlay,
     updateNodes,
-    isTutoNotes,
     isPianoActive
   }) => {
   // Thx to Bret Cameron :
@@ -52,12 +46,11 @@ const Piano: FC<Props> = (
   }, [note2NodeObj, updateNodes]);
 
   const keys = isMobile ? mobileKeys : azertyKeys;
-  const defaultClassesName = isMobile ? defaultMobileClassN : defaultClassN;
-
-  const [classN, setClassN] = useState(defaultClassesName);
-
   const keysRef = useRef(keys);
   keysRef.current = keys;
+
+  const defaultClassesName = isMobile ? defaultMobileClassN : defaultClassN;
+  const [classN, setClassN] = useState(defaultClassesName);
   const changeClassN = useCallback((isPressed: boolean, key: string) => {
     const newClass = isPressed
       ? `${keys[key].classN} pressed`
@@ -170,12 +163,10 @@ const Piano: FC<Props> = (
     // prevent error while play with sharp or flat
     // (while playdata is only considering natural notes);
     const keyValue = !scale.includes(keys[key].note) ? "?" : keys[key].note;
-    if (!(isTutoOn && !isTutoPlay)) {
-      onPlay(keyValue);
-    };
-  }, [audioContext, changeClassN, isTutoOn, isTutoPlay, onPlay, pressedNotes]);
+    onPlay(keyValue);
+  }, [audioContext, changeClassN, onPlay, pressedNotes]);
 
-  const stopKey = useCallback((key: string, keys: PianoKeys) => {
+  const stopKey = (key: string, keys: PianoKeys) => {
     if (!keys[key]) {
       return;
     };
@@ -194,7 +185,10 @@ const Piano: FC<Props> = (
     document.removeEventListener("touchend", () => {
       stopKey(clickedKey, keysRef.current);
     });
-  }, [changeClassN, clickedKey, pressedNotes]);
+    document.removeEventListener("keyup", () => {
+      stopKey(key, keysRef.current);
+    });
+  };
 
   // prevent onMouseDown to trigger after touchstart
   const prevent = useRef(false);
@@ -224,41 +218,26 @@ const Piano: FC<Props> = (
     stopKey(clickedKey, keysRef.current);
   });
 
-  useEffect(() => { // handle piano played on keyboard
-    if (!isMobile) {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        const eventKey: string = e.key.toUpperCase();
-        const key: string = eventKey;
-        // const key: string = eventKey === ";"
-        // ? "semicolon"
-        // : eventKey; // for qwerty keyboards
-        if (!key || pressedNotes.get(key)) return;
-        playKey(key, keysRef.current);
-      };
-      const handleKeyUp = (e: KeyboardEvent) => {
-        const eventKey = e.key.toUpperCase();
-        const key: string = eventKey;
-        // const key: string = eventKey === ";"
-        // ? "semicolon"
-        // : eventKey; // for qwerty keyboards
-        if (!key) return;
-        stopKey(key, keysRef.current);
-      };
-      document.addEventListener("keydown", handleKeyDown);
-      document.addEventListener("keyup", handleKeyUp);
-      return () => { // remove Eventlistener when component is unmount
-        document.removeEventListener("keydown", handleKeyDown);
-        document.removeEventListener("keyup", handleKeyUp);
-      };
-    }
-  }, [isMobile, playKey, pressedNotes, stopKey]);
+  // handle piano played on computer's keyboard
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const eventKey: string = e.key.toUpperCase();
+    const key: string = eventKey;
+    if (!key || pressedNotes.get(key)) return;
+    playKey(key, keysRef.current);
+    document.addEventListener("keyup", () => {
+      stopKey(key, keysRef.current);
+    });
+  };
+
+  if (!isMobile) {
+    document.addEventListener("keydown", handleKeyDown);
+  };
 
   // highligts bothClefsData C touches for tutorial
-  classN.Q += `${isTutoNotes ? " tuto" : ""}`;
-  classN.K += `${isTutoNotes ? " tuto" : ""}`;
+  classN.Q += `${""}`;
+  classN.K += `${""}`;
 
   return (
-  // <div id="pianoKeyboard">
     <ul ref={pianoRef} id="keyboard" className={isPianoActive ? "" : "disable"}>
       {isMobile
         ? <>
@@ -443,7 +422,6 @@ const Piano: FC<Props> = (
         </>
       }
     </ul>
-  // </div>
   );
 };
 
