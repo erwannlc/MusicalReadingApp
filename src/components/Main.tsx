@@ -23,8 +23,7 @@ import {
   bassReadOnly,
   bothClefs,
   defaultMessage,
-  defaultOptions,
-  scaleA
+  defaultOptions
 } from "../data/data";
 
 let firstMainRender = true;
@@ -151,8 +150,8 @@ const Main: FunctionComponent = () => {
   };
   const pianoKeyboardProps = {
     isPlaying,
-    scaleA,
     clefSelected: options.clefSelected,
+    levelNum: options.levelNum,
     trebleData,
     bassData,
     bothClefsData,
@@ -167,7 +166,13 @@ const Main: FunctionComponent = () => {
     nodesBehavior,
     quitGame,
     isPianoActive,
-    isCorrection
+    isCorrection,
+    enablePiano,
+    disablePiano,
+    changeProgressBarID,
+    outputNode: nodes.vexScoreMobileOutput?.node as HTMLElement,
+    setIsPlaying,
+    activateCorrection
   };
   const VFScoreProps = {
     levelNum: options.levelNum,

@@ -5,7 +5,7 @@ import type { Options } from "../../types/Options";
 import type { Nodes, NodesKeys } from "../../types/Nodes";
 import type { NodesBehavior } from "../../types/NodesBehavior";
 import type { NodeObj } from "../../utils/Hooks/useClientRect";
-import { stopPlaying, playGame } from "../../utils/handleGame";
+import { stopPlaying } from "../../utils/handleGame";
 import PlayStopBtn from "./PlayStopBtn";
 
 interface Props {
@@ -34,55 +34,30 @@ interface Props {
 
 const PlayBtn: FunctionComponent<Props> = (props) => {
   const {
-    options,
-    trebleData,
-    bassData,
-    bothClefsData,
     handleMessage,
     isPlaying,
     setIsPlaying,
     quitGame,
     stopGame,
     cancelStop,
-    isMobile,
-    gameLength,
-    displayScoreCircle,
     updateNodes,
     changeProgressBarID,
-    nodes,
     nodesBehavior,
-    isCorrection,
-    enablePiano,
-    disablePiano,
-    activateCorrection
+    isCorrection
   } = props;
 
   const handlePlay = () => {
-    const outputNode = isMobile
-      ? nodes.vexScoreMobileOutput?.node
-      : nodes.vexScoreOutput?.node;
     if (isPlaying) {
       stopPlaying(
         setIsPlaying,
         handleMessage,
         quitGame,
-        changeProgressBarID);
+        changeProgressBarID
+      );
     } else {
-      playGame(
-        gameLength,
-        options.intervalTime,
-        options.levelNum,
-        options.clefSelected,
-        trebleData, bassData, bothClefsData,
-        isMobile,
-        handleMessage,
-        setIsPlaying,
-        changeProgressBarID,
-        displayScoreCircle,
-        outputNode,
-        enablePiano,
-        disablePiano,
-        activateCorrection
+      setIsPlaying(true);
+      handleMessage(
+        { content: <h4>Let&apos;s go !</h4>, className: "countdown" }
       );
     };
   };

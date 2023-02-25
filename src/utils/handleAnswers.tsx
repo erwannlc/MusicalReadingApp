@@ -8,7 +8,6 @@ export const handleAnswers = async (
   solution: string[],
   answers: string[],
   scaleA: Record<string, string>,
-  resetAnswers: () => void,
   handleMessage: (message: MessageObj) => void,
   isMobile: boolean,
   gameLength: number,
@@ -73,12 +72,10 @@ export const handleAnswers = async (
   };
   gameScore()
     .then(() => generateCorrection())
-    .then(() => { displayScoreCircle(scoreNumber); })
-    .then(() => { resetAnswers(); });
+    .then(() => { displayScoreCircle(scoreNumber); });
 };
 
 export const handleError = async (
-  resetAnswer: () => void,
   handleMessage: (message: MessageObj) => void,
   errorType: "noAnswer" | "incompleteAnswer"
 ) => {
@@ -105,6 +102,5 @@ export const handleError = async (
     };
   };
   writeErrorMsg()
-    .then(() => { handleMessage(errorMsg); })
-    .then(() => { resetAnswer(); });
+    .then(() => { handleMessage(errorMsg); });
 };

@@ -1,4 +1,5 @@
 div#pianoKeyboard { 
+  position: relative;
   & button.quit-correction {
     display: flex;
     margin: 1rem 0 0 0;
@@ -11,5 +12,8 @@ div#pianoKeyboard {
       background-color: hsla(0, 0%, 0%, 0.452);
       transition: all 0.2s ease-in-out;
     }
+  }
+  & button.next-round {
+   position: absolute;
   }
 }

@@ -52,7 +52,7 @@ const PlayStopBtn: FC<Props> = ({
       isPlay = false;
       stopGame();
       handlePlay();
-    }
+    };
   };
 
   const { playBtn, stopBtn } = nodesBehavior;
